@@ -11,6 +11,7 @@ public class Controller : MonoBehaviour
     public float forwwardSpeed = 5f;
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
+    public float groundProbeDepth = 1.0f;
     
     //define a reference to our input actions.
     private PlayerInput playerController;
@@ -48,12 +49,20 @@ public class Controller : MonoBehaviour
     public void Jump(InputAction.CallbackContext context)
     {
         Debug.Log("Jump:" + context.phase);
-        if (context.performed)
+        if (CheckIfGrounded() && context.performed)
         {
             Debug.Log("real Jump");
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
+    private bool CheckIfGrounded()
+    {
+        Vector3 start = transform.position;
+        Vector3 end = start - groundProbeDepth * Vector3.up;
+
+        Debug.DrawLine(start, end, Color.red, 1.0f);
+        return Physics.Linecast(start, end);
+    }
 
 }
