@@ -27,9 +27,17 @@ public class PlayerStats_Szolo : MonoBehaviour
 
         if(testTimer > 5.0f && currentStatus != Status.Burned)
         {
-            InflictBurn();
+            //InflictBurn();
         }
         //ENDTEST
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Fire")
+        {
+            InflictBurn();
+        }
     }
 
     /// <summary>
