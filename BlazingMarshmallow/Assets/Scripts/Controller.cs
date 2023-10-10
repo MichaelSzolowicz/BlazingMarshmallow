@@ -65,4 +65,10 @@ public class Controller : MonoBehaviour
         return Physics.Linecast(start, end);
     }
 
+    private void BurningSpeed()
+    {
+        forwwardSpeed = 8f;
+        strafeSpeed = 8f;
+        jumpForce = 8f;
+    }
 }
