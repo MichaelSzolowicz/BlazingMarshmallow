@@ -17,12 +17,22 @@ public class GrappleHook : MonoBehaviour
 
     bool b = false;
 
+    float screen_x;
+    float screen_y;
+
     private void Start()
     {
         input = new GrappleInput();
         input.Enable();
 
         rb = GetComponent<Rigidbody>();
+
+        Vector3 lower_bounds = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, cursor.transform.position.z));
+        screen_x = lower_bounds.x;  
+        screen_y = lower_bounds.y;  
+
+        StartCoroutine("SwivelCursor");
+
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -32,18 +42,44 @@ public class GrappleHook : MonoBehaviour
 
     void Update()
     {
-        SwivelCursor();
+
     }
 
     /// <summary>
     /// Translate the cursor represented by a canvas object.
     /// </summary>
-    protected void SwivelCursor()
+    protected IEnumerator SwivelCursor()
     {
-        Vector3 offset = input.Grapple.SwivelCursor.ReadValue<Vector2>();
-        if(offset.magnitude > 1) { offset.Normalize(); }
-        offset *= cursorSensitivity;
-        cursor.transform.position += new Vector3(offset.x, offset.y, 0);
+        while(true)
+        {
+            Vector3 offset = input.Grapple.SwivelCursor.ReadValue<Vector2>();
+            offset *= cursorSensitivity * Time.deltaTime;
+            cursor.transform.position += new Vector3(offset.x, offset.y, 0);
+
+            Vector3 correction = cursor.transform.localPosition;
+            if (cursor.transform.localPosition.x > screen_x)
+            {
+                correction.x = screen_x;
+                cursor.transform.localPosition = correction;
+            }
+            if (cursor.transform.localPosition.x < -screen_x)
+            {
+                correction.x = -screen_x;
+                cursor.transform.localPosition = correction;
+            }
+            if (cursor.transform.localPosition.y > screen_y)
+            {
+                correction.y = screen_y;
+                cursor.transform.localPosition = correction;
+            }
+            if (cursor.transform.localPosition.y < -screen_y)
+            {
+                correction.y = -screen_y;
+                cursor.transform.localPosition = correction;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     /// <summary>
@@ -57,15 +93,12 @@ public class GrappleHook : MonoBehaviour
         Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
         Ray ray = Camera.main.ViewportPointToRay(viewPos);
         RaycastHit hit;
+        int mask = LayerMask.GetMask("Grapple");
 
-        Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
-        //Debug.DrawLine(viewPos, viewPos + cursor.transform.forward * 999, Color.yellow, 10);
-        if(Physics.Raycast(ray, out hit, 999))
+        Debug.DrawRay(ray.origin, ray.direction * length, Color.red, 10.0f);
+        if(Physics.Raycast(ray, out hit, length, mask))
         {
-            if(hit.collider.gameObject.layer == 3)
-            {
-                print("Hit Grapple Obj");
-            }
+             print("Hit Grapple Obj");
         }
     }
 
