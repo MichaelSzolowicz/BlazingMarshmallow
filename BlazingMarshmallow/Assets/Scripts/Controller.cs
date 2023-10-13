@@ -37,13 +37,37 @@ public class Controller : MonoBehaviour
     private void Strafe()
     {
         Vector2 moveVec = playerController.Controls.Move.ReadValue<Vector2>();
-        transform.Translate(new Vector3(moveVec.x, 0, moveVec.y) * Time.deltaTime * strafeSpeed);
+        if(CheckIfGrounded() || moveVec.magnitude > 0)
+        {
+            Vector3 targetAccleration = GetComponent<Rigidbody>().velocity;
+            targetAccleration.x = (moveVec.x + moveVec.y) * strafeSpeed;
+            InstantaneousAcceleration(targetAccleration);
+        }
+
+        //transform.Translate(new Vector3(moveVec.x, 0, moveVec.y) * Time.deltaTime * strafeSpeed);
     }
 
     //a function that translates the player forword based on the forwardSpeed variable
     private void AutoMove()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * forwwardSpeed);
+        if(CheckIfGrounded())
+        {
+            Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
+            targetVelocity.z = forwwardSpeed;
+            InstantaneousAcceleration(targetVelocity);
+        }
+    }
+
+    private void InstantaneousAcceleration(Vector3 targetVelocity)
+    {
+        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
+        Vector3 F = a * GetComponent<Rigidbody>().mass;
+
+        GetComponent<Rigidbody>().AddForce(F, ForceMode.Impulse);
+
+        print("Force: " + a);
+
+        print("Vel: " + GetComponent<Rigidbody>().velocity);
     }
 
     public void Jump(InputAction.CallbackContext context)
