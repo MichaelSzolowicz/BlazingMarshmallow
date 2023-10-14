@@ -1244,6 +1244,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: boost
+      value: 0.006
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: range
       value: 30
       objectReference: {fileID: 0}
@@ -1253,7 +1257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: exitImpulse
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: screenCursor
@@ -1261,7 +1265,7 @@ PrefabInstance:
       objectReference: {fileID: 1350612190}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: dampeningScale
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: forwwardSpeed

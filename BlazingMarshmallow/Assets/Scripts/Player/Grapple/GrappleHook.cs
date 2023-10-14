@@ -77,7 +77,7 @@ public class GrappleHook : MonoBehaviour
         RaycastHit hit;
         int mask = LayerMask.GetMask("Grapple");
 
-        Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
+        //Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
         if (Physics.Raycast(ray, out hit, 999, mask))
         {
             if ((transform.position - hit.point).magnitude <= range)
@@ -151,13 +151,13 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     protected void Release(InputAction.CallbackContext context)
     {
-        if(attachedTo != null)
+        StopCoroutine(ApplyGrappleForce());
+        if (attachedTo != null)
         {
-            GetComponent<Rigidbody>().AddForce(GetFlingDirection() * exitImpulse, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(transform.up * exitImpulse, ForceMode.Impulse);
         }
         attachedTo = null;
         UpdateLineRenderer();
-        StopCoroutine(ApplyGrappleForce());
     }
 
     /// <summary>
@@ -179,6 +179,7 @@ public class GrappleHook : MonoBehaviour
 
             print("Theta: " + theta);
 
+            Debug.DrawLine(attachPoint - rope.normalized * length, (attachPoint - rope.normalized * length) + GetFlingDirection() * 5, Color.green, 0.1f);
             Debug.DrawLine(attachPoint, attachPoint - rope.normalized * length, Color.blue, .1f);
             if(rope.magnitude > length)
             {
@@ -192,10 +193,10 @@ public class GrappleHook : MonoBehaviour
                 rb.AddForce(tension * rope.normalized);
                 
                 // Boost force.
-                rb.AddForce(GetFlingDirection() / (grappleSeconds * grappleSeconds) * boost * length);
+                rb.AddForce(GetFlingDirection() * boost * length / (grappleSeconds * grappleSeconds));
 
                 // Naive drag.
-                rb.AddForce(-GetFlingDirection() * dampeningScale);
+                rb.AddForce(-rb.velocity.normalized * dampeningScale * (1 + rb.velocity.magnitude) / length);
             }
             else
             {
@@ -260,7 +261,8 @@ public class GrappleHook : MonoBehaviour
     /// <returns></returns>
     public Vector3 GetFlingDirection()
     {
-        Vector3 flingDirection = Vector3.Cross(transform.right, attachPoint - transform.position).normalized;
+        Vector3 rotationAxis = Vector3.Cross(transform.forward, attachPoint - transform.position).normalized;
+        Vector3 flingDirection = Quaternion.AngleAxis(90, rotationAxis) * (transform.position - attachPoint).normalized;
         int direction = Vector3.Dot(flingDirection, rb.velocity.normalized) > 0 ? 1 : -1;
         flingDirection *= direction;
         return flingDirection;
