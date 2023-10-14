@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 
 /// <summary>
-/// Michael Szolowicz.
-/// Defines grapple behavior.
+/// [Michael Szolowicz]
+/// Defines behavior of a grapple hook acting on a rigidbody.
 /// </summary>
 
 public class GrappleHook : MonoBehaviour
@@ -30,13 +30,13 @@ public class GrappleHook : MonoBehaviour
     protected bool bGrappleObjInRange;
     protected GrappleInput input;
 
-    float screen_x;
-    float screen_y;
+    protected float screen_x;
+    protected float screen_y;
 
     public LineRenderer lineRenderer;
     public Image screenCursor;
 
-    Vector3 initialVelocity;
+    protected Vector3 initialVelocity;
 
     private void Start()
     {

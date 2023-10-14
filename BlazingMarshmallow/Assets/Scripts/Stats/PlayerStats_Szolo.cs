@@ -1,10 +1,12 @@
+using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Controls player status and properties.
-// Michael Szolowicz
-// 10/1/2023
+/// <summary>
+/// [Michael Szolowicz]
+/// Controls player status and properties.
+/// </summary>
 
 public class PlayerStats_Szolo : MonoBehaviour
 {
@@ -15,22 +17,13 @@ public class PlayerStats_Szolo : MonoBehaviour
     public float burnRate = 0.5f;
     [Tooltip("Amount of health lost every time burn status effects update.")]
     public float burnDamage = 1.0f;
-
     public float health = 100.0f;
 
-    private float testTimer = 0.0f;
-
-    private void Update()
-    {
-        //TESTONLY
-        testTimer += Time.deltaTime;
-
-        if(testTimer > 5.0f && currentStatus != Status.Burned)
-        {
-            //InflictBurn();
-        }
-        //ENDTEST
-    }
+    // Stat change delegates
+    public delegate void InflictBurnDelegate();
+    InflictBurnDelegate onInflictBurn;
+    public delegate void ClearBurnDelegate();
+    ClearBurnDelegate onClearBurn;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -46,6 +39,9 @@ public class PlayerStats_Szolo : MonoBehaviour
     public void InflictBurn()
     {
         currentStatus = Status.Burned;
+
+        if(onInflictBurn.GetInvocationList().Length > 0 ) onInflictBurn.Invoke();
+
         StartCoroutine(Burn());
     }
 
@@ -55,10 +51,32 @@ public class PlayerStats_Szolo : MonoBehaviour
     /// </summary>
     protected IEnumerator Burn()
     {
-        while(true)
+        while(currentStatus == Status.Burned)
         {
             health -= burnDamage;
             yield return new WaitForSeconds(burnRate);
         }
+
+        if(onClearBurn.GetInvocationList().Length > 0 ) { onClearBurn.Invoke(); }  
+        
+        StopCoroutine(Burn());
+    }
+
+    /// <summary>
+    /// Add an external event to be called when burn is inflicted.
+    /// </summary>
+    /// <param name="callback"></param>
+    public void AddInflictBurnCallback(InflictBurnDelegate callback)
+    {
+        onInflictBurn += callback;
+    }
+
+    /// <summary>
+    /// Add and external event to be called as soon as status is no longer burning.
+    /// </summary>
+    /// <param name="callback"></param>
+    public void AddClearBurnCallback(ClearBurnDelegate callback)
+    {
+        onClearBurn += callback;
     }
 }
