@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -12,20 +13,18 @@ public class GrappleHook : MonoBehaviour
     protected Vector3 attachPoint;
     [SerializeField] protected float length = 1;
     [SerializeField] protected float range = 1;
-    protected float lengthTolerance = 0.5f;
-    public float boost = 2;
-    protected Vector3 flingDirection;
+    [SerializeField] protected float boost = 0;
+    [SerializeField] protected float interpSpeed = 10;
+    [SerializeField] protected float exitImpulse = 2;
 
     [SerializeField] protected GameObject cursor;
     [SerializeField] protected float cursorSensitivity = 1;
     protected GrappleInput input;
 
-    bool b = false;
-
     float screen_x;
     float screen_y;
 
-    float clock;
+    Vector3 initialVelocity;
 
     private void Start()
     {
@@ -42,7 +41,6 @@ public class GrappleHook : MonoBehaviour
 
         StartCoroutine("SwivelCursor");
 
-
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -50,10 +48,6 @@ public class GrappleHook : MonoBehaviour
         input.Grapple.Fire.canceled += Release;
     }
 
-    void FixedUpdate()
-    {
-        ApplyGrappleForce();
-    }
 
     /// <summary>
     /// Translate the cursor represented by a canvas object.
@@ -92,6 +86,7 @@ public class GrappleHook : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// Shoot a ray from cursor.
     /// Start applying grapple force if it hit an object in the grapple layer.
@@ -108,22 +103,16 @@ public class GrappleHook : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
         if(Physics.Raycast(ray, out hit, 999, mask))
         {
-            if((transform.position - hit.point).magnitude <= length)
+            if((transform.position - hit.point).magnitude <= range)
             {
                 print("Hit Grapple Obj");
                 attachedTo = hit.collider.gameObject;
                 attachPoint = hit.point;
-                //length = (transform.position - hit.point).magnitude;
-                ApplyGrappleForce();
-
-                // adjust velcotiy to circle
-                float theta = Mathf.Acos(Vector3.Dot(Vector3.up, (hit.point - transform.position).normalized));
-                Vector3 v = GetComponent<Rigidbody>().velocity;
-                float m = v.magnitude;
-                v += (transform.position - hit.point).normalized * m;
-                v += flingDirection * m;
-                GetComponent<Rigidbody>().velocity = v;
-
+     
+                initialVelocity = rb.velocity;
+                
+                StartCoroutine(InterpCoroutine());
+                
                 print("Range: " + range + " Length: " + length);
             }
         }
@@ -134,44 +123,83 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     protected void Release(InputAction.CallbackContext context)
     {
-        GetComponent<Rigidbody>().AddForce(flingDirection * boost, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(GetFlingDirection() * exitImpulse, ForceMode.Impulse);
         attachedTo = null;
+        StopCoroutine(ApplyGrappleForce());
     }
 
     /// <summary>
     /// Constrain the rigidbody as if a rope of length was tied to attachPoint.
     /// </summary>
-    protected void ApplyGrappleForce()
+    protected IEnumerator ApplyGrappleForce()
     {
-        print("Go: " + transform.gameObject.name);
-        if(attachedTo != null)
+        float grappleSeconds = 0;
+        float secondsUnderTension = 0;
+
+        while (attachedTo != null)
         {
-            clock += Time.fixedDeltaTime;
+            grappleSeconds += Time.fixedDeltaTime;
             
             Vector3 rope = attachPoint - transform.position;
             float theta = Mathf.Acos(Vector3.Dot(Vector3.up, rope.normalized));
 
-            flingDirection = Vector3.Cross(transform.right, rope).normalized;
-            int direction = Vector3.Dot(flingDirection, rb.velocity.normalized) > 0 ? 1 : -1;
-            flingDirection *= direction;
+            print("Theta: " + theta);
 
-            Debug.DrawLine(attachPoint, attachPoint - rope.normalized * length, Color.blue, 100);
+            Debug.DrawLine(attachPoint, attachPoint - rope.normalized * length, Color.blue, .1f);
             if(rope.magnitude > length)
             {
-                Rigidbody rb = this.GetComponent<Rigidbody>();
+                secondsUnderTension += Time.fixedDeltaTime; 
+
                 transform.position = attachPoint - rope.normalized * length;
                 
                 float tension = Mathf.Abs(rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / length + rb.mass * Physics.gravity.magnitude * Mathf.Cos(theta));
 
+                // Tension force.
                 rb.AddForce(tension * rope.normalized);
                 
-                rb.AddForce(flingDirection / (clock * clock) * 5);
+                // Boost force.
+                rb.AddForce(GetFlingDirection() / (grappleSeconds * grappleSeconds) * boost * length);
 
-                rb.AddForce(-flingDirection);
-
-                print("Clock: " + flingDirection / (clock * clock));
-                print("Tension: " + tension * rope.normalized);
+                // Naive drag.
+                rb.AddForce(-GetFlingDirection());
             }
+            else
+            {
+                secondsUnderTension = 0;
+            }
+
+            print("Velocity: " + rb.velocity);
+
+            yield return new WaitForFixedUpdate();
         }
+    }
+
+    protected IEnumerator InterpCoroutine()
+    {
+        while((transform.position - GetTargetPosition()).magnitude > .5f)
+        {
+            print("Interp");
+            transform.position = Vector3.Lerp(transform.position, GetTargetPosition(), Time.deltaTime * interpSpeed);
+            yield return new WaitForEndOfFrame();
+        }
+
+        Vector3 v = initialVelocity.magnitude * GetFlingDirection();
+        rb.velocity = v;
+
+        StartCoroutine(ApplyGrappleForce());
+    }
+
+
+    public Vector3 GetFlingDirection()
+    {
+        Vector3 flingDirection = Vector3.Cross(transform.right, attachPoint - transform.position).normalized;
+        int direction = Vector3.Dot(flingDirection, rb.velocity.normalized) > 0 ? 1 : -1;
+        flingDirection *= direction;
+        return flingDirection;
+    }
+
+    public Vector3 GetTargetPosition()
+    {
+        return attachPoint - (attachPoint - transform.position).normalized * length;
     }
 }
