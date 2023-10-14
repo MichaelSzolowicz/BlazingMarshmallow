@@ -261,8 +261,11 @@ public class GrappleHook : MonoBehaviour
     /// <returns></returns>
     public Vector3 GetFlingDirection()
     {
-        Vector3 rotationAxis = Vector3.Cross(transform.forward, attachPoint - transform.position).normalized;
-        Vector3 flingDirection = Quaternion.AngleAxis(90, rotationAxis) * (transform.position - attachPoint).normalized;
+        Vector3 flingDirection = Vector3.Cross(rb.velocity, (transform.position - attachPoint)).normalized;
+        flingDirection = Quaternion.AngleAxis(90, (transform.position - attachPoint).normalized) * flingDirection;
+
+        Debug.DrawLine(transform.position, transform.position + flingDirection * 5, Color.magenta, 0.1f);
+
         int direction = Vector3.Dot(flingDirection, rb.velocity.normalized) > 0 ? 1 : -1;
         flingDirection *= direction;
         return flingDirection;
