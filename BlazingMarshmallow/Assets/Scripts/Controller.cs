@@ -13,6 +13,16 @@ public class Controller : MonoBehaviour
     public float jumpForce = 5f;
     public float groundProbeDepth = 1.0f;
     
+    [SerializeField]
+    public float burnSpeed = 8f;
+    public float burnStrafeSpeed = 8f;
+    public float burnJumpForce = 8f;
+
+    [SerializeField]
+    private float resetSpeed =5f;
+    private float resetStrafeSpeed = 5f;
+    private float resetJumpForce = 5f;
+
     //define a reference to our input actions.
     private PlayerInput playerController;
 
@@ -31,6 +41,7 @@ public class Controller : MonoBehaviour
         AutoMove();
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
+	burnCheck();
     }
 
     /// <summary>
@@ -105,10 +116,41 @@ public class Controller : MonoBehaviour
         return Physics.Linecast(start, end);
     }
 
-    private void BurningSpeed()
+    public void BurningSpeed()
     {
-        forwwardSpeed = 8f;
-        strafeSpeed = 8f;
-        jumpForce = 8f;
+       forwwardSpeed = burnSpeed;
+       strafeSpeed = burnStrafeSpeed;
+       jumpForce = burnJumpForce;
+    }
+
+    public void ResetSpeed()
+    {
+        forwwardSpeed = resetSpeed;
+        strafeSpeed = resetStrafeSpeed;
+        jumpForce = resetJumpForce;
+    }
+
+    private void burnCheck()
+    {
+        PlayerStats_Szolo playerStats = GetComponent<PlayerStats_Szolo>();
+        if (playerStats.currentStatus == PlayerStats_Szolo.Status.Burned)
+        {
+            BurningSpeed();
+        }
+        else
+        {
+          ResetSpeed();
+        }
+
+    }
+    public void SetResetSpeed()
+    {
+       resetJumpForce = jumpForce;
+       resetSpeed = forwwardSpeed;
+       resetStrafeSpeed = strafeSpeed;
+    }
+    private void Start()
+    {
+	SetResetSpeed();
     }
 }
