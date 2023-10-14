@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.DefaultInputActions;
 
-//Kriger Nathan
+//Kriger Nathan & Michael Szolowicz
 
 public class Controller : MonoBehaviour
 {
@@ -33,19 +33,55 @@ public class Controller : MonoBehaviour
         Strafe(); 
     }
 
-    //Strafe controls based on the strafeSpeed variable using the PlayerInput Input Actions class
+    /// <summary>
+    /// Strafe controls based on the strafeSpeed variable using the PlayerInput Input Actions class
+    /// </summary>
     private void Strafe()
     {
         Vector2 moveVec = playerController.Controls.Move.ReadValue<Vector2>();
-        transform.Translate(new Vector3(moveVec.x, 0, moveVec.y) * Time.deltaTime * strafeSpeed);
+        // Stop instantly if grounded, if in air maintain velocity due to loss of friction.
+        if(CheckIfGrounded() || moveVec.magnitude > 0)
+        {
+            Vector3 targetAccleration = GetComponent<Rigidbody>().velocity;
+            targetAccleration.x = (moveVec.x + moveVec.y) * strafeSpeed;
+            InstantaneousAcceleration(targetAccleration);
+        }
     }
 
-    //a function that translates the player forword based on the forwardSpeed variable
+    /// <summary>
+    /// Translates the player forward based on the forwardSpeed variable
+    /// </summary>
     private void AutoMove()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * forwwardSpeed);
+        // Only auto move when grounded. Velcoity maintained when leaving ground.
+        if(CheckIfGrounded())
+        {
+            Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
+            targetVelocity.z = forwwardSpeed;
+            InstantaneousAcceleration(targetVelocity);
+        }
     }
 
+    /// <summary>
+    /// Instantly change to target velocity.
+    /// </summary>
+    /// <param name="targetVelocity"></param>
+    private void InstantaneousAcceleration(Vector3 targetVelocity)
+    {
+        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
+        Vector3 F = a * GetComponent<Rigidbody>().mass;
+
+        GetComponent<Rigidbody>().AddForce(F, ForceMode.Impulse);
+
+        print("Force: " + a);
+
+        print("Vel: " + GetComponent<Rigidbody>().velocity);
+    }
+
+    /// <summary>
+    /// Add vertical impulse.
+    /// </summary>
+    /// <param name="context"></param>
     public void Jump(InputAction.CallbackContext context)
     {
         Debug.Log("Jump:" + context.phase);
@@ -56,6 +92,10 @@ public class Controller : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check if player is suitably close to ground.
+    /// </summary>
+    /// <returns></returns>
     private bool CheckIfGrounded()
     {
         Vector3 start = transform.position;

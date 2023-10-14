@@ -1,0 +1,54 @@
+{
+    "name": "GrappleInput",
+    "maps": [
+        {
+            "name": "Grapple",
+            "id": "9f1d2ed4-631d-45da-892b-918cceca80c9",
+            "actions": [
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "1f9ca257-2bec-454d-ae32-b3e07fe3cb93",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwivelCursor",
+                    "type": "Value",
+                    "id": "9149f241-1d03-449f-bf56-5581edbae3bc",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1d931e80-adf1-4487-8705-84d5775ea94c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b488b7cb-c44a-4986-bff5-881e33db630e",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwivelCursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
