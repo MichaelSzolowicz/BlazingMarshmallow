@@ -4,6 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using UnityEngine.UI;
+
+
+/// <summary>
+/// Michael Szolowicz.
+/// Defines grapple behavior.
+/// </summary>
 
 public class GrappleHook : MonoBehaviour
 {
@@ -13,16 +20,21 @@ public class GrappleHook : MonoBehaviour
     protected Vector3 attachPoint;
     [SerializeField] protected float length = 1;
     [SerializeField] protected float range = 1;
-    [SerializeField] protected float boost = 0;
     [SerializeField] protected float interpSpeed = 10;
+    [SerializeField] protected float boost = 0;
+    [SerializeField] protected float dampeningScale = 1;
     [SerializeField] protected float exitImpulse = 2;
 
     [SerializeField] protected GameObject cursor;
     [SerializeField] protected float cursorSensitivity = 1;
+    protected bool bGrappleObjInRange;
     protected GrappleInput input;
 
     float screen_x;
     float screen_y;
+
+    public LineRenderer lineRenderer;
+    public Image screenCursor;
 
     Vector3 initialVelocity;
 
@@ -44,8 +56,53 @@ public class GrappleHook : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        input.Grapple.Fire.started += Fire;
+        //input.Grapple.Fire.started += Fire;
         input.Grapple.Fire.canceled += Release;
+    }
+
+
+    private void Update()
+    {
+        ScanAndFire();
+    }
+
+    /// <summary>
+    /// Probe the scene for grapple objects.
+    /// Attach if the player pressed the grapple button.
+    /// </summary>
+    private void ScanAndFire()
+    {
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
+        Ray ray = Camera.main.ViewportPointToRay(viewPos);
+        RaycastHit hit;
+        int mask = LayerMask.GetMask("Grapple");
+
+        Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
+        if (Physics.Raycast(ray, out hit, 999, mask))
+        {
+            if ((transform.position - hit.point).magnitude <= range)
+            {
+                bGrappleObjInRange = true;
+                if (screenCursor) screenCursor.color = Color.green;
+
+                if (input.Grapple.Fire.WasPerformedThisFrame())
+                {
+                    attachPoint = hit.point;
+                    attachedTo = hit.collider.gameObject;
+
+                    UpdateLineRenderer();
+
+                    initialVelocity = rb.velocity;
+
+                    StartCoroutine(InterpCoroutine());
+                }
+            }
+        }
+        else
+        {
+            bGrappleObjInRange = false;
+            if (screenCursor) screenCursor.color = Color.white;
+        }
     }
 
 
@@ -54,11 +111,14 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     protected IEnumerator SwivelCursor()
     {
+        // Skip the first frame since it usually has a large offset.
+        yield return null;
+
         while(true)
         {
             Vector3 offset = input.Grapple.SwivelCursor.ReadValue<Vector2>();
-            offset *= cursorSensitivity * Time.deltaTime;
-            cursor.transform.localPosition += new Vector3(offset.x, offset.y, 0);
+            offset *= cursorSensitivity;
+            cursor.transform.position += new Vector3(offset.x, offset.y, 0);
 
             Vector3 correction = cursor.transform.localPosition;
             if (cursor.transform.localPosition.x > screen_x)
@@ -82,39 +142,7 @@ public class GrappleHook : MonoBehaviour
                 cursor.transform.localPosition = correction;
             }
 
-            yield return new WaitForEndOfFrame();
-        }
-    }
-
-
-    /// <summary>
-    /// Shoot a ray from cursor.
-    /// Start applying grapple force if it hit an object in the grapple layer.
-    /// </summary>
-    protected void Fire(InputAction.CallbackContext context)
-    {
-        print("Fire");
-
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
-        Ray ray = Camera.main.ViewportPointToRay(viewPos);
-        RaycastHit hit;
-        int mask = LayerMask.GetMask("Grapple");
-
-        Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
-        if(Physics.Raycast(ray, out hit, 999, mask))
-        {
-            if((transform.position - hit.point).magnitude <= range)
-            {
-                print("Hit Grapple Obj");
-                attachedTo = hit.collider.gameObject;
-                attachPoint = hit.point;
-     
-                initialVelocity = rb.velocity;
-                
-                StartCoroutine(InterpCoroutine());
-                
-                print("Range: " + range + " Length: " + length);
-            }
+            yield return null;
         }
     }
 
@@ -125,6 +153,7 @@ public class GrappleHook : MonoBehaviour
     {
         GetComponent<Rigidbody>().AddForce(GetFlingDirection() * exitImpulse, ForceMode.Impulse);
         attachedTo = null;
+        UpdateLineRenderer();
         StopCoroutine(ApplyGrappleForce());
     }
 
@@ -139,6 +168,8 @@ public class GrappleHook : MonoBehaviour
         while (attachedTo != null)
         {
             grappleSeconds += Time.fixedDeltaTime;
+
+            UpdateLineRenderer();
             
             Vector3 rope = attachPoint - transform.position;
             float theta = Mathf.Acos(Vector3.Dot(Vector3.up, rope.normalized));
@@ -161,7 +192,7 @@ public class GrappleHook : MonoBehaviour
                 rb.AddForce(GetFlingDirection() / (grappleSeconds * grappleSeconds) * boost * length);
 
                 // Naive drag.
-                rb.AddForce(-GetFlingDirection());
+                rb.AddForce(-GetFlingDirection() * dampeningScale);
             }
             else
             {
@@ -174,11 +205,19 @@ public class GrappleHook : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Interp to length away from the attachedTo object.
+    /// Used to help make initial grab ons more consistent.
+    /// </summary>
+    /// <returns></returns>
     protected IEnumerator InterpCoroutine()
     {
         while((transform.position - GetTargetPosition()).magnitude > .5f)
         {
             print("Interp");
+
+            UpdateLineRenderer();
+
             transform.position = Vector3.Lerp(transform.position, GetTargetPosition(), Time.deltaTime * interpSpeed);
             yield return new WaitForEndOfFrame();
         }
@@ -189,7 +228,33 @@ public class GrappleHook : MonoBehaviour
         StartCoroutine(ApplyGrappleForce());
     }
 
+    protected void UpdateLineRenderer()
+    {
+        if(lineRenderer == null)
+        {
+            return;
+        }
 
+        if (attachedTo != null)
+        {
+            print("Update Line");
+
+            lineRenderer.positionCount = 2;
+            lineRenderer.SetPosition(0, transform.position);
+            lineRenderer.SetPosition(1, attachPoint);
+        }
+        else
+        {
+            lineRenderer.positionCount = 0;
+        }
+
+    }
+
+    /// <summary>
+    /// Assuming tensions is applied, this is the direction we would fly when it is released.
+    /// Note that tensions does not necessarily need to be applied, this will still return as if tension was being applied.
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetFlingDirection()
     {
         Vector3 flingDirection = Vector3.Cross(transform.right, attachPoint - transform.position).normalized;
@@ -198,6 +263,11 @@ public class GrappleHook : MonoBehaviour
         return flingDirection;
     }
 
+    /// <summary>
+    /// Point length away from attachPoint on the line going through this object.
+    /// Used to help make initial grab ons more consistent.
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetTargetPosition()
     {
         return attachPoint - (attachPoint - transform.position).normalized * length;
