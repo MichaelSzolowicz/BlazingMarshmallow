@@ -151,7 +151,10 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     protected void Release(InputAction.CallbackContext context)
     {
-        GetComponent<Rigidbody>().AddForce(GetFlingDirection() * exitImpulse, ForceMode.Impulse);
+        if(attachedTo != null)
+        {
+            GetComponent<Rigidbody>().AddForce(GetFlingDirection() * exitImpulse, ForceMode.Impulse);
+        }
         attachedTo = null;
         UpdateLineRenderer();
         StopCoroutine(ApplyGrappleForce());
