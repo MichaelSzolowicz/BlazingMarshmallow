@@ -12,6 +12,9 @@ public class Controller : MonoBehaviour
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
     public float groundProbeDepth = 1.0f;
+
+    private Vector3 spawnPoint;
+
     
     [SerializeField]
     public float burnSpeed = 8f;
@@ -35,13 +38,21 @@ public class Controller : MonoBehaviour
         // Add jump callback.
         playerController.Controls.Jump.performed += Jump;
     }
-   
+
+    private void Start()
+    {
+        SetResetSpeed();
+        spawnPoint = transform.position;
+    }
+
+
     private void FixedUpdate()
     {
         AutoMove();
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
-	burnCheck();
+	    burnCheck();
+        Death();
     }
 
     /// <summary>
@@ -149,8 +160,13 @@ public class Controller : MonoBehaviour
        resetSpeed = forwwardSpeed;
        resetStrafeSpeed = strafeSpeed;
     }
-    private void Start()
+   
+    public void Death()
     {
-	SetResetSpeed();
+        if (transform.position.y < -10)
+        {
+            transform.position = spawnPoint;
+        }
     }
+
 }
