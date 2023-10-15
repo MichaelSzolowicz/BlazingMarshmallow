@@ -314,7 +314,7 @@ MonoBehaviour:
   interpSpeed: 10
   boost: 0
   dampeningScale: 1
-  exitImpulse: 0
+  exitImpulse: 10000
   cursor: {fileID: 926347256074500378}
   cursorSensitivity: 0.003
   lineRenderer: {fileID: 4826133752169845004}
