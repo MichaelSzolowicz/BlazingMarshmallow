@@ -7,6 +7,7 @@ TagManager:
   - SideWall
   - Wall
   - Fire
+  - Chocolate
   layers:
   - Default
   - TransparentFX

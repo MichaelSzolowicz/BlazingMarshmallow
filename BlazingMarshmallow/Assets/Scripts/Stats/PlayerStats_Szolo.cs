@@ -18,6 +18,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     [Tooltip("Amount of health lost every time burn status effects update.")]
     public float burnDamage = 1.0f;
     public float health = 100.0f;
+    public int Collectables = 0;
 
     // Stat change delegates
     public delegate void InflictBurnDelegate();
@@ -31,8 +32,15 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
             InflictBurn();
         }
+        if (other.gameObject.tag == "Chocolate")
+        {
+            Collectables++;
+            //set the other game object to false
+            other.gameObject.SetActive(false);           
+        }
     }
 
+    
     /// <summary>
     /// Update current status to burned, start burn coroutine.
     /// </summary>
