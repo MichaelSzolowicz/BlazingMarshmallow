@@ -280,4 +280,9 @@ public class GrappleHook : MonoBehaviour
     {
         return attachPoint - (attachPoint - transform.position).normalized * length;
     }
+
+    public GameObject GetAttachedTo()
+    {
+        return attachedTo;
+    }
 }

@@ -14,7 +14,6 @@ public class Controller : MonoBehaviour
     public float groundProbeDepth = 1.0f;
 
     private Vector3 spawnPoint;
-
     
     [SerializeField]
     public float burnSpeed = 8f;
@@ -60,14 +59,18 @@ public class Controller : MonoBehaviour
     /// </summary>
     private void Strafe()
     {
-        Vector2 moveVec = playerController.Controls.Move.ReadValue<Vector2>();
-        // Stop instantly if grounded, if in air maintain velocity due to loss of friction.
-        if(CheckIfGrounded() || moveVec.magnitude > 0)
+        // Do not apply input while grappling. Later I may add a special input mode during grapple events.
+        GrappleHook grapple = GetComponent<GrappleHook>();
+        if(grapple && grapple.GetAttachedTo() != null)
         {
-            Vector3 targetAccleration = GetComponent<Rigidbody>().velocity;
-            targetAccleration.x = (moveVec.x + moveVec.y) * strafeSpeed;
-            InstantaneousAcceleration(targetAccleration);
+            return;
         }
+
+        Vector2 moveVec = playerController.Controls.Move.ReadValue<Vector2>();
+        Vector3 targetAccleration = GetComponent<Rigidbody>().velocity;
+        targetAccleration.x = (moveVec.x + moveVec.y) * strafeSpeed;
+        InstantaneousAcceleration(targetAccleration);
+        
     }
 
     /// <summary>
