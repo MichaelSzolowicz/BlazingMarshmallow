@@ -12,12 +12,16 @@ public class PlayerStats_Szolo : MonoBehaviour
 {
     public enum Status { Nuetral, Burned };
 
+    [Tooltip("Public only for testing purposes.")]
     public Status currentStatus = Status.Nuetral;
     [Tooltip("Frequency at which burn status effects are updated.")]
     public float burnRate = 0.5f;
     [Tooltip("Amount of health lost every time burn status effects update.")]
     public float burnDamage = 1.0f;
+    [Tooltip("Max health.")]
     public float health = 100.0f;
+    [Tooltip("Set to health on start. Public only for testing purposes.")]
+    public float currentHealth;
     public int Collectables = 0;
 
     // Stat change delegates
@@ -26,12 +30,30 @@ public class PlayerStats_Szolo : MonoBehaviour
     public delegate void ClearBurnDelegate();
     ClearBurnDelegate onClearBurn;
 
+    private void Start()
+    {
+        currentStatus = Status.Nuetral;
+        currentHealth = health;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Fire")
         {
             InflictBurn();
         }
+        else if (other.gameObject.tag == "Water")
+        {
+            Status prevStatus = currentStatus;
+            ResetStatus();
+            ResetHealth();
+            if (prevStatus == Status.Burned)
+            {
+                print("water cleared burn");
+                if (onClearBurn.GetInvocationList().Length > 0) { onClearBurn.Invoke(); }
+            }
+        }
+
         if (other.gameObject.tag == "Chocolate")
         {
             Collectables++;
@@ -61,13 +83,30 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         while(currentStatus == Status.Burned)
         {
-            health -= burnDamage;
+            currentHealth -= burnDamage;
             yield return new WaitForSeconds(burnRate);
         }
 
         if(onClearBurn.GetInvocationList().Length > 0 ) { onClearBurn.Invoke(); }  
         
         StopCoroutine(Burn());
+    }
+
+    /// <summary>
+    /// Set current status to nuetral.
+    /// </summary>
+    public void ResetStatus()
+    {
+        currentStatus = Status.Nuetral;
+    }
+
+
+    /// <summary>
+    /// Set current health to default health.
+    /// </summary>
+    public void ResetHealth()
+    {
+        currentHealth = health;
     }
 
     /// <summary>
