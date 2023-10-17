@@ -9,6 +9,7 @@ TagManager:
   - Fire
   - Chocolate
   - Water
+  - ChocoBite
   layers:
   - Default
   - TransparentFX

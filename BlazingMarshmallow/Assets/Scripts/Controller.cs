@@ -168,6 +168,10 @@ public class Controller : MonoBehaviour
     {
         if (transform.position.y < -10)
         {
+            ResetSpeed();
+            PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
+            playerstats.ResetStatus();
+            playerstats.ResetCollectables();
             transform.position = spawnPoint;
         }
     }

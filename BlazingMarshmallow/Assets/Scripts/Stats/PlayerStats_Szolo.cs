@@ -23,6 +23,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     [Tooltip("Set to health on start. Public only for testing purposes.")]
     public float currentHealth;
     public int Collectables = 0;
+    public int chocoBites = 0;
 
     // Stat change delegates
     public delegate void InflictBurnDelegate();
@@ -59,6 +60,12 @@ public class PlayerStats_Szolo : MonoBehaviour
             Collectables++;
             //set the other game object to false
             other.gameObject.SetActive(false);           
+        }
+        if (other.gameObject.tag == "ChocoBite")
+        {
+            chocoBites++;
+            //set the other game object to false
+            other.gameObject.SetActive(false);
         }
     }
 
@@ -108,6 +115,16 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         currentHealth = health;
     }
+
+    /// <summary>
+    /// Set Collectables to 0.
+    /// </summary>
+    public void ResetCollectables()
+    {
+        Collectables = 0;
+        chocoBites = 0;
+    }
+
 
     /// <summary>
     /// Add an external event to be called when burn is inflicted.
