@@ -10,6 +10,7 @@ TagManager:
   - Chocolate
   - Water
   - ChocoBite
+  - Victory
   layers:
   - Default
   - TransparentFX

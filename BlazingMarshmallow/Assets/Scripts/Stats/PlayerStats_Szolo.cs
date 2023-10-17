@@ -61,12 +61,19 @@ public class PlayerStats_Szolo : MonoBehaviour
             //set the other game object to false
             other.gameObject.SetActive(false);           
         }
+
         if (other.gameObject.tag == "ChocoBite")
         {
             chocoBites++;
             //set the other game object to false
             other.gameObject.SetActive(false);
         }
+
+        if (other.gameObject.tag == "Victory")
+        {
+            print("You win!");
+        }
+
     }
 
     
