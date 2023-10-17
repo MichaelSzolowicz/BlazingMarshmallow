@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Fire
   - Chocolate
+  - Water
   layers:
   - Default
   - TransparentFX

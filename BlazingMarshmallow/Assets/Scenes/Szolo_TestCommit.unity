@@ -922,6 +922,8 @@ MonoBehaviour:
   burnRate: 0.5
   burnDamage: 1
   health: 100
+  currentHealth: 0
+  Collectables: 0
 --- !u!1 &1350612187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1985401825747396649, guid: 3d25f60d326958b458086bb5af73b589, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.030053
+      value: -31.6
       objectReference: {fileID: 0}
     - target: {fileID: 1985401825747396649, guid: 3d25f60d326958b458086bb5af73b589, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1286,6 +1288,63 @@ PrefabInstance:
       insertIndex: 7
       addedObject: {fileID: 1071641154}
   m_SourcePrefab: {fileID: 100100000, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+--- !u!1001 &78527994108026113
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3489462364462457871, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_Name
+      value: WaterSpout
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.030053
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -54.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1295,3 +1354,4 @@ SceneRoots:
   - {fileID: 10552329}
   - {fileID: 377852840}
   - {fileID: 1948431699}
+  - {fileID: 78527994108026113}
