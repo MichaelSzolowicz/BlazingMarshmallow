@@ -11,6 +11,7 @@ TagManager:
   - Water
   - ChocoBite
   - Victory
+  - Victory(text)
   layers:
   - Default
   - TransparentFX

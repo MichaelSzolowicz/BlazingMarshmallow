@@ -30,6 +30,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     InflictBurnDelegate onInflictBurn;
     public delegate void ClearBurnDelegate();
     ClearBurnDelegate onClearBurn;
+    public GameObject Victory;
 
     private void Start()
     {
@@ -72,6 +73,8 @@ public class PlayerStats_Szolo : MonoBehaviour
         if (other.gameObject.tag == "Victory")
         {
             print("You win!");
+            Victory.SetActive(true);
+            
         }
 
     }
