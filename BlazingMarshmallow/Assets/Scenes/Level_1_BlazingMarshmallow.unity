@@ -3573,6 +3573,7 @@ MonoBehaviour:
   health: 100
   currentHealth: 0
   Collectables: 0
+  chocoBites: 0
 --- !u!23 &250027691 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8557878087699736991, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
@@ -11611,6 +11612,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 11.274
       objectReference: {fileID: 0}
+    - target: {fileID: 4826133752169845004, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.8980392
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826133752169845004, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.8980392
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826133752169845004, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.8980392
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826133752169845004, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.4056604
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826133752169845004, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.4056604
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826133752169845004, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.4056604
+      objectReference: {fileID: 0}
     - target: {fileID: 6050260363233289019, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.34
@@ -11653,7 +11678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: boost
-      value: 0.006
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: range
@@ -11661,11 +11686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: length
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: exitImpulse
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: interpSpeed
