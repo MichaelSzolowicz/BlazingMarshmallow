@@ -96,7 +96,12 @@ public class Controller : MonoBehaviour
         Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
         Vector3 F = a * GetComponent<Rigidbody>().mass;
 
-        GetComponent<Rigidbody>().AddForce(F, ForceMode.Impulse);
+        while (GetComponent<Rigidbody>().velocity.magnitude < targetVelocity.z)
+        {
+            GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
+            Debug.Log("hit max force");
+        }
+        
 
         print("Force: " + a);
 
