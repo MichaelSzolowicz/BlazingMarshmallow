@@ -25,6 +25,11 @@ public class Controller : MonoBehaviour
     private float resetStrafeSpeed = 5f;
     private float resetJumpForce = 5f;
 
+    //header for velocity
+
+    [Header("Velocity")]
+    public float maxSpeed;
+    public float acceleration;
     //define a reference to our input actions.
     private PlayerInput playerController;
 
@@ -69,7 +74,7 @@ public class Controller : MonoBehaviour
         Vector2 moveVec = playerController.Controls.Move.ReadValue<Vector2>();
         Vector3 targetAccleration = GetComponent<Rigidbody>().velocity;
         targetAccleration.x = (moveVec.x + moveVec.y) * strafeSpeed;
-        InstantaneousAcceleration(targetAccleration);
+        InstantaneousAcceleration();
         
     }
 
@@ -83,7 +88,7 @@ public class Controller : MonoBehaviour
         {
             Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
             targetVelocity.z = forwwardSpeed;
-            InstantaneousAcceleration(targetVelocity);
+            InstantaneousAcceleration();
         }
     }
 
@@ -91,22 +96,16 @@ public class Controller : MonoBehaviour
     /// Instantly change to target velocity.
     /// </summary>
     /// <param name="targetVelocity"></param>
-    private void InstantaneousAcceleration(Vector3 targetVelocity)
+    private void InstantaneousAcceleration()
     {
-        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
-        Vector3 F = a * GetComponent<Rigidbody>().mass;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        while (GetComponent<Rigidbody>().velocity.magnitude < targetVelocity.z)
-        {
-            GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
-            Debug.Log("hit max force");
-        }
-        
-
-        print("Force: " + a);
-
-        print("Vel: " + GetComponent<Rigidbody>().velocity);
+        Vector3 movement = new Vector3(horizontal, 0f, vertical);
+        rb.velocity = movement * forwwardSpeed;
     }
+
 
     /// <summary>
     /// Add vertical impulse.
@@ -118,7 +117,7 @@ public class Controller : MonoBehaviour
         if (CheckIfGrounded() && context.performed)
         {
             Debug.Log("real Jump");
-            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Acceleration);
         }
     }
 
@@ -126,6 +125,7 @@ public class Controller : MonoBehaviour
     /// Check if player is suitably close to ground.
     /// </summary>
     /// <returns></returns>
+    /// 
     private bool CheckIfGrounded()
     {
         Vector3 start = transform.position;
