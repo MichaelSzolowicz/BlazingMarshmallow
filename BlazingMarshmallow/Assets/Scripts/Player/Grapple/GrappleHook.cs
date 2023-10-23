@@ -285,4 +285,9 @@ public class GrappleHook : MonoBehaviour
     {
         return attachedTo;
     }
+
+    public bool IsGrappleActive()
+    {
+        return attachedTo != null;
+    }
 }
