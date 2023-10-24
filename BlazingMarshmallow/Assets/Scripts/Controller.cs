@@ -96,7 +96,7 @@ public class Controller : MonoBehaviour
         Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
         Vector3 F = a * GetComponent<Rigidbody>().mass;
 
-        GetComponent<Rigidbody>().AddForce(F, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
 
         print("Force: " + a);
 
@@ -129,6 +129,9 @@ public class Controller : MonoBehaviour
         Debug.DrawLine(start, end, Color.red, 1.0f);
         return Physics.Linecast(start, end);
     }
+
+
+    //Collide and Slide Testing to get better movement mechanics
 
     public void BurningSpeed()
     {
