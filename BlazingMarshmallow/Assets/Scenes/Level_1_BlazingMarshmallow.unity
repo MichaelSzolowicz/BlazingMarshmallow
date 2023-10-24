@@ -9800,11 +9800,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6050260363233289019, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22
+      value: 5.69
       objectReference: {fileID: 0}
     - target: {fileID: 6050260363233289019, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2117
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6050260363233289019, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9859,8 +9859,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 462353573}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: forwardThrust
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: dampeningScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: horizontalThrust
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 7383401835032632034, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_IsTrigger
@@ -9868,7 +9876,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: burnSpeed
-      value: 38
+      value: 76
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: jumpForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: resetSpeed
@@ -9876,19 +9888,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: strafeSpeed
-      value: 11
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: burnJumpForce
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: forwwardSpeed
-      value: 24
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: burnStrafeSpeed
-      value: 11
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 8557878087699736991, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_Materials.Array.data[0]
