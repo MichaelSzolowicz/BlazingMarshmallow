@@ -248,8 +248,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSlopeGradation: 0
-  maxSnapHeight: 10
-  forwardProbeDistance: 1
+  maxSnapHeight: 1.5
+  forwardProbeDistance: 1.5
+  interpSpeed: 15
+  characterHeight: 2
 --- !u!1 &269349204
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,8 +649,8 @@ Transform:
   m_GameObject: {fileID: 565907609}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.8, y: 13.64, z: 41.1}
-  m_LocalScale: {x: 12.667, y: 0.78572136, z: 26.417482}
+  m_LocalPosition: {x: -1.8, y: 9.53, z: 38.9}
+  m_LocalScale: {x: 12.667, y: 8.729746, z: 26.417482}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1194,11 +1196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7216569655407776501, guid: ddf7af467a11085469772ed3a69dd3e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 23.19
+      value: 5.6
       objectReference: {fileID: 0}
     - target: {fileID: 7216569655407776501, guid: ddf7af467a11085469772ed3a69dd3e9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.61
+      value: 44.9
       objectReference: {fileID: 0}
     - target: {fileID: 7216569655407776501, guid: ddf7af467a11085469772ed3a69dd3e9, type: 3}
       propertyPath: m_LocalRotation.w
