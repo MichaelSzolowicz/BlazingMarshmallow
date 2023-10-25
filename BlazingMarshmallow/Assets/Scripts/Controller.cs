@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,14 @@ public class Controller : MonoBehaviour
     //define a reference to our input actions.
     private PlayerInput playerController;
 
+    [Header("Grounded Check")]
+    public float groundDrag = 5.0f;
+    public LayerMask Ground;
+    public bool grounded = false;
+    
+
+    public float playerHeight = 1;
+
     private void Awake()
     {
         // Initialize our input actions.
@@ -52,6 +61,9 @@ public class Controller : MonoBehaviour
         Strafe(); 
 	    burnCheck();
         Death();
+        groundedConfirm();
+        
+
     }
 
     /// <summary>
@@ -78,13 +90,16 @@ public class Controller : MonoBehaviour
     /// </summary>
     private void AutoMove()
     {
+        Rigidbody rb = GetComponent<Rigidbody>();
         // Only auto move when grounded. Velcoity maintained when leaving ground.
-        if(CheckIfGrounded())
+        if (CheckIfGrounded())
         {
             Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
             targetVelocity.z = forwwardSpeed;
             InstantaneousAcceleration(targetVelocity);
+            
         }
+       
     }
 
     /// <summary>
@@ -93,6 +108,7 @@ public class Controller : MonoBehaviour
     /// <param name="targetVelocity"></param>
     private void InstantaneousAcceleration(Vector3 targetVelocity)
     {
+        
         Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
         Vector3 F = a * GetComponent<Rigidbody>().mass;
 
@@ -101,6 +117,7 @@ public class Controller : MonoBehaviour
         print("Force: " + a);
 
         print("Vel: " + GetComponent<Rigidbody>().velocity);
+        
     }
 
     /// <summary>
@@ -117,11 +134,13 @@ public class Controller : MonoBehaviour
         }
     }
 
+    
+
     /// <summary>
     /// Check if player is suitably close to ground.
     /// </summary>
     /// <returns></returns>
-    private bool CheckIfGrounded()
+    public bool CheckIfGrounded()
     {
         Vector3 start = transform.position;
         Vector3 end = start - groundProbeDepth * Vector3.up;
@@ -130,7 +149,34 @@ public class Controller : MonoBehaviour
         return Physics.Linecast(start, end);
     }
 
+    private void groundedConfirm()
+    {
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
+        Rigidbody rb = GetComponent<Rigidbody>();
 
+        if (grounded)
+        {
+            rb.drag = groundDrag;
+            Debug.Log("Grounded");
+            speedLimiter();
+        }
+        else
+        {
+            Debug.Log("Not Grounded");
+            rb.drag = 0;
+        }
+    }
+
+    private void speedLimiter()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if (flatVel.magnitude > forwwardSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, forwwardSpeed);
+        }
+    }
     //Collide and Slide Testing to get better movement mechanics
 
     public void BurningSpeed()
