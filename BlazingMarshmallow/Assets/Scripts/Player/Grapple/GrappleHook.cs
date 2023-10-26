@@ -241,6 +241,11 @@ public class GrappleHook : MonoBehaviour
         {
             print("Interp");
 
+            if (attachedTo.layer == LayerMask.NameToLayer("Grapple"))
+            {
+                interpPoint = GetTargetPosition();
+            }
+
             UpdateLineRenderer();
 
             if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Claw")) rb.velocity = Vector3.zero;

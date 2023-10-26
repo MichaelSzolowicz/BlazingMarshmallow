@@ -13,7 +13,7 @@ public class Controller : MonoBehaviour
     public float forwwardSpeed = 5f;
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
-    private float groundProbeDepth = 1.0f;
+    public float groundProbeDepth = 2f;
 
     private Vector3 spawnPoint;
     

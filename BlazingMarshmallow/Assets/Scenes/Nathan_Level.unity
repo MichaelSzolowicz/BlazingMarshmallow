@@ -1181,6 +1181,7 @@ GameObject:
   - component: {fileID: 723579855}
   - component: {fileID: 723579854}
   - component: {fileID: 723579853}
+  - component: {fileID: 723579856}
   m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -1196,13 +1197,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723579851}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.16582978, w: 0.9861544}
-  m_LocalPosition: {x: 9.32, y: 2.7299995, z: -1260.9}
+  m_LocalRotation: {x: -0, y: -0, z: 0.0035480987, w: 0.99999374}
+  m_LocalPosition: {x: 9.32, y: 2.7299995, z: -1261.22}
   m_LocalScale: {x: 11.0471, y: 0.6329256, z: 14.489138}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 716250038}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 19.091}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.407}
 --- !u!65 &723579853
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1220,7 +1221,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1273,6 +1274,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 723579851}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &723579856
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723579851}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &811546131
 GameObject:
@@ -1757,6 +1780,10 @@ PrefabInstance:
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: length
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: exitImpulse
