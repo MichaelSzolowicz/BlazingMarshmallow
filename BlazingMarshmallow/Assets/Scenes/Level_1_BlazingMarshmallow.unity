@@ -11230,7 +11230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: boost
-      value: 0.006
+      value: 0.004
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: range
@@ -11242,11 +11242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: exitImpulse
-      value: 0.6
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: interpSpeed
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6862135311704765434, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: screenCursor
