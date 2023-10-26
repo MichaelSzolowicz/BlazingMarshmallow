@@ -9,17 +9,18 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class Controller : MonoBehaviour
 {
+    [Header("Movement Speed")]
     public float forwwardSpeed = 5f;
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
-    public float groundProbeDepth = 1.0f;
+    private float groundProbeDepth = 1.0f;
 
     private Vector3 spawnPoint;
     
-    [SerializeField]
+    [Header("Burned Speed")]
     public float burnSpeed = 8f;
-    public float burnStrafeSpeed = 8f;
-    public float burnJumpForce = 8f;
+    private float burnStrafeSpeed = 8f;
+    private float burnJumpForce = 8f;
 
     [SerializeField]
     private float resetSpeed =5f;
@@ -32,7 +33,7 @@ public class Controller : MonoBehaviour
     [Header("Grounded Check")]
     public float groundDrag = 5.0f;
     public LayerMask Ground;
-    public bool grounded = false;
+    private bool grounded = false;
 
     [Header("Directional Movement")]
     public float horizontalThrust;
