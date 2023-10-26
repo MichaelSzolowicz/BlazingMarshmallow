@@ -78,7 +78,8 @@ public class GrappleHook : MonoBehaviour
         Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
         Ray ray = Camera.main.ViewportPointToRay(viewPos);
         RaycastHit hit;
-        int mask = LayerMask.GetMask("Grapple");
+        string[] layers = { "Grapple", "Claw" };
+        int mask = LayerMask.GetMask(layers);
 
         //Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
         if (Physics.Raycast(ray, out hit, 999, mask))

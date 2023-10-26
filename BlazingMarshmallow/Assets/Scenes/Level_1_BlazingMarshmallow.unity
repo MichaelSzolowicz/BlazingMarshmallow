@@ -3632,6 +3632,23 @@ MonoBehaviour:
   stats: {fileID: 250027685}
   meshRenderer: {fileID: 250027691}
   burnColor: {r: 1, g: 0.34313187, b: 0, a: 1}
+--- !u!114 &250027702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250027676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc0c7ef4a63338408a6a17fb47a0420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSlopeGradation: 45
+  maxSnapHeight: 3
+  forwardProbeDistance: 1.5
+  interpSpeed: 10
+  characterHeight: 2
 --- !u!1 &262401950
 GameObject:
   m_ObjectHideFlags: 0
@@ -11332,7 +11349,10 @@ PrefabInstance:
       insertIndex: 5
       addedObject: {fileID: 250027685}
     - targetCorrespondingSourceObject: {fileID: 9048782502807201020, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
-      insertIndex: 7
+      insertIndex: 6
+      addedObject: {fileID: 250027702}
+    - targetCorrespondingSourceObject: {fileID: 9048782502807201020, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      insertIndex: 8
       addedObject: {fileID: 250027694}
   m_SourcePrefab: {fileID: 100100000, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
 --- !u!1 &955126009 stripped
