@@ -7,7 +7,7 @@ public class LedgeSnapping : MonoBehaviour
 {
     protected Rigidbody rb;
 
-    [SerializeField] protected float minSlopeGradation = 88;
+    [SerializeField] protected float minSlopeGradation = 45;
     [SerializeField] protected float maxSnapHeight = 3;
     [SerializeField] protected float forwardProbeDistance = 1.5f;
     [SerializeField] protected float interpSpeed = 10;
