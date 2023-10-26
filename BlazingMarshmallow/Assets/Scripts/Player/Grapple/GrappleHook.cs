@@ -263,7 +263,7 @@ public class GrappleHook : MonoBehaviour
 
             UpdateLineRenderer();
 
-            if(attachedTo.layer == LayerMask.NameToLayer("Claw")) rb.velocity = Vector3.zero;
+            if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Claw")) rb.velocity = Vector3.zero;
 
             transform.position = Vector3.Lerp(transform.position, interpPoint, Time.deltaTime * interpSpeed);
             yield return new WaitForFixedUpdate();
