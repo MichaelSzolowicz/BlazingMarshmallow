@@ -30,9 +30,7 @@ public class GrappleHook : MonoBehaviour
     protected bool bGrappleObjInRange;
     protected GrappleInput input;
 
-    [Header("Directional Movement")]
-    public float horizontalThrust;
-    public float forwardThrust;
+    
 
     protected float screen_x;
     protected float screen_y;
@@ -76,7 +74,7 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     private void ScanAndFire()
     {
-        DirectionalMovement();
+        
         Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
         Ray ray = Camera.main.ViewportPointToRay(viewPos);
         RaycastHit hit;
@@ -215,25 +213,7 @@ public class GrappleHook : MonoBehaviour
         }
     }
 
-    private void DirectionalMovement()
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.AddForce(transform.forward * forwardThrust * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.AddForce(-transform.forward * forwardThrust * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.AddForce(-transform.right * horizontalThrust * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.AddForce(transform.right * horizontalThrust * Time.deltaTime);
-        }
-    }
+    
 
     /// <summary>
     /// Interp to length away from the attachedTo object.

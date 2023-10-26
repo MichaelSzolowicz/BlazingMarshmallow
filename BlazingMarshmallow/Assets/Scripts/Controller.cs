@@ -33,7 +33,11 @@ public class Controller : MonoBehaviour
     public float groundDrag = 5.0f;
     public LayerMask Ground;
     public bool grounded = false;
-    
+
+    [Header("Directional Movement")]
+    public float horizontalThrust;
+    public float forwardThrust;
+
 
     public float playerHeight = 1;
 
@@ -91,6 +95,7 @@ public class Controller : MonoBehaviour
     private void AutoMove()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
+        DirectionalMovement();
         // Only auto move when grounded. Velcoity maintained when leaving ground.
         if (CheckIfGrounded())
         {
@@ -100,6 +105,26 @@ public class Controller : MonoBehaviour
             
         }
        
+    }
+    private void DirectionalMovement()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (Input.GetKey(KeyCode.W))
+        {
+            rb.AddForce(transform.forward * forwardThrust * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            rb.AddForce(-transform.forward * forwardThrust * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rb.AddForce(-transform.right * horizontalThrust * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rb.AddForce(transform.right * horizontalThrust * Time.deltaTime);
+        }
     }
 
     /// <summary>

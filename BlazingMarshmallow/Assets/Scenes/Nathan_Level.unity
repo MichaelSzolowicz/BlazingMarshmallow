@@ -1819,12 +1819,20 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: forwardThrust
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: forwwardSpeed
       value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: burnStrafeSpeed
       value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: horizontalThrust
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 8557878087699736991, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: m_Materials.Array.data[0]
