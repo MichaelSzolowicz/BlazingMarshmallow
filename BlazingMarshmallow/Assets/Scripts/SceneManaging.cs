@@ -15,7 +15,11 @@ public class SceneManaging : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown (KeyCode.M))
+        {
+            SceneManager.LoadScene("Manu");
+            Debug.Log("Menu");
+        }
     }
 
     //generate a code that will let me have buttons that will load the chosen scene
