@@ -11467,7 +11467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: forwardThrust
-      value: 350
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: forwwardSpeed
