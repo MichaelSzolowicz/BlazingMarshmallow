@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Nathan_Level.unity
     guid: b4a41419ed2a8d140a4bfa7b60f10c9a
+  - enabled: 1
+    path: Assets/Scenes/Level_1_BlazingMarshmallow.unity
+    guid: 96e4a4e3fad22954084cdaf8efbb2155
+  - enabled: 1
+    path: Assets/Scenes/Magnus_Level1.unity
+    guid: e2a182a4a1a94bb44b5cf71cce1482d6
   m_configObjects: {}
