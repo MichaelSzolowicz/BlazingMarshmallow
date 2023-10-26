@@ -227,7 +227,7 @@ public class GrappleHook : MonoBehaviour
 
         // Are using claw or swing? if latter, set interp point to length away from the actual grapple point.
         Vector3 interpPoint;
-        if (attachedTo.layer == LayerMask.NameToLayer("Grapple"))
+        if (attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
         {
             interpPoint = GetTargetPosition();
         }
@@ -241,7 +241,7 @@ public class GrappleHook : MonoBehaviour
         {
             print("Interp");
 
-            if (attachedTo.layer == LayerMask.NameToLayer("Grapple"))
+            if (attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
             {
                 interpPoint = GetTargetPosition();
             }
@@ -250,7 +250,7 @@ public class GrappleHook : MonoBehaviour
 
             if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Claw")) rb.velocity = Vector3.zero;
 
-            transform.position = Vector3.Lerp(transform.position, interpPoint, Time.deltaTime * interpSpeed);
+            transform.position = Vector3.Lerp(transform.position, interpPoint, Time.fixedDeltaTime * interpSpeed);
             yield return new WaitForFixedUpdate();
         }
 
