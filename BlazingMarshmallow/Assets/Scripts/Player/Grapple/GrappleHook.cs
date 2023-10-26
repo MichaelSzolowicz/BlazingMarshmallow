@@ -41,6 +41,7 @@ public class GrappleHook : MonoBehaviour
     public Image screenCursor;
 
     protected Vector3 initialVelocity;
+    protected bool isInterpolating = false;
 
     private void Start()
     {
@@ -63,7 +64,6 @@ public class GrappleHook : MonoBehaviour
         //input.Grapple.Fire.started += Fire;
         input.Grapple.Fire.canceled += Release;
     }
-
 
     private void Update()
     {
@@ -243,6 +243,8 @@ public class GrappleHook : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator InterpCoroutine()
     {
+        isInterpolating = true;
+
         // Are using claw or swing? if latter, set interp point to length away from the actual grapple point.
         Vector3 interpPoint;
         if (attachedTo.layer == LayerMask.NameToLayer("Grapple"))
@@ -255,7 +257,7 @@ public class GrappleHook : MonoBehaviour
         }
 
         // perform the interpolation
-        while ((transform.position - interpPoint).magnitude > .5f && input.Grapple.Fire.IsPressed())
+        while ((transform.position - interpPoint).magnitude - .5f > .5f && input.Grapple.Fire.IsPressed())
         {
             print("Interp");
 
@@ -276,6 +278,7 @@ public class GrappleHook : MonoBehaviour
         }
 
         rb.velocity = v;
+        isInterpolating = false;
     }
 
     protected void UpdateLineRenderer()
