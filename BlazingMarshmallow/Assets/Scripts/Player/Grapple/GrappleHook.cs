@@ -78,7 +78,8 @@ public class GrappleHook : MonoBehaviour
         Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
         Ray ray = Camera.main.ViewportPointToRay(viewPos);
         RaycastHit hit;
-        int mask = LayerMask.GetMask("Grapple");
+        string[] layers = { "Grapple", "Claw" };
+        int mask = LayerMask.GetMask(layers);
 
         //Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
         if (Physics.Raycast(ray, out hit, 999, mask))
@@ -222,20 +223,39 @@ public class GrappleHook : MonoBehaviour
     /// <returns></returns>
     protected IEnumerator InterpCoroutine()
     {
-        while((transform.position - GetTargetPosition()).magnitude > .5f)
+        // Are using claw or swing? if latter, set interp point to length away from the actual grapple point.
+        Vector3 interpPoint;
+        if (attachedTo.layer == LayerMask.NameToLayer("Grapple"))
+        {
+            interpPoint = GetTargetPosition();
+        }
+        else
+        {
+            interpPoint = attachPoint;
+        }
+
+        // perform the interpolation
+        while ((transform.position - interpPoint).magnitude > .5f && input.Grapple.Fire.IsPressed())
         {
             print("Interp");
 
             UpdateLineRenderer();
 
-            transform.position = Vector3.Lerp(transform.position, GetTargetPosition(), Time.deltaTime * interpSpeed);
-            yield return new WaitForEndOfFrame();
+            rb.velocity = Vector3.zero;
+
+            transform.position = Vector3.Lerp(transform.position, interpPoint, Time.deltaTime * interpSpeed);
+            yield return new WaitForFixedUpdate();
         }
 
-        Vector3 v = initialVelocity.magnitude * GetFlingDirection();
-        rb.velocity = v;
+        // Are we swinging? If so redirect velocity along arc curve.
+        Vector3 v = initialVelocity;
+        if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
+        {
+            v = v.magnitude * GetFlingDirection();
+            StartCoroutine(ApplyGrappleForce());
+        }
 
-        StartCoroutine(ApplyGrappleForce());
+        rb.velocity = v;
     }
 
     protected void UpdateLineRenderer()
