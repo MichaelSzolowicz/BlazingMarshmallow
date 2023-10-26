@@ -20,6 +20,12 @@ public class SceneManaging : MonoBehaviour
             SceneManager.LoadScene("Manu");
             Debug.Log("Menu");
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            //close the game
+            Application.Quit();
+            
+        }
     }
 
     //generate a code that will let me have buttons that will load the chosen scene
