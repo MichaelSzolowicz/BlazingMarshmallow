@@ -141,6 +141,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     public void ResetHealth()
     {
         currentHealth = health;
+        if (healthDisplay) healthDisplay.Reset();
     }
 
     /// <summary>
