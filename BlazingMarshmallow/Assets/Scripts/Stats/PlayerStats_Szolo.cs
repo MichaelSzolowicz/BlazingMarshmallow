@@ -25,6 +25,9 @@ public class PlayerStats_Szolo : MonoBehaviour
     public int Collectables = 0;
     public int chocoBites = 0;
 
+
+    private HealthDisplayManager healthDisplay;
+
     // Stat change delegates
     public delegate void InflictBurnDelegate();
     InflictBurnDelegate onInflictBurn;
@@ -36,6 +39,13 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         currentStatus = Status.Nuetral;
         currentHealth = health;
+
+        healthDisplay = (HealthDisplayManager)FindFirstObjectByType(typeof(HealthDisplayManager));
+        if(healthDisplay)
+        {
+            healthDisplay.SetMaxHealth(health);
+            healthDisplay.Reset();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,13 +110,20 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         while(currentStatus == Status.Burned)
         {
-            currentHealth -= burnDamage;
+            TakeDamage(burnDamage);
             yield return new WaitForSeconds(burnRate);
         }
 
         if(onClearBurn.GetInvocationList().Length > 0 ) { onClearBurn.Invoke(); }  
         
         StopCoroutine(Burn());
+    }
+
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if(healthDisplay) healthDisplay.SetCurrentHealth(currentHealth);
     }
 
     /// <summary>
