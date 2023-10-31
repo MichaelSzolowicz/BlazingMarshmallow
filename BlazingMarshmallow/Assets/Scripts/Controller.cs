@@ -14,6 +14,7 @@ public class Controller : MonoBehaviour
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
     public float groundProbeDepth = 2f;
+    public float Boost = 5f;
 
     private Vector3 spawnPoint;
     
@@ -29,6 +30,7 @@ public class Controller : MonoBehaviour
 
     //define a reference to our input actions.
     private PlayerInput playerController;
+    private PlayerStats_Szolo playerStats;
 
     [Header("Grounded Check")]
     public float groundDrag = 5.0f;
@@ -56,6 +58,7 @@ public class Controller : MonoBehaviour
     {
         SetResetSpeed();
         spawnPoint = transform.position;
+        playerStats.AddInflictBurnCallback(speedBoost);
     }
 
 
@@ -204,6 +207,13 @@ public class Controller : MonoBehaviour
         }
     }
     //Collide and Slide Testing to get better movement mechanics
+
+    private void speedBoost()
+    {
+        Debug.Log("BOOOOST");
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * Boost * Time.deltaTime);
+
+    }
 
     public void BurningSpeed()
     {
