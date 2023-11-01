@@ -20,7 +20,7 @@ public class LedgeSnapping : MonoBehaviour
 
     private void Update()
     {
-        print("LS velocity: " + rb.velocity);
+        //print("LS velocity: " + rb.velocity);
         lastFrameVelocity = rb.velocity;
     }
 
@@ -31,7 +31,7 @@ public class LedgeSnapping : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("LS collision");
+        //print("LS collision");
 
         List<ContactPoint> contacts = new List<ContactPoint>();
         int num = collision.GetContacts(contacts);

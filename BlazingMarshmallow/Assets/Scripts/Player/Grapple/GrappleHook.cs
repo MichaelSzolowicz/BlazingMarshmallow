@@ -275,7 +275,7 @@ public class GrappleHook : MonoBehaviour
 
         if (attachedTo != null)
         {
-            print("Update Line");
+            //print("Update Line");
 
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, transform.position);

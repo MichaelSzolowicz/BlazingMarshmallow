@@ -143,9 +143,9 @@ public class Controller : MonoBehaviour
 
         GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
 
-        print("Force: " + a);
+        //print("Force: " + a);
 
-        print("Vel: " + GetComponent<Rigidbody>().velocity);
+        //print("Vel: " + GetComponent<Rigidbody>().velocity);
         
     }
 
@@ -158,7 +158,7 @@ public class Controller : MonoBehaviour
         Debug.Log("Jump:" + context.phase);
         if (CheckIfGrounded() && context.performed)
         {
-            Debug.Log("real Jump");
+            //Debug.Log("real Jump");
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -186,12 +186,12 @@ public class Controller : MonoBehaviour
         if (grounded)
         {
             rb.drag = groundDrag;
-            Debug.Log("Grounded");
+            //Debug.Log("Grounded");
             speedLimiter();
         }
         else
         {
-            Debug.Log("Not Grounded");
+            //Debug.Log("Not Grounded");
             rb.drag = 0;
         }
     }
@@ -207,6 +207,14 @@ public class Controller : MonoBehaviour
         }
     }
     //Collide and Slide Testing to get better movement mechanics
+
+    private void OnCollisionTrigger(Collision collision)
+    {
+        if (gameObject.tag == "Fire")
+        {
+            speedBoost();
+        }
+    }
 
     private void speedBoost()
     {
