@@ -1456,6 +1456,7 @@ MonoBehaviour:
   currentHealth: 0
   Collectables: 0
   chocoBites: 0
+  Boost: 50
   Victory: {fileID: 941135266}
 --- !u!23 &250027691 stripped
 MeshRenderer:

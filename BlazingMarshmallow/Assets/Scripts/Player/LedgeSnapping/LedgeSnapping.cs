@@ -41,7 +41,7 @@ public class LedgeSnapping : MonoBehaviour
 
         foreach(ContactPoint contact in contacts)
         {
-            print("LS draw point: " + contact.point);
+            //print("LS draw point: " + contact.point);
             avgPoint += contact.point;
             avgNormal += contact.normal;    
         }
@@ -54,14 +54,14 @@ public class LedgeSnapping : MonoBehaviour
         float dot = Vector3.Dot(avgNormal, Vector3.up);
         float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
 
-        print("LS angle: " + angle);
+        //print("LS angle: " + angle);
 
         if(angle > minSlopeGradation ) 
         {
             if (!isInterpolating)
             {
                 initialVelocity = lastFrameVelocity;
-                print("LS set init vel: " + initialVelocity);
+                //print("LS set init vel: " + initialVelocity);
             }
             SnapUp(); 
         }
@@ -102,7 +102,7 @@ public class LedgeSnapping : MonoBehaviour
 
             if (Physics.CapsuleCast(point1, point2, capsule.radius, delta.normalized, out hit, delta.magnitude))
             {
-                print("LS capsule hit");
+                //print("LS capsule hit");
 
                 delta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * delta.magnitude;
             }
@@ -115,7 +115,7 @@ public class LedgeSnapping : MonoBehaviour
         rb.velocity = initialVelocity;
         isInterpolating = false;
 
-        print("LS interp end. Velocity: " + initialVelocity);
+        //print("LS interp end. Velocity: " + initialVelocity);
     }
 
     public bool GetIsInterpolating()

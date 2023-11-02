@@ -24,6 +24,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     public float currentHealth;
     public int Collectables = 0;
     public int chocoBites = 0;
+    public float Boost = 5f;
 
     // Stat change delegates
     public delegate void InflictBurnDelegate();
@@ -43,6 +44,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         if(other.gameObject.tag == "Fire")
         {
             InflictBurn();
+            speedBoost();
         }
         else if (other.gameObject.tag == "Water")
         {
@@ -79,7 +81,12 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     }
 
-    
+    private void speedBoost()
+    {
+        Debug.Log("BOOOOST");
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Boost*10000) * Time.deltaTime);
+
+    }
     /// <summary>
     /// Update current status to burned, start burn coroutine.
     /// </summary>

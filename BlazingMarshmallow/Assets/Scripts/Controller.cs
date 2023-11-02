@@ -43,6 +43,7 @@ public class Controller : MonoBehaviour
 
 
     public float playerHeight = 1;
+    public float currentSpeed;
 
     private void Awake()
     {
@@ -58,7 +59,8 @@ public class Controller : MonoBehaviour
     {
         SetResetSpeed();
         spawnPoint = transform.position;
-        playerStats.AddInflictBurnCallback(speedBoost);
+        //playerStats.AddInflictBurnCallback(speedBoost);
+        StartCoroutine(speedCalc());
     }
 
 
@@ -155,7 +157,7 @@ public class Controller : MonoBehaviour
     /// <param name="context"></param>
     public void Jump(InputAction.CallbackContext context)
     {
-        Debug.Log("Jump:" + context.phase);
+        //Debug.Log("Jump:" + context.phase);
         if (CheckIfGrounded() && context.performed)
         {
             //Debug.Log("real Jump");
@@ -196,6 +198,27 @@ public class Controller : MonoBehaviour
         }
     }
 
+    public void playerSpeed()
+    {
+        
+        StartCoroutine(speedCalc());
+
+    }
+
+    IEnumerator speedCalc()
+    {
+        bool isPlaying = true;
+        Debug.Log("speed check");
+        while (isPlaying)
+        {
+            Debug.Log("Speed: " + currentSpeed);
+            Vector3 prevPos = transform.position;
+            yield return new WaitForFixedUpdate();
+            currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos) / Time.fixedDeltaTime);
+        }
+        
+    }
+   
     private void speedLimiter()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -208,9 +231,9 @@ public class Controller : MonoBehaviour
     }
     //Collide and Slide Testing to get better movement mechanics
 
-    private void OnCollisionTrigger(Collision collision)
+    private void OnCollisionEnter(Collision other)
     {
-        if (gameObject.tag == "Fire")
+        if (other.gameObject.tag == "Fire")
         {
             speedBoost();
         }
@@ -266,6 +289,7 @@ public class Controller : MonoBehaviour
             playerstats.ResetStatus();
             playerstats.ResetCollectables();
             transform.position = spawnPoint;
+            
         }
     }
 
