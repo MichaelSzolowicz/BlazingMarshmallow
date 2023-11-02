@@ -12,10 +12,13 @@ public class LedgeSnapping : MonoBehaviour
     [SerializeField] protected float forwardProbeDistance = 1.5f;
     [SerializeField] protected float interpSpeed = 10;
     [SerializeField] protected float characterHeight = 2;
+    [SerializeField] protected float characterRadius = .5f;
 
     protected Vector3 initialVelocity;
     protected bool isInterpolating = false;
     protected Vector3 lastFrameVelocity;
+
+    protected BoxCollider boundingCollider;
 
 
     private void Update()
@@ -27,6 +30,9 @@ public class LedgeSnapping : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>(); 
+
+        boundingCollider = gameObject.AddComponent<BoxCollider>();
+        boundingCollider.size = new Vector3(characterRadius, characterHeight, characterRadius);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,6 +48,7 @@ public class LedgeSnapping : MonoBehaviour
         foreach(ContactPoint contact in contacts)
         {
             print("LS draw point: " + contact.point);
+
             avgPoint += contact.point;
             avgNormal += contact.normal;    
         }
@@ -56,7 +63,7 @@ public class LedgeSnapping : MonoBehaviour
 
         print("LS angle: " + angle);
 
-        if(angle > minSlopeGradation ) 
+        if(angle > minSlopeGradation) 
         {
             if (!isInterpolating)
             {
