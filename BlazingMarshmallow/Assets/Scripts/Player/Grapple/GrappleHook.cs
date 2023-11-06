@@ -23,18 +23,26 @@ public class GrappleHook : MonoBehaviour
     [SerializeField] protected float interpSpeed = 10;
     [SerializeField] protected float boost = 0;
     [SerializeField] protected float dampeningScale = 1;
-    [SerializeField] protected float exitImpulse = 2;
 
+    [Header("===== Exit parameters =====")]
+    [SerializeField, Tooltip("Raw vertical impulse applied on exit.")] 
+    protected float exitJump = 10;
+    [SerializeField, Tooltip("Impulse applied against vertical velocity, scaled to vertical component of arc tangent.")] 
+    protected float exitVerticalDampening = 22;
+    [SerializeField, Tooltip("Extra forward impulse applied on exit, proportional to vertical component of arc tangent.")] 
+    protected float exitForwardImpulse = 15;
+
+    [Header("===== Cursor =====")]
     [SerializeField] protected GameObject cursor;
-    [SerializeField] protected float cursorSensitivity = 1;
+    [SerializeField] protected float cursorSensitivity = .003f;
+
     protected bool bGrappleObjInRange;
     protected GrappleInput input;
-
-    
 
     protected float screen_x;
     protected float screen_y;
 
+    [Header("===== Line renderer =====")]
     public LineRenderer lineRenderer;
     public Image screenCursor;
 
@@ -157,12 +165,24 @@ public class GrappleHook : MonoBehaviour
     protected void Release(InputAction.CallbackContext context)
     {
         StopCoroutine(ApplyGrappleForce());
-        if (attachedTo != null)
+        if (attachedTo != null && attachedTo.gameObject.layer != LayerMask.NameToLayer("Claw"))
         {
-            GetComponent<Rigidbody>().AddForce(transform.up * exitImpulse, ForceMode.Impulse);
+            ExitImpulse();
         }
         attachedTo = null;
         UpdateLineRenderer();
+    }
+
+    protected void ExitImpulse()
+    {
+        Vector3 impulse = Vector3.up;
+        impulse *= -exitVerticalDampening * GetFlingDirection().y;
+        impulse += transform.up * exitJump;
+        impulse += transform.forward * exitForwardImpulse * Mathf.Abs(GetFlingDirection().y);
+
+        Debug.Log("Exit impulse: " + impulse.ToString());
+
+        GetComponent<Rigidbody>().AddForce(impulse, ForceMode.Impulse);
     }
 
     /// <summary>
