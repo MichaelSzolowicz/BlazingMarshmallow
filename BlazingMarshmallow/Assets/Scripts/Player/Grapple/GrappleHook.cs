@@ -26,11 +26,11 @@ public class GrappleHook : MonoBehaviour
 
     [Header("===== Exit parameters =====")]
     [SerializeField, Tooltip("Raw vertical impulse applied on exit.")] 
-    protected float exitJump = 10;
+    protected float exitJump = 5;
     [SerializeField, Tooltip("Impulse applied against vertical velocity, scaled to vertical component of arc tangent.")] 
     protected float exitVerticalDampening = 22;
     [SerializeField, Tooltip("Extra forward impulse applied on exit, proportional to vertical component of arc tangent.")] 
-    protected float exitForwardImpulse = 15;
+    protected float exitForwardImpulse = 7;
 
     [Header("===== Cursor =====")]
     [SerializeField] protected GameObject cursor;

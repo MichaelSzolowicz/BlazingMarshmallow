@@ -7,7 +7,8 @@ public class LedgeSnapping : MonoBehaviour
 {
     protected Rigidbody rb;
 
-    [SerializeField] protected float minSlopeGradation = 45;
+    [SerializeField] protected float fallSpeedCutoff = 10;
+    [SerializeField] protected float threshold = .5f;
     [SerializeField] protected float maxSnapHeight = 3;
     [SerializeField] protected float forwardProbeDistance = 1.5f;
     [SerializeField] protected float interpSpeed = 10;
@@ -18,26 +19,21 @@ public class LedgeSnapping : MonoBehaviour
     protected bool isInterpolating = false;
     protected Vector3 lastFrameVelocity;
 
-    protected BoxCollider boundingCollider;
-
 
     private void Update()
     {
-        print("LS velocity: " + rb.velocity);
+        //print("LS velocity: " + rb.velocity);
         lastFrameVelocity = rb.velocity;
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>(); 
-
-        boundingCollider = gameObject.AddComponent<BoxCollider>();
-        boundingCollider.size = new Vector3(characterRadius, characterHeight, characterRadius);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("LS collision");
+        //print("LS collision");
 
         List<ContactPoint> contacts = new List<ContactPoint>();
         int num = collision.GetContacts(contacts);
@@ -47,7 +43,7 @@ public class LedgeSnapping : MonoBehaviour
 
         foreach(ContactPoint contact in contacts)
         {
-            print("LS draw point: " + contact.point);
+            //print("LS draw point: " + contact.point);
 
             avgPoint += contact.point;
             avgNormal += contact.normal;    
@@ -58,17 +54,18 @@ public class LedgeSnapping : MonoBehaviour
 
         Debug.DrawLine(avgPoint, avgPoint + avgNormal * 500, Color.blue, 100.0f);
 
-        float dot = Vector3.Dot(avgNormal, Vector3.up);
-        float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
+        //float dot = Vector3.Dot(avgNormal, Vector3.up);
+        //float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
 
-        print("LS angle: " + angle);
+        //float velocityResistance = Mathf.Abs(Vector3.Dot(avgNormal, lastFrameVelocity.normalized));
 
-        if(angle > minSlopeGradation) 
+        if (avgPoint.y > (transform.position.y - characterHeight / 2) + .01f)
         {
+            print("LS avgNormal: " + avgNormal + ", rbVelocity: " + lastFrameVelocity + ", Obj: " + collision.gameObject.name);
             if (!isInterpolating)
             {
                 initialVelocity = lastFrameVelocity;
-                print("LS set init vel: " + initialVelocity);
+                //print("LS set init vel: " + initialVelocity);
             }
             SnapUp(); 
         }
@@ -97,6 +94,8 @@ public class LedgeSnapping : MonoBehaviour
 
         while(Vector3.Distance(transform.position, targetPos) > .5f)
         {
+            //print("LS interping...");
+
             rb.velocity = Vector3.zero;
 
             Vector3 point1 = transform.position - (transform.up * (capsule.height / 2 - capsule.radius));
@@ -109,7 +108,7 @@ public class LedgeSnapping : MonoBehaviour
 
             if (Physics.CapsuleCast(point1, point2, capsule.radius, delta.normalized, out hit, delta.magnitude))
             {
-                print("LS capsule hit");
+                //print("LS capsule hit");
 
                 delta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * delta.magnitude;
             }
@@ -122,7 +121,7 @@ public class LedgeSnapping : MonoBehaviour
         rb.velocity = initialVelocity;
         isInterpolating = false;
 
-        print("LS interp end. Velocity: " + initialVelocity);
+        //print("LS interp end. Velocity: " + initialVelocity);
     }
 
     public bool GetIsInterpolating()
