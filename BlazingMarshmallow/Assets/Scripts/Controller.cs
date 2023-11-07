@@ -59,7 +59,10 @@ public class Controller : MonoBehaviour
     {
         SetResetSpeed();
         spawnPoint = transform.position;
-        //playerStats.AddInflictBurnCallback(speedBoost);
+        playerStats = GetComponent<PlayerStats_Szolo>();
+        if(playerStats != null ) {
+            playerStats.AddInflictBurnCallback(speedBoost);
+        }
         StartCoroutine(speedCalc());
     }
 
@@ -235,14 +238,14 @@ public class Controller : MonoBehaviour
     {
         if (other.gameObject.tag == "Fire")
         {
-            speedBoost();
+            //speedBoost();
         }
     }
 
     private void speedBoost()
     {
         Debug.Log("BOOOOST");
-        GetComponent<Rigidbody>().AddForce(Vector3.forward * Boost * Time.deltaTime);
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Boost * 10000) * Time.deltaTime);
 
     }
 
