@@ -14,6 +14,7 @@ public class Controller : MonoBehaviour
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
     public float groundProbeDepth = 2f;
+    public float Boost = 5f;
 
     private Vector3 spawnPoint;
     
@@ -29,6 +30,7 @@ public class Controller : MonoBehaviour
 
     //define a reference to our input actions.
     private PlayerInput playerController;
+    private PlayerStats_Szolo playerStats;
 
     [Header("Grounded Check")]
     public float groundDrag = 5.0f;
@@ -41,6 +43,7 @@ public class Controller : MonoBehaviour
 
 
     public float playerHeight = 1;
+    public float currentSpeed;
 
     private void Awake()
     {
@@ -56,6 +59,8 @@ public class Controller : MonoBehaviour
     {
         SetResetSpeed();
         spawnPoint = transform.position;
+        //playerStats.AddInflictBurnCallback(speedBoost);
+        StartCoroutine(speedCalc());
     }
 
 
@@ -140,9 +145,9 @@ public class Controller : MonoBehaviour
 
         GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
 
-        print("Force: " + a);
+        //print("Force: " + a);
 
-        print("Vel: " + GetComponent<Rigidbody>().velocity);
+        //print("Vel: " + GetComponent<Rigidbody>().velocity);
         
     }
 
@@ -152,10 +157,10 @@ public class Controller : MonoBehaviour
     /// <param name="context"></param>
     public void Jump(InputAction.CallbackContext context)
     {
-        Debug.Log("Jump:" + context.phase);
+        //Debug.Log("Jump:" + context.phase);
         if (CheckIfGrounded() && context.performed)
         {
-            Debug.Log("real Jump");
+            //Debug.Log("real Jump");
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -183,16 +188,37 @@ public class Controller : MonoBehaviour
         if (grounded)
         {
             rb.drag = groundDrag;
-            Debug.Log("Grounded");
+            //Debug.Log("Grounded");
             speedLimiter();
         }
         else
         {
-            Debug.Log("Not Grounded");
+            //Debug.Log("Not Grounded");
             rb.drag = 0;
         }
     }
 
+    public void playerSpeed()
+    {
+        
+        StartCoroutine(speedCalc());
+
+    }
+
+    IEnumerator speedCalc()
+    {
+        bool isPlaying = true;
+        Debug.Log("speed check");
+        while (isPlaying)
+        {
+            Debug.Log("Speed: " + currentSpeed);
+            Vector3 prevPos = transform.position;
+            yield return new WaitForFixedUpdate();
+            currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos) / Time.fixedDeltaTime);
+        }
+        
+    }
+   
     private void speedLimiter()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -204,6 +230,21 @@ public class Controller : MonoBehaviour
         }
     }
     //Collide and Slide Testing to get better movement mechanics
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Fire")
+        {
+            speedBoost();
+        }
+    }
+
+    private void speedBoost()
+    {
+        Debug.Log("BOOOOST");
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * Boost * Time.deltaTime);
+
+    }
 
     public void BurningSpeed()
     {
@@ -248,6 +289,7 @@ public class Controller : MonoBehaviour
             playerstats.ResetStatus();
             playerstats.ResetCollectables();
             transform.position = spawnPoint;
+            
         }
     }
 
