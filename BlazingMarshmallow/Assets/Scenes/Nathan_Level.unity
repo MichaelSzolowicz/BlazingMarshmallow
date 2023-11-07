@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -457,7 +457,6 @@ MonoBehaviour:
   currentHealth: 0
   Collectables: 0
   chocoBites: 0
-  Boost: 6
   Victory: {fileID: 941135266}
 --- !u!23 &250027691 stripped
 MeshRenderer:
@@ -491,11 +490,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc0c7ef4a63338408a6a17fb47a0420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSlopeGradation: 45
+  fallSpeedCutoff: 10
+  threshold: 0.5
   maxSnapHeight: 3
   forwardProbeDistance: 1.5
   interpSpeed: 10
   characterHeight: 2
+  characterRadius: 0.5
 --- !u!1 &266113632
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,7 +2251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: Boost
-      value: 11.49
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: burnSpeed
