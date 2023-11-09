@@ -18,7 +18,8 @@ public class GrappleHook : MonoBehaviour
 
     protected GameObject attachedTo;
     protected Vector3 attachPoint;
-    [SerializeField] protected float length = 1;
+    [SerializeField] protected float length = 10;
+    protected float internalLength = 10;
     [SerializeField] protected float range = 1;
     [SerializeField] protected float interpSpeed = 10;
     [SerializeField] protected float boost = 0;
@@ -69,6 +70,8 @@ public class GrappleHook : MonoBehaviour
 
         //input.Grapple.Fire.started += Fire;
         input.Grapple.Fire.canceled += Release;
+
+        internalLength = length;
     }
 
     private void Update()
@@ -106,7 +109,14 @@ public class GrappleHook : MonoBehaviour
 
                     initialVelocity = rb.velocity;
 
-                    StartCoroutine(InterpCoroutine());
+                    if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Grapple"))
+                    {
+                        StartCoroutine(ApplyGrappleForce());
+                    }
+                    else if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Claw"))
+                    {
+                        StartCoroutine(InterpClaw());
+                    }
                     
                 }
             }
@@ -165,11 +175,14 @@ public class GrappleHook : MonoBehaviour
     protected void Release(InputAction.CallbackContext context)
     {
         StopCoroutine(ApplyGrappleForce());
+        StopCoroutine(InterpSwing());
         if (attachedTo != null && attachedTo.gameObject.layer != LayerMask.NameToLayer("Claw"))
         {
             ExitImpulse();
         }
+        rb.WakeUp();
         attachedTo = null;
+        internalLength = length;
         UpdateLineRenderer();
     }
 
@@ -190,6 +203,8 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     protected IEnumerator ApplyGrappleForce()
     {
+        StartCoroutine(InterpSwing());
+
         float grappleSeconds = 0;
         float secondsUnderTension = 0;
 
@@ -204,24 +219,24 @@ public class GrappleHook : MonoBehaviour
 
             print("Theta: " + theta);
 
-            Debug.DrawLine(attachPoint - rope.normalized * length, (attachPoint - rope.normalized * length) + GetFlingDirection() * 5, Color.green, 0.1f);
-            Debug.DrawLine(attachPoint, attachPoint - rope.normalized * length, Color.blue, .1f);
-            if(rope.magnitude > length)
+            Debug.DrawLine(attachPoint - rope.normalized * internalLength, (attachPoint - rope.normalized * internalLength) + GetFlingDirection() * 5, Color.green, 0.1f);
+            Debug.DrawLine(attachPoint, attachPoint - rope.normalized * internalLength, Color.blue, .1f);
+            if(rope.magnitude > internalLength)
             {
                 secondsUnderTension += Time.fixedDeltaTime; 
 
-                transform.position = attachPoint - rope.normalized * length;
+                transform.position = attachPoint - rope.normalized * internalLength;
                 
-                float tension = Mathf.Abs(rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / length + rb.mass * Physics.gravity.magnitude * Mathf.Cos(theta));
+                float tension = Mathf.Abs(rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / internalLength + rb.mass * Physics.gravity.magnitude * Mathf.Cos(theta));
 
                 // Tension force.
                 rb.AddForce(tension * rope.normalized);
                 
                 // Boost force.
-                rb.AddForce(GetFlingDirection() * boost * length / (grappleSeconds * grappleSeconds));
+                rb.AddForce(GetFlingDirection() * boost * internalLength / (grappleSeconds * grappleSeconds));
 
                 // Naive drag.
-                rb.AddForce(-rb.velocity.normalized * dampeningScale * (1 + rb.velocity.magnitude) / length);
+                rb.AddForce(-rb.velocity.normalized * dampeningScale * (1 + rb.velocity.magnitude) / internalLength);
             }
             else
             {
@@ -234,6 +249,22 @@ public class GrappleHook : MonoBehaviour
         }
     }
 
+
+    protected IEnumerator InterpClaw()
+    {
+        internalLength = 0;
+        StartCoroutine(ApplyGrappleForce());
+
+        while(IsGrappleActive())
+        {
+            rb.velocity = Vector3.zero;
+            yield return new WaitForFixedUpdate();
+        }
+
+        rb.velocity = initialVelocity;
+        yield return null;
+    }
+
     
 
     /// <summary>
@@ -241,48 +272,30 @@ public class GrappleHook : MonoBehaviour
     /// Used to help make initial grab ons more consistent.
     /// </summary>
     /// <returns></returns>
-    protected IEnumerator InterpCoroutine()
+    protected IEnumerator InterpSwing()
     {
         isInterpolating = true;
 
-        // Are using claw or swing? if latter, set interp point to length away from the actual grapple point.
-        Vector3 interpPoint;
-        if (attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
-        {
-            interpPoint = GetTargetPosition();
-        }
-        else
-        {
-            interpPoint = attachPoint;
-        }
+        Vector3 rope = attachPoint - transform.position;
+        float ropeLength = rope.magnitude;
+        float targetLength = internalLength;
+        internalLength = ropeLength;
+
+        print("Interp " + Mathf.Abs(targetLength - length));
+
+        rb.velocity = rb.velocity.magnitude * GetFlingDirection();
 
         // perform the interpolation
-        while ((transform.position - interpPoint).magnitude - .5f > .5f && input.Grapple.Fire.IsPressed())
+        while (Mathf.Abs(targetLength - internalLength) > .1f)
         {
-            print("Interp");
+            internalLength = Mathf.Lerp(internalLength, targetLength, Time.fixedDeltaTime * interpSpeed);
 
-            if (attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
-            {
-                interpPoint = GetTargetPosition();
-            }
-
-            UpdateLineRenderer();
-
-            if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Claw")) rb.velocity = Vector3.zero;
-
-            transform.position = Vector3.Lerp(transform.position, interpPoint, Time.fixedDeltaTime * interpSpeed);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();  
         }
 
-        // Are we swinging? If so redirect velocity along arc curve.
-        Vector3 v = initialVelocity;
-        if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
-        {
-            v = v.magnitude * GetFlingDirection();
-            StartCoroutine(ApplyGrappleForce());
-        }
+        print("GP end grapple. targeted length: " + targetLength);
 
-        rb.velocity = v;
+        internalLength = length;
         isInterpolating = false;
     }
 
