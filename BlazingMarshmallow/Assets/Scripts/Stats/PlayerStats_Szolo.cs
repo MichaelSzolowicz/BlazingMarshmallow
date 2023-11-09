@@ -24,6 +24,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     public float currentHealth;
     public int Collectables = 0;
     public int chocoBites = 0;
+    public int pokeDamage;
 
 
     private HealthDisplayManager healthDisplay;
@@ -66,6 +67,11 @@ public class PlayerStats_Szolo : MonoBehaviour
             }
         }
 
+        if (other.gameObject.tag == "pokeball")
+        {
+            currentHealth = currentHealth - pokeDamage;
+
+        }
         if (other.gameObject.tag == "Chocolate")
         {
             Collectables++;

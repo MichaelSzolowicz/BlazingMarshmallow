@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645233, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 13806284}
   m_Layer: 0
   m_Name: Falling block (14)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 35695734}
   m_Layer: 0
   m_Name: Falling block (1)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 127902904}
   m_Layer: 0
   m_Name: Falling block (6)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -742,7 +742,7 @@ GameObject:
   - component: {fileID: 243018161}
   m_Layer: 0
   m_Name: Falling block (9)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -989,6 +989,7 @@ MonoBehaviour:
   currentHealth: 0
   Collectables: 0
   chocoBites: 0
+  pokeDamage: 30
   Victory: {fileID: 941135266}
 --- !u!23 &250027691 stripped
 MeshRenderer:
@@ -1254,7 +1255,7 @@ GameObject:
   - component: {fileID: 335927642}
   m_Layer: 0
   m_Name: Falling block (10)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1492,7 +1493,7 @@ GameObject:
   - component: {fileID: 389142699}
   m_Layer: 0
   m_Name: Falling block (3)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1948,7 +1949,7 @@ GameObject:
   - component: {fileID: 466642082}
   m_Layer: 0
   m_Name: Falling block (12)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2758,7 +2759,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873063298}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ad8792683246514e9c62a8ad66aeecb, type: 3}
   m_Name: 
@@ -3183,8 +3184,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: Slow
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: Boost
-      value: 11.49
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
+      propertyPath: airSpeed
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8122387954727675542, guid: af2e2521cfd72c44199ecc2ce21215b2, type: 3}
       propertyPath: burnSpeed
@@ -3283,7 +3292,7 @@ GameObject:
   - component: {fileID: 1038773571}
   m_Layer: 0
   m_Name: Falling block (7)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3539,6 +3548,75 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddf7af467a11085469772ed3a69dd3e9, type: 3}
+--- !u!1001 &1230749358
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3489462364462457871, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_Name
+      value: WaterSpout
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8698078
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8698078
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.8698078
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -43.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 11.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 205.94287
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
 --- !u!1 &1241680194
 GameObject:
   m_ObjectHideFlags: 0
@@ -3554,7 +3632,7 @@ GameObject:
   - component: {fileID: 1241680195}
   m_Layer: 0
   m_Name: Falling block (11)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4044,7 +4122,7 @@ GameObject:
   - component: {fileID: 1564870013}
   m_Layer: 0
   m_Name: Falling block (2)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4560,7 +4638,7 @@ GameObject:
   - component: {fileID: 1677500647}
   m_Layer: 0
   m_Name: Falling block (8)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4985,7 +5063,7 @@ GameObject:
   - component: {fileID: 1749105758}
   m_Layer: 0
   m_Name: Falling block (5)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5118,7 +5196,7 @@ GameObject:
   - component: {fileID: 1757122968}
   m_Layer: 0
   m_Name: Falling block
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5461,7 +5539,7 @@ GameObject:
   - component: {fileID: 1857833508}
   m_Layer: 0
   m_Name: Falling block (4)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5732,7 +5810,7 @@ GameObject:
   - component: {fileID: 2056391803}
   m_Layer: 0
   m_Name: Falling block (13)
-  m_TagString: Untagged
+  m_TagString: pokeball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6193,3 +6271,4 @@ SceneRoots:
   - {fileID: 335927646}
   - {fileID: 1241680199}
   - {fileID: 1564870017}
+  - {fileID: 1230749358}

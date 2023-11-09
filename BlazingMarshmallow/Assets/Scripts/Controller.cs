@@ -11,10 +11,12 @@ public class Controller : MonoBehaviour
 {
     [Header("Movement Speed")]
     public float forwwardSpeed = 5f;
+    public float airSpeed;
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
     public float groundProbeDepth = 2f;
-    public float Boost = 5f;
+    public int Boost = 5;
+    public int Slow = 2;
 
     private Vector3 spawnPoint;
     
@@ -60,8 +62,10 @@ public class Controller : MonoBehaviour
         SetResetSpeed();
         spawnPoint = transform.position;
         playerStats = GetComponent<PlayerStats_Szolo>();
-        if(playerStats != null ) {
+        if(playerStats != null ) 
+        {
             playerStats.AddInflictBurnCallback(speedBoost);
+            playerStats.AddClearBurnCallback(slowDown);
         }
         StartCoroutine(speedCalc());
     }
@@ -112,6 +116,12 @@ public class Controller : MonoBehaviour
             targetVelocity.z = forwwardSpeed;
             InstantaneousAcceleration(targetVelocity);
             
+        }
+        else
+        {
+            Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
+            targetVelocity.z = airSpeed;
+            InstantaneousAcceleration(targetVelocity);
         }
        
     }
@@ -234,19 +244,19 @@ public class Controller : MonoBehaviour
     }
     //Collide and Slide Testing to get better movement mechanics
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Fire")
-        {
-            //speedBoost();
-        }
-    }
+    
 
     private void speedBoost()
     {
         Debug.Log("BOOOOST");
         GetComponent<Rigidbody>().AddForce(Vector3.forward * (Boost * 10000) * Time.deltaTime);
 
+    }
+
+    private void slowDown()
+    {
+        Debug.Log("slow");
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Slow * 10000) * Time.deltaTime);
     }
 
     public void BurningSpeed()
@@ -272,7 +282,7 @@ public class Controller : MonoBehaviour
         }
         else
         {
-          ResetSpeed();
+            ResetSpeed();
         }
 
     }
