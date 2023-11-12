@@ -15,36 +15,29 @@ using UnityEngine.UI;
 public class GrappleHook : MonoBehaviour
 {
     protected Rigidbody rb;
+    protected GrappleInput input;
 
     protected GameObject attachedTo;
     protected Vector3 attachPoint;
-    [SerializeField] protected float length = 1;
-    [SerializeField] protected float range = 1;
+    [SerializeField] protected float length = 10;
+    protected float internalLength = 10;
     [SerializeField] protected float interpSpeed = 10;
-    [SerializeField] protected float boost = 0;
-    [SerializeField] protected float dampeningScale = 1;
+    [SerializeField] protected float boost = 0f;
+    [SerializeField] protected float dampeningScale = 2;
 
     [Header("===== Exit parameters =====")]
     [SerializeField, Tooltip("Raw vertical impulse applied on exit.")] 
-    protected float exitJump = 10;
+    protected float exitJump = 2;
     [SerializeField, Tooltip("Impulse applied against vertical velocity, scaled to vertical component of arc tangent.")] 
     protected float exitVerticalDampening = 22;
     [SerializeField, Tooltip("Extra forward impulse applied on exit, proportional to vertical component of arc tangent.")] 
-    protected float exitForwardImpulse = 15;
+    protected float exitForwardImpulse = 10;
 
-    [Header("===== Cursor =====")]
-    [SerializeField] protected GameObject cursor;
-    [SerializeField] protected float cursorSensitivity = .003f;
-
-    protected bool bGrappleObjInRange;
-    protected GrappleInput input;
-
-    protected float screen_x;
-    protected float screen_y;
+    [Header("===== Aiming =====")]
+    [SerializeField] protected Aiming aiming;
 
     [Header("===== Line renderer =====")]
     public LineRenderer lineRenderer;
-    public Image screenCursor;
 
     protected Vector3 initialVelocity;
     protected bool isInterpolating = false;
@@ -56,47 +49,30 @@ public class GrappleHook : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
 
-        Vector3 bounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 4));
-        screen_x = Mathf.Abs(Camera.main.transform.position.x - bounds.x);  
-        screen_y = Mathf.Abs(Camera.main.transform.position.y - bounds.y);  
-
-        print("Cam Bounds: " + screen_x + " : " + screen_y);
-
-        StartCoroutine("SwivelCursor");
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         //input.Grapple.Fire.started += Fire;
         input.Grapple.Fire.canceled += Release;
-    }
 
-    private void Update()
-    {
-        ScanAndFire();
+        internalLength = length;
+
+        if(aiming != null)
+        {
+            StartCoroutine(ScanAndFire());
+        }
     }
 
     /// <summary>
     /// Probe the scene for grapple objects.
     /// Attach if the player pressed the grapple button.
     /// </summary>
-    private void ScanAndFire()
+    private IEnumerator ScanAndFire()
     {
-        
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(cursor.transform.position);
-        Ray ray = Camera.main.ViewportPointToRay(viewPos);
-        RaycastHit hit;
-        string[] layers = { "Grapple", "Claw" };
-        int mask = LayerMask.GetMask(layers);
-
-        //Debug.DrawRay(ray.origin, ray.direction * 999, Color.red, 10.0f);
-        if (Physics.Raycast(ray, out hit, 999, mask))
+        while(true)
         {
-            if ((transform.position - hit.point).magnitude <= range)
-            {
-                bGrappleObjInRange = true;
-                if (screenCursor) screenCursor.color = Color.green;
+            RaycastHit hit;
+            aiming.Scan(out hit);
 
+            if (!IsGrappleActive() && hit.collider != null)
+            {
                 if (input.Grapple.Fire.WasPerformedThisFrame())
                 {
                     attachPoint = hit.point;
@@ -106,53 +82,15 @@ public class GrappleHook : MonoBehaviour
 
                     initialVelocity = rb.velocity;
 
-                    StartCoroutine(InterpCoroutine());
-                    
+                    if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Grapple"))
+                    {
+                        StartCoroutine(ApplyGrappleForce());
+                    }
+                    else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Claw"))
+                    {
+                        StartCoroutine(InterpClaw());
+                    }
                 }
-            }
-        }
-        else
-        {
-            bGrappleObjInRange = false;
-            if (screenCursor) screenCursor.color = Color.white;
-        }
-    }
-
-
-    /// <summary>
-    /// Translate the cursor represented by a canvas object.
-    /// </summary>
-    protected IEnumerator SwivelCursor()
-    {
-        // Skip the first frame since it usually has a large offset.
-        yield return null;
-
-        while(true)
-        {
-            Vector3 offset = input.Grapple.SwivelCursor.ReadValue<Vector2>();
-            offset *= cursorSensitivity;
-            cursor.transform.position += new Vector3(offset.x, offset.y, 0);
-
-            Vector3 correction = cursor.transform.localPosition;
-            if (cursor.transform.localPosition.x > screen_x)
-            {
-                correction.x = screen_x;
-                cursor.transform.localPosition = correction;
-            }
-            if (cursor.transform.localPosition.x < -screen_x)
-            {
-                correction.x = -screen_x;
-                cursor.transform.localPosition = correction;
-            }
-            if (cursor.transform.localPosition.y > screen_y)
-            {
-                correction.y = screen_y;
-                cursor.transform.localPosition = correction;
-            }
-            if (cursor.transform.localPosition.y < -screen_y)
-            {
-                correction.y = -screen_y;
-                cursor.transform.localPosition = correction;
             }
 
             yield return null;
@@ -165,11 +103,14 @@ public class GrappleHook : MonoBehaviour
     protected void Release(InputAction.CallbackContext context)
     {
         StopCoroutine(ApplyGrappleForce());
+        StopCoroutine(InterpSwing());
         if (attachedTo != null && attachedTo.gameObject.layer != LayerMask.NameToLayer("Claw"))
         {
             ExitImpulse();
         }
+        rb.WakeUp();
         attachedTo = null;
+        internalLength = length;
         UpdateLineRenderer();
     }
 
@@ -190,6 +131,8 @@ public class GrappleHook : MonoBehaviour
     /// </summary>
     protected IEnumerator ApplyGrappleForce()
     {
+        StartCoroutine(InterpSwing());
+
         float grappleSeconds = 0;
         float secondsUnderTension = 0;
 
@@ -204,24 +147,24 @@ public class GrappleHook : MonoBehaviour
 
             print("Theta: " + theta);
 
-            Debug.DrawLine(attachPoint - rope.normalized * length, (attachPoint - rope.normalized * length) + GetFlingDirection() * 5, Color.green, 0.1f);
-            Debug.DrawLine(attachPoint, attachPoint - rope.normalized * length, Color.blue, .1f);
-            if(rope.magnitude > length)
+            Debug.DrawLine(attachPoint - rope.normalized * internalLength, (attachPoint - rope.normalized * internalLength) + GetFlingDirection() * 5, Color.green, 0.1f);
+            Debug.DrawLine(attachPoint, attachPoint - rope.normalized * internalLength, Color.blue, .1f);
+            if(rope.magnitude > internalLength || isInterpolating)
             {
                 secondsUnderTension += Time.fixedDeltaTime; 
 
-                transform.position = attachPoint - rope.normalized * length;
+                transform.position = attachPoint - rope.normalized * internalLength;
                 
-                float tension = Mathf.Abs(rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / length + rb.mass * Physics.gravity.magnitude * Mathf.Cos(theta));
+                float tension = Mathf.Abs(rb.mass * Mathf.Pow(rb.velocity.magnitude, 2) / internalLength + rb.mass * Physics.gravity.magnitude * Mathf.Cos(theta));
 
                 // Tension force.
                 rb.AddForce(tension * rope.normalized);
                 
                 // Boost force.
-                rb.AddForce(GetFlingDirection() * boost * length / (grappleSeconds * grappleSeconds));
+                rb.AddForce(GetFlingDirection() * boost * internalLength / (grappleSeconds * grappleSeconds));
 
                 // Naive drag.
-                rb.AddForce(-rb.velocity.normalized * dampeningScale * (1 + rb.velocity.magnitude) / length);
+                rb.AddForce(-rb.velocity.normalized * dampeningScale * (1 + rb.velocity.magnitude) / internalLength);
             }
             else
             {
@@ -234,6 +177,24 @@ public class GrappleHook : MonoBehaviour
         }
     }
 
+
+    protected IEnumerator InterpClaw()
+    {
+        isInterpolating = true;
+        internalLength = 0;
+        StartCoroutine(ApplyGrappleForce());
+
+        while(IsGrappleActive())
+        {
+            rb.velocity = Vector3.zero;
+            yield return new WaitForFixedUpdate();
+        }
+
+        isInterpolating = false;
+        rb.velocity = initialVelocity;
+        yield return null;
+    }
+
     
 
     /// <summary>
@@ -241,48 +202,30 @@ public class GrappleHook : MonoBehaviour
     /// Used to help make initial grab ons more consistent.
     /// </summary>
     /// <returns></returns>
-    protected IEnumerator InterpCoroutine()
+    protected IEnumerator InterpSwing()
     {
         isInterpolating = true;
 
-        // Are using claw or swing? if latter, set interp point to length away from the actual grapple point.
-        Vector3 interpPoint;
-        if (attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
-        {
-            interpPoint = GetTargetPosition();
-        }
-        else
-        {
-            interpPoint = attachPoint;
-        }
+        Vector3 rope = attachPoint - transform.position;
+        float ropeLength = rope.magnitude;
+        float targetLength = internalLength;
+        internalLength = ropeLength;
+
+        print("Interp " + Mathf.Abs(targetLength - length));
+
+        rb.velocity = rb.velocity.magnitude * GetFlingDirection();
 
         // perform the interpolation
-        while ((transform.position - interpPoint).magnitude - .5f > .5f && input.Grapple.Fire.IsPressed())
+        while (Mathf.Abs(targetLength - internalLength) > .1f)
         {
-            print("Interp");
+            internalLength = Mathf.Lerp(internalLength, targetLength, Time.fixedDeltaTime * interpSpeed);
 
-            if (attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
-            {
-                interpPoint = GetTargetPosition();
-            }
-
-            UpdateLineRenderer();
-
-            if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Claw")) rb.velocity = Vector3.zero;
-
-            transform.position = Vector3.Lerp(transform.position, interpPoint, Time.fixedDeltaTime * interpSpeed);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();  
         }
 
-        // Are we swinging? If so redirect velocity along arc curve.
-        Vector3 v = initialVelocity;
-        if(attachedTo && attachedTo.layer == LayerMask.NameToLayer("Grapple"))
-        {
-            v = v.magnitude * GetFlingDirection();
-            StartCoroutine(ApplyGrappleForce());
-        }
+        print("GP end grapple. targeted length: " + targetLength);
 
-        rb.velocity = v;
+        internalLength = length;
         isInterpolating = false;
     }
 
