@@ -11,9 +11,12 @@ public class Controller : MonoBehaviour
 {
     [Header("Movement Speed")]
     public float forwwardSpeed = 5f;
+    public float airSpeed;
     public float strafeSpeed = 5f;
     public float jumpForce = 5f;
     public float groundProbeDepth = 2f;
+    public int Boost = 5;
+    public int Slow = 2;
 
     private Vector3 spawnPoint;
     
@@ -56,9 +59,12 @@ public class Controller : MonoBehaviour
     {
         SetResetSpeed();
         spawnPoint = transform.position;
+        GrappleHook grapple = GetComponent<GrappleHook>();
         playerStats = GetComponent<PlayerStats_Szolo>();
-        if(playerStats != null ) {
+        if(playerStats != null ) 
+        {
             playerStats.AddInflictBurnCallback(speedBoost);
+            playerStats.AddClearBurnCallback(slowDown);
         }
         StartCoroutine(speedCalc());
     }
@@ -70,10 +76,8 @@ public class Controller : MonoBehaviour
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
 	    burnCheck();
-        Death();
+        yDeath();
         groundedConfirm();
-        
-
     }
 
     /// <summary>
@@ -110,7 +114,36 @@ public class Controller : MonoBehaviour
             InstantaneousAcceleration(targetVelocity);
             
         }
+        else
+        {
+            GrappleHook grapple = GetComponent<GrappleHook>();
+            if (grapple.isGrappling == false)
+            {
+                Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
+                targetVelocity.z = airSpeed;
+                InstantaneousAcceleration(targetVelocity);
+            }
+        }
        
+    }
+    
+
+    /// <summary>
+    /// Instantly change to target velocity.
+    /// </summary>
+    /// <param name="targetVelocity"></param>
+    private void InstantaneousAcceleration(Vector3 targetVelocity)
+    {
+        
+        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
+        Vector3 F = a * GetComponent<Rigidbody>().mass;
+
+        GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
+
+        //print("Force: " + a);
+
+        //print("Vel: " + GetComponent<Rigidbody>().velocity);
+        
     }
     private void DirectionalMovement()
     {
@@ -190,6 +223,8 @@ public class Controller : MonoBehaviour
             rb.drag = groundDrag;
             Debug.Log("Grounded");
             speedLimiter();
+            GrappleHook grapple = GetComponent<GrappleHook>();
+            grapple.isGrappling = false;
         }
         else
         {
@@ -198,6 +233,27 @@ public class Controller : MonoBehaviour
         }
     }
 
+    public void playerSpeed()
+    {
+        
+        StartCoroutine(speedCalc());
+
+    }
+
+    IEnumerator speedCalc()
+    {
+        bool isPlaying = true;
+        Debug.Log("speed check");
+        while (isPlaying)
+        {
+            //Debug.Log("Speed: " + currentSpeed);
+            Vector3 prevPos = transform.position;
+            yield return new WaitForFixedUpdate();
+            currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos) / Time.fixedDeltaTime);
+        }
+        
+    }
+   
     private void speedLimiter()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -209,6 +265,21 @@ public class Controller : MonoBehaviour
         }
     }
     //Collide and Slide Testing to get better movement mechanics
+
+    
+
+    private void speedBoost()
+    {
+        Debug.Log("BOOOOST");
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Boost * 10000) * Time.deltaTime);
+
+    }
+
+    private void slowDown()
+    {
+        Debug.Log("slow");
+        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Slow * 10000) * Time.deltaTime);
+    }
 
     public void BurningSpeed()
     {
@@ -233,7 +304,7 @@ public class Controller : MonoBehaviour
         }
         else
         {
-          ResetSpeed();
+            ResetSpeed();
         }
 
     }
@@ -244,10 +315,12 @@ public class Controller : MonoBehaviour
        resetStrafeSpeed = strafeSpeed;
     }
    
-    public void Death()
+    public void yDeath()
     {
         if (transform.position.y < -10)
         {
+            Death();
+            print ("Y died!");
             
             LevelTransitions levels = FindObjectOfType<LevelTransitions>();
             if(levels != null )
@@ -265,6 +338,16 @@ public class Controller : MonoBehaviour
                 transform.position = spawnPoint;
             }
         }
+    }
+    public void Death()
+    {
+        //print("You died!");
+        ResetSpeed();
+        PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
+        playerStats.ResetHealth();
+        playerstats.ResetStatus();
+        playerstats.ResetCollectables();
+        transform.position = spawnPoint;
     }
 
 }

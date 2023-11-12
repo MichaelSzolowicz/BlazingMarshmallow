@@ -24,6 +24,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     public float currentHealth;
     public int Collectables = 0;
     public int chocoBites = 0;
+    public float pokeDamage;
 
 
     private HealthDisplayManager healthDisplay;
@@ -48,6 +49,21 @@ public class PlayerStats_Szolo : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        hpDeath();
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "pokeball")
+        {
+            //subtrack the poke damage f the player is hit by a pokeball
+            TakeDamage(pokeDamage);
+            print("player hit by pokeball");
+
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Fire")
@@ -66,6 +82,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             }
         }
 
+        
         if (other.gameObject.tag == "Chocolate")
         {
             Collectables++;
@@ -170,5 +187,14 @@ public class PlayerStats_Szolo : MonoBehaviour
     public void AddClearBurnCallback(ClearBurnDelegate callback)
     {
         onClearBurn += callback;
+    }
+    public void hpDeath()
+    {
+        if (currentHealth <= 0)
+        {
+            Controller controller = GetComponent<Controller>();
+            print("damage Death");
+            controller.Death();
+        }
     }
 }

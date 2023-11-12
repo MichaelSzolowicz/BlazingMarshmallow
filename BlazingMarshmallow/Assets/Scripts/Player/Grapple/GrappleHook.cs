@@ -22,8 +22,9 @@ public class GrappleHook : MonoBehaviour
     [SerializeField] protected float length = 10;
     protected float internalLength = 10;
     [SerializeField] protected float interpSpeed = 10;
-    [SerializeField] protected float boost = 0f;
-    [SerializeField] protected float dampeningScale = 2;
+    [SerializeField] protected float boost = 0;
+    [SerializeField] protected float dampeningScale = 1;
+    public bool isGrappling = false;
 
     [Header("===== Exit parameters =====")]
     [SerializeField, Tooltip("Raw vertical impulse applied on exit.")] 
@@ -138,6 +139,7 @@ public class GrappleHook : MonoBehaviour
 
         while (attachedTo != null)
         {
+            isGrappling = true;
             grappleSeconds += Time.fixedDeltaTime;
 
             UpdateLineRenderer();
@@ -285,6 +287,8 @@ public class GrappleHook : MonoBehaviour
 
     public bool IsGrappleActive()
     {
+        
         return attachedTo != null;
+        
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - ChocoBite
   - Victory
   - Victory(text)
+  - pokeball
   layers:
   - Default
   - TransparentFX
