@@ -42,7 +42,7 @@ public class Controller : MonoBehaviour
     public float horizontalThrust;
     public float forwardThrust;
 
-
+    public float currentSpeed;
     public float playerHeight = 1;
 
     private void Awake()
@@ -60,7 +60,7 @@ public class Controller : MonoBehaviour
         SetResetSpeed();
         spawnPoint = transform.position;
         GrappleHook grapple = GetComponent<GrappleHook>();
-        playerStats = GetComponent<PlayerStats_Szolo>();
+        PlayerStats_Szolo playerStats = GetComponent<PlayerStats_Szolo>();
         if(playerStats != null ) 
         {
             playerStats.AddInflictBurnCallback(speedBoost);
@@ -166,23 +166,7 @@ public class Controller : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Instantly change to target velocity.
-    /// </summary>
-    /// <param name="targetVelocity"></param>
-    private void InstantaneousAcceleration(Vector3 targetVelocity)
-    {
-        
-        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
-        Vector3 F = a * GetComponent<Rigidbody>().mass;
-
-        GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
-
-        print("Force: " + a);
-
-        print("Vel: " + GetComponent<Rigidbody>().velocity);
-        
-    }
+    
 
     /// <summary>
     /// Add vertical impulse.
@@ -344,7 +328,7 @@ public class Controller : MonoBehaviour
         //print("You died!");
         ResetSpeed();
         PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
-        playerStats.ResetHealth();
+        playerstats.ResetHealth();
         playerstats.ResetStatus();
         playerstats.ResetCollectables();
         transform.position = spawnPoint;
