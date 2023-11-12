@@ -61,6 +61,7 @@ public class Controller : MonoBehaviour
     {
         SetResetSpeed();
         spawnPoint = transform.position;
+        GrappleHook grapple = GetComponent<GrappleHook>();
         playerStats = GetComponent<PlayerStats_Szolo>();
         if(playerStats != null ) 
         {
@@ -77,10 +78,8 @@ public class Controller : MonoBehaviour
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
 	    burnCheck();
-        Death();
+        yDeath();
         groundedConfirm();
-        
-
     }
 
     /// <summary>
@@ -119,11 +118,34 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
-            targetVelocity.z = airSpeed;
-            InstantaneousAcceleration(targetVelocity);
+            GrappleHook grapple = GetComponent<GrappleHook>();
+            if (grapple.isGrappling == false)
+            {
+                Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
+                targetVelocity.z = airSpeed;
+                InstantaneousAcceleration(targetVelocity);
+            }
         }
        
+    }
+    
+
+    /// <summary>
+    /// Instantly change to target velocity.
+    /// </summary>
+    /// <param name="targetVelocity"></param>
+    private void InstantaneousAcceleration(Vector3 targetVelocity)
+    {
+        
+        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
+        Vector3 F = a * GetComponent<Rigidbody>().mass;
+
+        GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
+
+        //print("Force: " + a);
+
+        //print("Vel: " + GetComponent<Rigidbody>().velocity);
+        
     }
     private void DirectionalMovement()
     {
@@ -144,24 +166,6 @@ public class Controller : MonoBehaviour
         {
             rb.AddForce(transform.right * horizontalThrust * Time.deltaTime);
         }
-    }
-
-    /// <summary>
-    /// Instantly change to target velocity.
-    /// </summary>
-    /// <param name="targetVelocity"></param>
-    private void InstantaneousAcceleration(Vector3 targetVelocity)
-    {
-        
-        Vector3 a = targetVelocity - GetComponent<Rigidbody>().velocity;
-        Vector3 F = a * GetComponent<Rigidbody>().mass;
-
-        GetComponent<Rigidbody>().AddForce(F, ForceMode.Acceleration);
-
-        //print("Force: " + a);
-
-        //print("Vel: " + GetComponent<Rigidbody>().velocity);
-        
     }
 
     /// <summary>
@@ -203,6 +207,8 @@ public class Controller : MonoBehaviour
             rb.drag = groundDrag;
             //Debug.Log("Grounded");
             speedLimiter();
+            GrappleHook grapple = GetComponent<GrappleHook>();
+            grapple.isGrappling = false;
         }
         else
         {
@@ -224,7 +230,7 @@ public class Controller : MonoBehaviour
         Debug.Log("speed check");
         while (isPlaying)
         {
-            Debug.Log("Speed: " + currentSpeed);
+            //Debug.Log("Speed: " + currentSpeed);
             Vector3 prevPos = transform.position;
             yield return new WaitForFixedUpdate();
             currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos) / Time.fixedDeltaTime);
@@ -293,17 +299,24 @@ public class Controller : MonoBehaviour
        resetStrafeSpeed = strafeSpeed;
     }
    
-    public void Death()
+    public void yDeath()
     {
         if (transform.position.y < -10)
         {
-            ResetSpeed();
-            PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
-            playerstats.ResetStatus();
-            playerstats.ResetCollectables();
-            transform.position = spawnPoint;
+            Death();
+            print ("Y died!");
             
         }
+    }
+    public void Death()
+    {
+        //print("You died!");
+        ResetSpeed();
+        PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
+        playerStats.ResetHealth();
+        playerstats.ResetStatus();
+        playerstats.ResetCollectables();
+        transform.position = spawnPoint;
     }
 
 }
