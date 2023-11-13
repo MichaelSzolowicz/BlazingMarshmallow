@@ -16,9 +16,11 @@ public class Controller : MonoBehaviour
     public float maxRunSpeed = 80f;
     public float minSpeed = 0;
     public float strafeSpeed = 5f;
+    public float burnSpeedMultiplier = 1.5f;
     private float maxSpeed;
+    private float internalBurnSpeedMultiplier;
     
-
+    
     [Header("Movement Speed")]
     public float forwwardSpeed = 5f;
     public float maxDefaultGroundSpeed = 50f;
@@ -68,6 +70,7 @@ public class Controller : MonoBehaviour
     private void Start()
     {
         maxSpeed = maxDefaultGroundSpeed;
+        internalBurnSpeedMultiplier = 1;
         SetResetSpeed();
         spawnPoint = transform.position;
         GrappleHook grapple = GetComponent<GrappleHook>();
@@ -88,7 +91,6 @@ public class Controller : MonoBehaviour
         AutoMove();
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
-	    burnCheck();
         yDeath();
         groundedConfirm();
     }
@@ -126,21 +128,21 @@ public class Controller : MonoBehaviour
         {
             autoForce += transform.forward * forwardThrust;
 
-            if (Mathf.Abs(rb.velocity.z) > maxSpeed)
+            if (Mathf.Abs(rb.velocity.z) > maxSpeed * internalBurnSpeedMultiplier)
             {
                 Vector3 t = rb.velocity;
-                t.z = maxSpeed;
+                t.z = maxSpeed * internalBurnSpeedMultiplier;
                 rb.velocity = t;
             }
-            else if (Mathf.Abs(rb.velocity.z) < minSpeed)
+            else if (Mathf.Abs(rb.velocity.z) < minSpeed * internalBurnSpeedMultiplier)
             {
                 Vector3 t = rb.velocity;
-                t.z = minSpeed;
+                t.z = minSpeed * internalBurnSpeedMultiplier;
                 rb.velocity = t;
             }
         }
 
-        rb.AddForce((autoForce * Time.deltaTime) + inputForce);
+        rb.AddForce((autoForce + inputForce) * Time.deltaTime);
 
     }
     
@@ -168,7 +170,7 @@ public class Controller : MonoBehaviour
         Vector3 force = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
-            force += transform.forward * forwardThrust * runThrustScale * Time.deltaTime;
+            force += transform.forward * forwardThrust * runThrustScale;
             maxSpeed = maxRunSpeed;
         }
         else
@@ -177,15 +179,15 @@ public class Controller : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.S))
         {
-            force += (-transform.forward * forwardThrust * runThrustScale * Time.deltaTime);
+            force += (-transform.forward * forwardThrust * runThrustScale);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            force += (-transform.right * horizontalThrust * Time.deltaTime);
+            force += (-transform.right * horizontalThrust);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            force += (transform.right * horizontalThrust * Time.deltaTime);
+            force += (transform.right * horizontalThrust);
         }
 
         return force;
@@ -282,41 +284,17 @@ public class Controller : MonoBehaviour
         Debug.Log("BOOOOST");
         GetComponent<Rigidbody>().AddForce(Vector3.forward * (Boost * 10000) * Time.deltaTime);
 
+        internalBurnSpeedMultiplier = burnSpeedMultiplier;
     }
 
     private void slowDown()
     {
         Debug.Log("slow");
         GetComponent<Rigidbody>().AddForce(Vector3.forward * (Slow * 10000) * Time.deltaTime);
+
+        internalBurnSpeedMultiplier = 1;
     }
 
-    public void BurningSpeed()
-    {
-       forwwardSpeed = burnSpeed;
-       strafeSpeed = burnStrafeSpeed;
-       jumpForce = burnJumpForce;
-    }
-
-    public void ResetSpeed()
-    {
-        forwwardSpeed = resetSpeed;
-        strafeSpeed = resetStrafeSpeed;
-        jumpForce = resetJumpForce;
-    }
-
-    private void burnCheck()
-    {
-        PlayerStats_Szolo playerStats = GetComponent<PlayerStats_Szolo>();
-        if (playerStats.currentStatus == PlayerStats_Szolo.Status.Burned)
-        {
-            BurningSpeed();
-        }
-        else
-        {
-            ResetSpeed();
-        }
-
-    }
     public void SetResetSpeed()
     {
        resetJumpForce = jumpForce;
@@ -343,7 +321,6 @@ public class Controller : MonoBehaviour
         else
         {
             // otherwise just manually reset.
-            ResetSpeed();
             PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
             playerstats.ResetStatus();
             playerstats.ResetCollectables();
