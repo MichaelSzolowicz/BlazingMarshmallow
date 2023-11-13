@@ -26,13 +26,13 @@ public class LevelTransitions : MonoBehaviour
 
     private IEnumerator LoadAsyncScene()
     {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 
-            // Wait until the asynchronous scene fully loads
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
 
         Respawn();
     }
@@ -45,5 +45,11 @@ public class LevelTransitions : MonoBehaviour
             print(this.gameObject.name + " reset " + player.gameObject.name + " to " + spawnPoint);
             player.gameObject.transform.position = spawnPoint;
         }
+    }
+
+    private void UnloadDelayed()
+    {
+
+        Resources.UnloadUnusedAssets();
     }
 }

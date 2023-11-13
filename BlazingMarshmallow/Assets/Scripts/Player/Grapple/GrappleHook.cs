@@ -291,4 +291,9 @@ public class GrappleHook : MonoBehaviour
         return attachedTo != null;
         
     }
+
+    private void OnDestroy()
+    {
+        input.Grapple.Fire.canceled -= Release;
+    }
 }

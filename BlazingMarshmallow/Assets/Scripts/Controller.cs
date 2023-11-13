@@ -312,8 +312,7 @@ public class Controller : MonoBehaviour
         LevelTransitions levels = FindObjectOfType<LevelTransitions>();
         if (levels != null)
         {
-            // reload if we are using scene management
-            playerController.RemoveAllBindingOverrides();   
+            // reload if we are using scene management   
             levels.ReloadCurrent();
         }
         else
@@ -325,6 +324,11 @@ public class Controller : MonoBehaviour
             playerstats.ResetCollectables();
             //transform.position = spawnPoint;
         }
+    }
+
+    private void OnDestroy()
+    {
+        playerController.Controls.Jump.performed -= Jump;
     }
 
 }

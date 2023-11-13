@@ -117,7 +117,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             LevelTransitions levels = FindObjectOfType<LevelTransitions>();
             if (levels != null)
             {
-                levels.spawnPoint = other.transform.position;
+                levels.spawnPoint = other.transform.root.position;
             }
         }
 
