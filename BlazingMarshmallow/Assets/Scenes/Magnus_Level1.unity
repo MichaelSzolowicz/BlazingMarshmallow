@@ -21743,7 +21743,7 @@ PrefabInstance:
       objectReference: {fileID: 462353573}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: airSpeed
-      value: 40
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: resetSpeed

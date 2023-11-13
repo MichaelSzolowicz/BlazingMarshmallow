@@ -45,6 +45,8 @@ public class Controller : MonoBehaviour
     public float currentSpeed;
     public float playerHeight = 1;
 
+    public bool newMovement = false;
+
     private void Awake()
     {
         // Initialize our input actions.
@@ -116,13 +118,17 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            GrappleHook grapple = GetComponent<GrappleHook>();
-            if (grapple.isGrappling == false)
+            if (newMovement == true)
             {
-                Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
-                targetVelocity.z = airSpeed;
-                InstantaneousAcceleration(targetVelocity);
+                GrappleHook grapple = GetComponent<GrappleHook>();
+                if (grapple.isGrappling == false)
+                {
+                    Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
+                    targetVelocity.z = airSpeed;
+                    InstantaneousAcceleration(targetVelocity);
+                }
             }
+            
         }
        
     }
