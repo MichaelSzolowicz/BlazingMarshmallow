@@ -80,13 +80,14 @@ public class PlayerStats_Szolo : MonoBehaviour
         }
         else if (other.gameObject.tag == "Water")
         {
+            if (onClearBurn.GetInvocationList().Length > 0) { onClearBurn.Invoke(); }
             Status prevStatus = currentStatus;
             ResetStatus();
             ResetHealth();
             if (prevStatus == Status.Burned)
             {
                 print("water cleared burn");
-                if (onClearBurn.GetInvocationList().Length > 0) { onClearBurn.Invoke(); }
+                
             }
         }
 

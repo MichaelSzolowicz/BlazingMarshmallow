@@ -28,8 +28,8 @@ public class Controller : MonoBehaviour
 
     public float jumpForce = 5f;
     public float groundProbeDepth = 2f;
-    public int Boost = 5;
-    public int Slow = 2;
+    public float Boost = 5;
+    public float Slow = 2;
 
     private Vector3 spawnPoint;
     
@@ -69,6 +69,7 @@ public class Controller : MonoBehaviour
 
     private void Start()
     {
+        GetComponent<Rigidbody>().velocity = transform.forward * minSpeed;
         maxSpeed = maxDefaultGroundSpeed;
         internalBurnSpeedMultiplier = 1;
         SetResetSpeed();
@@ -86,7 +87,7 @@ public class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        print("CT speed z: " + GetComponent<Rigidbody>().velocity.z); 
+        print("CT velocity: " + GetComponent<Rigidbody>().velocity); 
 
         AutoMove();
         // Strafe is called in update instead of a callback, allows it to update every frame.
@@ -122,27 +123,33 @@ public class Controller : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         Vector3 inputForce = DirectionalMovement();
         Vector3 autoForce = Vector3.zero;
+        float dot = Vector3.Dot(rb.velocity.normalized, inputForce);
 
         GrappleHook grapple = GetComponent<GrappleHook>();
         if (!(grapple && grapple.IsGrappleActive()))
         {
             autoForce += transform.forward * forwardThrust;
 
-            if (Mathf.Abs(rb.velocity.z) > maxSpeed * internalBurnSpeedMultiplier)
+
+            if (Mathf.Abs(rb.velocity.z) >= maxSpeed * internalBurnSpeedMultiplier && dot >= 0)
             {
-                Vector3 t = rb.velocity;
-                t.z = maxSpeed * internalBurnSpeedMultiplier;
-                rb.velocity = t;
+                ;
             }
-            else if (Mathf.Abs(rb.velocity.z) < minSpeed * internalBurnSpeedMultiplier)
+            else
             {
-                Vector3 t = rb.velocity;
-                t.z = minSpeed * internalBurnSpeedMultiplier;
-                rb.velocity = t;
+                rb.AddForce((autoForce) * Time.deltaTime);
             }
         }
 
-        rb.AddForce((autoForce + inputForce) * Time.deltaTime);
+        if (Mathf.Abs(rb.velocity.z) >= maxSpeed * internalBurnSpeedMultiplier && dot >= 0
+            || Mathf.Abs(rb.velocity.z) <= minSpeed * internalBurnSpeedMultiplier && dot <= 0)
+        {
+            ;
+        }
+        else
+        {
+            rb.AddForce((inputForce) * Time.deltaTime);
+        }
 
     }
     
@@ -175,7 +182,7 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            maxSpeed = maxDefaultGroundSpeed;
+            maxSpeed = maxDefaultSpeed;
         }
         if (Input.GetKey(KeyCode.S))
         {
@@ -282,7 +289,8 @@ public class Controller : MonoBehaviour
     private void speedBoost()
     {
         Debug.Log("BOOOOST");
-        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Boost * 10000) * Time.deltaTime);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.AddForce(rb.velocity.normalized * Boost * rb.velocity.magnitude, ForceMode.VelocityChange);
 
         internalBurnSpeedMultiplier = burnSpeedMultiplier;
     }
@@ -290,7 +298,8 @@ public class Controller : MonoBehaviour
     private void slowDown()
     {
         Debug.Log("slow");
-        GetComponent<Rigidbody>().AddForce(Vector3.forward * (Slow * 10000) * Time.deltaTime);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.AddForce(-rb.velocity.normalized * Slow * rb.velocity.magnitude, ForceMode.VelocityChange);
 
         internalBurnSpeedMultiplier = 1;
     }
