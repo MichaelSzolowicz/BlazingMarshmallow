@@ -47,12 +47,19 @@ public class PlayerStats_Szolo : MonoBehaviour
             healthDisplay.SetMaxHealth(health);
             healthDisplay.Reset();
         }
+
+        LevelTransitions levels = FindObjectOfType<LevelTransitions>();
+        if(levels != null && levels.spawnPoint == Vector3.zero)
+        {
+            levels.spawnPoint = transform.position;
+        }
     }
 
     private void FixedUpdate()
     {
         hpDeath();
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "pokeball")
@@ -62,6 +69,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             print("player hit by pokeball");
 
         }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -102,6 +110,15 @@ public class PlayerStats_Szolo : MonoBehaviour
             print("You win!");
             Victory.SetActive(true);
             
+        }
+
+        if (other.gameObject.tag == "Checkpoint")
+        {
+            LevelTransitions levels = FindObjectOfType<LevelTransitions>();
+            if (levels != null)
+            {
+                levels.spawnPoint = other.transform.root.position;
+            }
         }
 
     }

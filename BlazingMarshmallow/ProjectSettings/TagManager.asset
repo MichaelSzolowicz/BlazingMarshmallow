@@ -13,6 +13,7 @@ TagManager:
   - Victory
   - Victory(text)
   - pokeball
+  - Checkpoint
   layers:
   - Default
   - TransparentFX

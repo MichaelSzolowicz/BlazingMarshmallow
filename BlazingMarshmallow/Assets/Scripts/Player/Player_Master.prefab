@@ -372,10 +372,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwwardSpeed: 50
+  airSpeed: 20
   strafeSpeed: 22
   jumpForce: 10
   groundProbeDepth: 1.1
   Boost: 5
+  Slow: 2
   burnSpeed: 70
   resetSpeed: 48
   groundDrag: 0.2
@@ -384,8 +386,8 @@ MonoBehaviour:
     m_Bits: 64
   horizontalThrust: 600
   forwardThrust: 365
-  playerHeight: 2
   currentSpeed: 0
+  playerHeight: 2
 --- !u!114 &684334126157564912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +407,7 @@ MonoBehaviour:
   currentHealth: 0
   Collectables: 0
   chocoBites: 0
+  pokeDamage: 0
   Victory: {fileID: 0}
 --- !u!114 &1253478769459166521
 MonoBehaviour:
@@ -422,6 +425,7 @@ MonoBehaviour:
   interpSpeed: 10
   boost: 0
   dampeningScale: 2
+  isGrappling: 0
   exitJump: 4
   exitVerticalDampening: 22
   exitForwardImpulse: 10
