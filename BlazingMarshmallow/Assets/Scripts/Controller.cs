@@ -305,33 +305,26 @@ public class Controller : MonoBehaviour
         {
             Death();
             print ("Y died!");
-            
-            LevelTransitions levels = FindObjectOfType<LevelTransitions>();
-            if(levels != null )
-            {
-                // reload if we are using scene management
-                levels.ReloadCurrent();
-            }
-            else
-            {
-                // otherwise just manually reset.
-                ResetSpeed();
-                PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
-                playerstats.ResetStatus();
-                playerstats.ResetCollectables();
-                transform.position = spawnPoint;
-            }
         }
     }
     public void Death()
     {
-        //print("You died!");
-        ResetSpeed();
-        PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
-        playerstats.ResetHealth();
-        playerstats.ResetStatus();
-        playerstats.ResetCollectables();
-        transform.position = spawnPoint;
+        LevelTransitions levels = FindObjectOfType<LevelTransitions>();
+        if (levels != null)
+        {
+            // reload if we are using scene management
+            playerController.RemoveAllBindingOverrides();   
+            levels.ReloadCurrent();
+        }
+        else
+        {
+            // otherwise just manually reset.
+            ResetSpeed();
+            PlayerStats_Szolo playerstats = GetComponent<PlayerStats_Szolo>();
+            playerstats.ResetStatus();
+            playerstats.ResetCollectables();
+            //transform.position = spawnPoint;
+        }
     }
 
 }
