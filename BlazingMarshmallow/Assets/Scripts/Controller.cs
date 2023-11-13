@@ -9,10 +9,21 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class Controller : MonoBehaviour
 {
+    [Header("Movement Defaults")]
+    public float forwardThrust = 1000f;
+    public float runThrustScale = 2f;
+    public float maxDefaultSpeed = 50f;
+    public float maxRunSpeed = 80f;
+    public float minSpeed = 0;
+    public float strafeSpeed = 5f;
+    private float maxSpeed;
+    
+
     [Header("Movement Speed")]
     public float forwwardSpeed = 5f;
+    public float maxDefaultGroundSpeed = 50f;
     public float airSpeed;
-    public float strafeSpeed = 5f;
+
     public float jumpForce = 5f;
     public float groundProbeDepth = 2f;
     public int Boost = 5;
@@ -40,7 +51,6 @@ public class Controller : MonoBehaviour
 
     [Header("Directional Movement")]
     public float horizontalThrust;
-    public float forwardThrust;
 
     public float currentSpeed;
     public float playerHeight = 1;
@@ -57,6 +67,7 @@ public class Controller : MonoBehaviour
 
     private void Start()
     {
+        maxSpeed = maxDefaultGroundSpeed;
         SetResetSpeed();
         spawnPoint = transform.position;
         GrappleHook grapple = GetComponent<GrappleHook>();
@@ -72,6 +83,8 @@ public class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        print("CT speed z: " + GetComponent<Rigidbody>().velocity.z); 
+
         AutoMove();
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
@@ -105,26 +118,30 @@ public class Controller : MonoBehaviour
     private void AutoMove()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
-        DirectionalMovement();
-        // Only auto move when grounded. Velcoity maintained when leaving ground.
-        if (CheckIfGrounded())
+        Vector3 inputForce = DirectionalMovement();
+        Vector3 autoForce = Vector3.zero;
+
+        GrappleHook grapple = GetComponent<GrappleHook>();
+        if (!(grapple && grapple.IsGrappleActive()))
         {
-            Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
-            targetVelocity.z = forwwardSpeed;
-            InstantaneousAcceleration(targetVelocity);
-            
-        }
-        else
-        {
-            GrappleHook grapple = GetComponent<GrappleHook>();
-            if (grapple.isGrappling == false)
+            autoForce += transform.forward * forwardThrust;
+
+            if (Mathf.Abs(rb.velocity.z) > maxSpeed)
             {
-                Vector3 targetVelocity = GetComponent<Rigidbody>().velocity;
-                targetVelocity.z = airSpeed;
-                InstantaneousAcceleration(targetVelocity);
+                Vector3 t = rb.velocity;
+                t.z = maxSpeed;
+                rb.velocity = t;
+            }
+            else if (Mathf.Abs(rb.velocity.z) < minSpeed)
+            {
+                Vector3 t = rb.velocity;
+                t.z = minSpeed;
+                rb.velocity = t;
             }
         }
-       
+
+        rb.AddForce((autoForce * Time.deltaTime) + inputForce);
+
     }
     
 
@@ -145,25 +162,33 @@ public class Controller : MonoBehaviour
         //print("Vel: " + GetComponent<Rigidbody>().velocity);
         
     }
-    private void DirectionalMovement()
+    private Vector3 DirectionalMovement()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
+        Vector3 force = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddForce(transform.forward * forwardThrust * Time.deltaTime);
+            force += transform.forward * forwardThrust * runThrustScale * Time.deltaTime;
+            maxSpeed = maxRunSpeed;
+        }
+        else
+        {
+            maxSpeed = maxDefaultGroundSpeed;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddForce(-transform.forward * forwardThrust * Time.deltaTime);
+            force += (-transform.forward * forwardThrust * runThrustScale * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(-transform.right * horizontalThrust * Time.deltaTime);
+            force += (-transform.right * horizontalThrust * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(transform.right * horizontalThrust * Time.deltaTime);
+            force += (transform.right * horizontalThrust * Time.deltaTime);
         }
+
+        return force;
     }
 
     
