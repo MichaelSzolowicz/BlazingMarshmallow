@@ -9,8 +9,11 @@ using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class Controller : MonoBehaviour
 {
+    private Vector3 spawnPoint;
+
     [Header("Movement Defaults")]
     public float forwardThrust = 1000f;
+    public float horizontalThrust;
     public float runThrustScale = 2f;
     public float maxDefaultSpeed = 50f;
     public float maxRunSpeed = 80f;
@@ -19,40 +22,19 @@ public class Controller : MonoBehaviour
     public float burnSpeedMultiplier = 1.5f;
     private float maxSpeed;
     private float internalBurnSpeedMultiplier;
-    
-    
-    [Header("Movement Speed")]
-    public float forwwardSpeed = 5f;
-    public float maxDefaultGroundSpeed = 50f;
-    public float airSpeed;
-
-    public float jumpForce = 5f;
+    public float boostScale = .7f;
+    public float slowScale = .1f;
     public float groundProbeDepth = 2f;
-    public float Boost = 5;
-    public float Slow = 2;
 
-    private Vector3 spawnPoint;
-    
-    [Header("Burned Speed")]
-    public float burnSpeed = 8f;
-    private float burnStrafeSpeed = 8f;
-    private float burnJumpForce = 8f;
-
-    [SerializeField]
-    private float resetSpeed =5f;
-    private float resetStrafeSpeed = 5f;
-    private float resetJumpForce = 5f;
+    [Header("Jump")]
+    public float baseJumpForce = 5f;
+    public float burnJumpForce = 8f;
+    private float jumpForce = 1f;
 
     //define a reference to our input actions.
     private PlayerInput playerController;
 
-    [Header("Grounded Check")]
-    public float groundDrag = 5.0f;
-    public LayerMask Ground;
     private bool grounded = false;
-
-    [Header("Directional Movement")]
-    public float horizontalThrust;
 
     public float currentSpeed;
     public float playerHeight = 1;
@@ -69,10 +51,10 @@ public class Controller : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * minSpeed;
-        maxSpeed = maxDefaultGroundSpeed;
+        GetComponent<Rigidbody>().velocity = transform.forward * maxDefaultSpeed;
+        maxSpeed = maxDefaultSpeed;
+        jumpForce = baseJumpForce;
         internalBurnSpeedMultiplier = 1;
-        SetResetSpeed();
         spawnPoint = transform.position;
         GrappleHook grapple = GetComponent<GrappleHook>();
         PlayerStats_Szolo playerStats = GetComponent<PlayerStats_Szolo>();
@@ -93,7 +75,6 @@ public class Controller : MonoBehaviour
         // Strafe is called in update instead of a callback, allows it to update every frame.
         Strafe(); 
         yDeath();
-        groundedConfirm();
     }
 
     /// <summary>
@@ -231,26 +212,6 @@ public class Controller : MonoBehaviour
         return Physics.Linecast(start, end);
     }
 
-    private void groundedConfirm()
-    {
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
-        Rigidbody rb = GetComponent<Rigidbody>();
-
-        if (grounded)
-        {
-            rb.drag = groundDrag;
-            Debug.Log("Grounded");
-            speedLimiter();
-            GrappleHook grapple = GetComponent<GrappleHook>();
-            grapple.isGrappling = false;
-        }
-        else
-        {
-            Debug.Log("Not Grounded");
-            rb.drag = 0;
-        }
-    }
-
     public void playerSpeed()
     {
         
@@ -271,44 +232,26 @@ public class Controller : MonoBehaviour
         }
         
     }
-   
-    private void speedLimiter()
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        if (flatVel.magnitude > forwwardSpeed)
-        {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, forwwardSpeed);
-        }
-    }
-    //Collide and Slide Testing to get better movement mechanics
-
-    
 
     private void speedBoost()
     {
         Debug.Log("BOOOOST");
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.AddForce(rb.velocity.normalized * Boost * rb.velocity.magnitude, ForceMode.VelocityChange);
+        rb.AddForce(rb.velocity.normalized * boostScale * rb.velocity.magnitude, ForceMode.VelocityChange);
 
         internalBurnSpeedMultiplier = burnSpeedMultiplier;
+        jumpForce = burnJumpForce;
+
     }
 
     private void slowDown()
     {
         Debug.Log("slow");
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.AddForce(-rb.velocity.normalized * Slow * rb.velocity.magnitude, ForceMode.VelocityChange);
+        rb.AddForce(-rb.velocity.normalized * slowScale * rb.velocity.magnitude, ForceMode.VelocityChange);
 
         internalBurnSpeedMultiplier = 1;
-    }
-
-    public void SetResetSpeed()
-    {
-       resetJumpForce = jumpForce;
-       resetSpeed = forwwardSpeed;
-       resetStrafeSpeed = strafeSpeed;
+        jumpForce = baseJumpForce;
     }
    
     public void yDeath()
