@@ -111,26 +111,19 @@ public class Controller : MonoBehaviour
         {
             autoForce += transform.forward * forwardThrust;
 
-
             if (Mathf.Abs(rb.velocity.z) >= maxSpeed * internalBurnSpeedMultiplier && dot >= 0)
             {
-                ;
+                autoForce = transform.forward * rb.mass * ((maxSpeed * internalBurnSpeedMultiplier) - rb.velocity.magnitude) / Time.fixedDeltaTime;
             }
-            else
-            {
-                rb.AddForce((autoForce) * Time.deltaTime);
-            }
+            rb.AddForce((autoForce) * Time.deltaTime);
         }
 
         if (Mathf.Abs(rb.velocity.z) >= maxSpeed * internalBurnSpeedMultiplier && dot >= 0
             || Mathf.Abs(rb.velocity.z) <= minSpeed * internalBurnSpeedMultiplier && dot <= 0)
         {
-            ;
+            inputForce = transform.forward * rb.mass * ((maxSpeed * internalBurnSpeedMultiplier) - rb.velocity.magnitude) / Time.fixedDeltaTime;
         }
-        else
-        {
-            rb.AddForce((inputForce) * Time.deltaTime);
-        }
+        rb.AddForce((inputForce) * Time.deltaTime);
 
     }
     
