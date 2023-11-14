@@ -123,19 +123,10 @@ public class Controller : MonoBehaviour
         {
             ;
         }
-        Vector3 tInputForce = transform.forward * rb.mass * ((maxSpeed * internalBurnSpeedMultiplier) - rb.velocity.magnitude) / Time.fixedDeltaTime;
-
-        if(dot >= 0 && tInputForce.magnitude < inputForce.magnitude)
+        else
         {
-            inputForce = tInputForce;
+            rb.AddForce((inputForce) * Time.deltaTime);
         }
-        else if(Mathf.Abs(rb.velocity.z) <= minSpeed * internalBurnSpeedMultiplier)
-        {
-            inputForce = Vector3.zero;
-        }
-
-        rb.AddForce((inputForce) * Time.deltaTime);
-
     }
     
 
