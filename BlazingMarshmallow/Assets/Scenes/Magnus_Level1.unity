@@ -25207,6 +25207,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1786677171039257397, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: field of view
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: yPos
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: fovMax
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: fovMin
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: yPosMax
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: yPosMin
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 4892809425061986488, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: screenSpaceCursor
       value: 

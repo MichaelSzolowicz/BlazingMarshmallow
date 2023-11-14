@@ -8,19 +8,45 @@ public class CameraMoving : MonoBehaviour
     public GameObject player;
     public float playerSpeed;
     public float fov;
+
+    public int fovMax;
+    public int fovMin;
+
+    
+    public float yPosCentered;
+    public float yPosCurrent;
+    public float yPosMax;
+    public float yPosMin;
+    private float yBase;
     // Start is called before the first frame update
 
     void Start()
     {
         SetFov();
+        yPosCentered = transform.position.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        SpeedUpdate();
         CameraFOV();
+        setYCam();
+        CurrentCameraY();
+    }
+    private void FixedUpdate()
+    {
+        CameraVerticle();
+        CameraRamp();
+    }
+
+    private void setYCam()
+    {
+        yBase = transform.position.y;
+    }
+
+    private void CurrentCameraY()
+    {
+        yBase = yPosCurrent;
     }
 
     public void SetFov()
@@ -32,10 +58,45 @@ public class CameraMoving : MonoBehaviour
     {
         GetComponent<Camera>().GetComponent<Camera>().fieldOfView = fov;
     }
-    public void SpeedUpdate()
-    {
-        playerSpeed = player.GetComponent<Controller>().currentSpeed;
+    
 
-        fov = (playerSpeed / 2) + 60;
+    public void CameraRamp()
+    {
+        playerSpeed = player.GetComponent<Controller>().currentSpeed + 10;
+        if (playerSpeed <= fov)
+        {
+            if (fov >= fovMin)
+            {
+                fov = (fov - 10 * Time.deltaTime);
+            }           
+        }
+        if (playerSpeed >= fov)
+        {
+            if (fov <= fovMax)
+            {
+                fov = (fov + 10 * Time.deltaTime);
+            }
+        }
     }
+
+    public void CameraVerticle()
+    {
+        
+        if (yPosCurrent >= yPosCentered)
+        {
+            if (yPosCurrent >= yPosMin)
+            {
+                yPosCurrent = ((yPosCurrent -1) * Time.deltaTime);
+            }
+        }
+        if (yPosCurrent <= yPosCentered)
+        {
+            if (yPosCurrent <= yPosMax)
+            {
+                yPosCurrent = ((yPosCurrent + 1) * Time.deltaTime);
+            }
+        }
+    }
+    
+
 }
