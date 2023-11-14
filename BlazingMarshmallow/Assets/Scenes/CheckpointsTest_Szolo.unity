@@ -21159,6 +21159,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1253478769459166521, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: dampeningScale
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3172294372908605559, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_LocalPosition.y
       value: 3.1800003
@@ -21197,11 +21201,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: minSpeed
-      value: 20
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: jumpForce
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: boostScale
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: groundDrag
@@ -21221,11 +21229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: baseJumpForce
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: burnJumpForce
-      value: 12
+      value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: forwardThrust
@@ -21242,6 +21250,10 @@ PrefabInstance:
     - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: maxDefaultSpeed
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5938638728862970810, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: burnSpeedMultiplier
+      value: 1.35
       objectReference: {fileID: 0}
     - target: {fileID: 6182333332980378592, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_Name
