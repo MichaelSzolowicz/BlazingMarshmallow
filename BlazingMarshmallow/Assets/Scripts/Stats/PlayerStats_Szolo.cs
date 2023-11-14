@@ -25,7 +25,10 @@ public class PlayerStats_Szolo : MonoBehaviour
     public int Collectables = 0;
     public int chocoBites = 0;
     public float pokeDamage;
-
+    public AudioSource oofSound;
+    public AudioSource burnStartSound;
+    public AudioSource fireOutSound;
+    public AudioSource chocolateGetSound;
 
     private HealthDisplayManager healthDisplay;
 
@@ -40,7 +43,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         currentStatus = Status.Nuetral;
         currentHealth = health;
-
+	
         healthDisplay = (HealthDisplayManager)FindFirstObjectByType(typeof(HealthDisplayManager));
         if(healthDisplay)
         {
@@ -65,6 +68,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         if (collision.gameObject.tag == "pokeball")
         {
             //subtrack the poke damage f the player is hit by a pokeball
+	    oofSound.Play();
             TakeDamage(pokeDamage);
             print("player hit by pokeball");
 
@@ -76,6 +80,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         if(other.gameObject.tag == "Fire")
         {
+	    burnStartSound.Play();
             InflictBurn();
         }
         else if (other.gameObject.tag == "Water")
@@ -86,6 +91,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             ResetHealth();
             if (prevStatus == Status.Burned)
             {
+		fireOutSound.Play();
                 print("water cleared burn");
                 
             }
@@ -94,6 +100,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         
         if (other.gameObject.tag == "Chocolate")
         {
+	    chocolateGetSound.Play();
             Collectables++;
             //set the other game object to false
             other.gameObject.SetActive(false);           
@@ -101,6 +108,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 
         if (other.gameObject.tag == "ChocoBite")
         {
+	    chocolateGetSound.Play();
             chocoBites++;
             //set the other game object to false
             other.gameObject.SetActive(false);

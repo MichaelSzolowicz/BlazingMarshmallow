@@ -14,6 +14,9 @@ using UnityEngine.UI;
 
 public class GrappleHook : MonoBehaviour
 {
+    
+    public AudioSource grappleSound;
+    public AudioSource flingSound;
     protected Rigidbody rb;
     protected GrappleInput input;
 
@@ -39,7 +42,7 @@ public class GrappleHook : MonoBehaviour
 
     [Header("===== Line renderer =====")]
     public LineRenderer lineRenderer;
-
+   
     protected Vector3 initialVelocity;
     protected bool isInterpolating = false;
 
@@ -78,6 +81,7 @@ public class GrappleHook : MonoBehaviour
                 {
                     attachPoint = hit.point;
                     attachedTo = hit.collider.gameObject;
+                    grappleSound.Play();
 
                     UpdateLineRenderer();
 
@@ -107,6 +111,8 @@ public class GrappleHook : MonoBehaviour
         StopCoroutine(InterpSwing());
         if (attachedTo != null && attachedTo.gameObject.layer != LayerMask.NameToLayer("Claw"))
         {
+            grappleSound.Stop();
+            flingSound.Play();
             ExitImpulse();
         }
         rb.WakeUp();

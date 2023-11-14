@@ -5985,6 +5985,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &283631430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 85162b030f0b1814eb7ad020caa5d98a, type: 3}
+  m_PrefabInstance: {fileID: 1746283522}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &286103745
 GameObject:
   m_ObjectHideFlags: 0
@@ -6118,6 +6123,134 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286103745}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &290117218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 290117219}
+  - component: {fileID: 290117220}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &290117219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290117218}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.04614515, y: -0, z: -0, w: 0.99893475}
+  m_LocalPosition: {x: 0, y: -2.2924776, z: 9.732798}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 923820822}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &290117220
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290117218}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 309eafae730bd514da3cfb3021709a93, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!43 &294988627
 Mesh:
   m_ObjectHideFlags: 0
@@ -7551,10 +7684,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1517784293}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 231993201}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -7574,6 +7715,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7652,10 +7797,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1732483594}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 564117782}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -7675,6 +7828,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8976,10 +9133,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1774287866}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1794585999}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -8999,6 +9164,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11096,6 +11265,102 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 85162b030f0b1814eb7ad020caa5d98a, type: 3}
   m_PrefabInstance: {fileID: 1746283522}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &623106950
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283631430}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c8dcb2f6a36d5224f86676ca11ab79f2, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &633951761
 GameObject:
   m_ObjectHideFlags: 0
@@ -16147,10 +16412,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1415103196}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 26636249}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -16170,6 +16443,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19552,6 +19829,112 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &923820821 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3040172697710772845, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+  m_PrefabInstance: {fileID: 1140891999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &923820822 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3172294372908605559, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+  m_PrefabInstance: {fileID: 1140891999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &923820826
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923820821}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ff8e2b424ea696a44865c8406dbfc7a5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!43 &926569530
 Mesh:
   m_ObjectHideFlags: 0
@@ -21461,10 +21844,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 134974848}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 15415500}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -21484,6 +21875,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23537,6 +23932,107 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056098375}
   m_Mesh: {fileID: 974815575}
+--- !u!1 &1066420444 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3760295979255947895, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+  m_PrefabInstance: {fileID: 1140891999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1066420447
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066420444}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 1b3a1c12f7d8ed7429099a8d7172e623, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!43 &1069104589
 Mesh:
   m_ObjectHideFlags: 0
@@ -25037,24 +25533,40 @@ PrefabInstance:
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 684334126157564912, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: oofSound
+      value: 
+      objectReference: {fileID: 2095409179}
+    - target: {fileID: 684334126157564912, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: burnDamage
       value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 684334126157564912, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: pokeDamage
-      value: 200
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 684334126157564912, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: fireOutSound
+      value: 
+      objectReference: {fileID: 1066420447}
+    - target: {fileID: 684334126157564912, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: burnStartSound
+      value: 
+      objectReference: {fileID: 623106950}
+    - target: {fileID: 684334126157564912, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: chocolateGetSound
+      value: 
+      objectReference: {fileID: 923820826}
     - target: {fileID: 1187956006026182414, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.66
       objectReference: {fileID: 0}
     - target: {fileID: 1187956006026182414, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 20
+      value: 5.3
       objectReference: {fileID: 0}
     - target: {fileID: 1187956006026182414, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3098
+      value: -149.3
       objectReference: {fileID: 0}
     - target: {fileID: 1187956006026182414, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25084,6 +25596,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1253478769459166521, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: flingSound
+      value: 
+      objectReference: {fileID: 1831273039}
+    - target: {fileID: 1253478769459166521, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: grappleSound
+      value: 
+      objectReference: {fileID: 290117220}
     - target: {fileID: 2822793272327904098, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -25130,7 +25650,22 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1187956006026182414, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       insertIndex: 0
       addedObject: {fileID: 623106947}
-    m_AddedComponents: []
+    - targetCorrespondingSourceObject: {fileID: 3172294372908605559, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 290117219}
+    - targetCorrespondingSourceObject: {fileID: 3172294372908605559, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 1831273038}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6182333332980378592, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2095409179}
+    - targetCorrespondingSourceObject: {fileID: 3040172697710772845, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 923820826}
+    - targetCorrespondingSourceObject: {fileID: 3760295979255947895, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1066420447}
   m_SourcePrefab: {fileID: 100100000, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
 --- !u!4 &1153367815 stripped
 Transform:
@@ -27026,10 +27561,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1073651469}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 579640913}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -27049,6 +27592,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28844,10 +29391,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1805998730}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1811108217}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -28867,6 +29422,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36044,10 +36603,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 717436807}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 204664323}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -36067,6 +36634,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37658,7 +38229,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 85162b030f0b1814eb7ad020caa5d98a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 623106950}
   m_SourcePrefab: {fileID: 100100000, guid: 85162b030f0b1814eb7ad020caa5d98a, type: 3}
 --- !u!1001 &1752292554
 PrefabInstance:
@@ -39508,6 +40082,134 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7252900124383354940, guid: e0352423fc30a2c469f2f5dc23019123, type: 3}
   m_PrefabInstance: {fileID: 1681774802131596485}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1831273037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1831273038}
+  - component: {fileID: 1831273039}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1831273038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831273037}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.04614515, y: -0, z: -0, w: 0.99893475}
+  m_LocalPosition: {x: 0, y: -2.2924776, z: 9.732798}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 923820822}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1831273039
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831273037}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a652ab2270d2910498983100f4846c30, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1842498503
 GameObject:
   m_ObjectHideFlags: 0
@@ -39850,10 +40552,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1845945954}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1046120812}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -39873,6 +40583,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -41050,6 +41764,111 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &1947348637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1947348638}
+  - component: {fileID: 1947348641}
+  - component: {fileID: 1947348640}
+  - component: {fileID: 1947348639}
+  m_Layer: 0
+  m_Name: ChocoBites (12)
+  m_TagString: ChocoBite
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1947348638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947348637}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.82202554, y: -0.20196547, z: -0.30642933, w: 0.4354137}
+  m_LocalPosition: {x: 5.2, y: 50.09, z: 4065.27}
+  m_LocalScale: {x: 0.9094357, y: 0.90943575, z: 0.09464497}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4533486701339878981}
+  m_LocalEulerAnglesHint: {x: -57.1, y: -217.134, z: 173.106}
+--- !u!65 &1947348639
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947348637}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1947348640
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947348637}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8452422bb72e5a948a956036d54368b2, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1947348641
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947348637}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1947510995
 GameObject:
   m_ObjectHideFlags: 0
@@ -45704,6 +46523,107 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &2095409167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6182333332980378592, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+  m_PrefabInstance: {fileID: 1140891999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2095409179
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095409167}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 0fac31b1d5411174ca718fba190ff362, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!43 &2101018692
 Mesh:
   m_ObjectHideFlags: 0
@@ -48102,10 +49022,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 323621653}
+    - target: {fileID: 4823723608904613415, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5807297605352966891, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 942883747}
+    - target: {fileID: 5952639831277991905, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
+      objectReference: {fileID: 0}
     - target: {fileID: 5969682426611078760, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -48125,6 +49053,10 @@ PrefabInstance:
     - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
       propertyPath: m_Name
       value: SwingingPoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556183928629329029, guid: 0a0a6f9dc85185143a196cab6f18b570, type: 3}
+      propertyPath: m_TagString
+      value: pokeball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -55036,6 +55968,7 @@ Transform:
   - {fileID: 66579068}
   - {fileID: 1660638919}
   - {fileID: 466525630}
+  - {fileID: 1947348638}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4577426146580288475
@@ -57762,7 +58695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3673290467438580153, guid: 179ef7a0238dc614fb147dc037a20d1c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3286.7
+      value: 3287.19
       objectReference: {fileID: 0}
     - target: {fileID: 3673290467438580153, guid: 179ef7a0238dc614fb147dc037a20d1c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -59076,8 +60009,8 @@ Transform:
   m_GameObject: {fileID: 7507320389025381653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9666605, y: 0.5113821, z: 2118.9624}
-  m_LocalScale: {x: 1, y: 1, z: 0.3015388}
+  m_LocalPosition: {x: -5.9666605, y: 0.5113821, z: 2116.4}
+  m_LocalScale: {x: 1, y: 1, z: 0.5094498}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2037406813918636768}
