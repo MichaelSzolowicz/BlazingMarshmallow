@@ -118,7 +118,9 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
             print("You win!");
             Victory.SetActive(true);
-            
+            Time.timeScale = 0.0f;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
 
         if (other.gameObject.tag == "Checkpoint")

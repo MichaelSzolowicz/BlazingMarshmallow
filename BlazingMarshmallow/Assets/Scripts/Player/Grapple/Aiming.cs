@@ -39,7 +39,7 @@ public class Aiming : MonoBehaviour
         StartCoroutine("SwivelCursor");
 
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Confined;
 
         defaultColor = screenSpaceCursor.color;
     }
@@ -83,7 +83,7 @@ public class Aiming : MonoBehaviour
         while (true)
         {
             Vector3 offset = input.Grapple.SwivelCursor.ReadValue<Vector2>();
-            offset *= cursorSensitivity;
+            offset *= cursorSensitivity * Time.timeScale;
             Vector3.ProjectOnPlane(offset, Camera.main.transform.forward);
             worldCursor.transform.localPosition += new Vector3(offset.x, offset.y, 0);
 
