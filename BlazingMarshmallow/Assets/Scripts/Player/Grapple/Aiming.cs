@@ -41,7 +41,7 @@ public class Aiming : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
 
-        defaultColor = Color.white;
+        defaultColor = screenSpaceCursor.color;
     }
 
     public void Scan(out RaycastHit hit)
