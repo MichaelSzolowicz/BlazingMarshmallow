@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,9 +8,14 @@ public class LevelTransitions : MonoBehaviour
 {
     public Vector3 spawnPoint = Vector3.zero;
 
+    public bool isLoading = false;
+
     private void Start()
     {
+        SceneManager.sceneLoaded += Loaded;
+
         DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this);
 
         LevelTransitions other = FindObjectOfType<LevelTransitions>();  
         if(other != this)
@@ -21,20 +27,28 @@ public class LevelTransitions : MonoBehaviour
 
     public void ReloadCurrent()
     {
-        StartCoroutine(LoadAsyncScene());
+        if (!isLoading) {
+            StartLoad();
+            StartCoroutine(LoadAsyncScene());
+        }
+
     }
 
     private IEnumerator LoadAsyncScene()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 
-        // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
+
+        if(asyncLoad != null)
         {
-            yield return null;
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone)
+            {
+                print("loading...");
+                yield return null;
+            }
         }
 
-        Respawn();
     }
 
     private void Respawn()
@@ -47,9 +61,15 @@ public class LevelTransitions : MonoBehaviour
         }
     }
 
-    private void UnloadDelayed()
+    private void StartLoad()
     {
+        isLoading = true;
+        
+    }
 
-        Resources.UnloadUnusedAssets();
+    private void Loaded(Scene scene, LoadSceneMode mode)
+    {
+        isLoading = false;
+        Respawn();
     }
 }
