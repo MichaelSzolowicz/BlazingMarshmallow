@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+
+public AudioSource checkpointSound;
+
     private void OnTriggerEnter(Collider other)
     {
-        
+        checkpointSound.Play();
     }
 }
