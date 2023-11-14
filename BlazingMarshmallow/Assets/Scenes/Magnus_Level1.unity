@@ -25211,17 +25211,21 @@ PrefabInstance:
       propertyPath: field of view
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 3172294372908605559, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -12.18
+      objectReference: {fileID: 0}
     - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: yPos
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: fovMax
-      value: 60
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: fovMin
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4775314675642327870, guid: 68ba6ead1e5f2d94f85acd6dad0d0760, type: 3}
       propertyPath: yPosMax
