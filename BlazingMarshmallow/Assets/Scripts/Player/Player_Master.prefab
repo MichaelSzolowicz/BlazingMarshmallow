@@ -27,14 +27,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3040172697710772845}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09822236, y: -0, z: -0, w: 0.9951645}
-  m_LocalPosition: {x: 0, y: 1.97, z: -6.8}
+  m_LocalRotation: {x: 0.04614515, y: -0, z: -0, w: 0.99893475}
+  m_LocalPosition: {x: 0, y: 3.1800003, z: -7.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6023172756233414523}
   m_Father: {fileID: 1187956006026182414}
-  m_LocalEulerAnglesHint: {x: 11.274, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.29, y: 0, z: 0}
 --- !u!20 &1786677171039257397
 Camera:
   m_ObjectHideFlags: 0
@@ -322,7 +322,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6182333332980378592}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: ed59764fd110da24b9e63bd27e93b4a1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -371,21 +371,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34cb76b61ad0fb74f896450e263a698d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwwardSpeed: 50
-  airSpeed: 20
-  strafeSpeed: 22
-  jumpForce: 10
-  groundProbeDepth: 1.1
-  Boost: 5
-  Slow: 2
-  burnSpeed: 70
-  resetSpeed: 48
-  groundDrag: 0.2
-  Ground:
-    serializedVersion: 2
-    m_Bits: 64
+  forwardThrust: 1200
   horizontalThrust: 600
-  forwardThrust: 365
+  runThrustScale: 1.2
+  maxDefaultSpeed: 30
+  maxRunSpeed: 40
+  minSpeed: 22
+  strafeSpeed: 35
+  burnSpeedMultiplier: 1.35
+  boostScale: 0.6
+  slowScale: 0.1
+  groundProbeDepth: 1.1
+  baseJumpForce: 10
+  burnJumpForce: 10.5
   currentSpeed: 0
   playerHeight: 2
 --- !u!114 &684334126157564912
@@ -401,7 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStatus: 0
-  burnRate: 0.15
+  burnRate: 0.2
   burnDamage: 1
   health: 100
   currentHealth: 0
@@ -424,7 +422,7 @@ MonoBehaviour:
   length: 10
   interpSpeed: 10
   boost: 0
-  dampeningScale: 2
+  dampeningScale: 3
   isGrappling: 0
   exitJump: 4
   exitVerticalDampening: 22
