@@ -37,6 +37,11 @@ public class PlayerStats_Szolo : MonoBehaviour
     InflictBurnDelegate onInflictBurn;
     public delegate void ClearBurnDelegate();
     ClearBurnDelegate onClearBurn;
+    public delegate void OnChocolateDelegate();
+    OnChocolateDelegate onChocolate;
+    public delegate void OnChocoDelegate();
+    OnChocoDelegate onChoco;
+
     public GameObject Victory;
 
     private void Start()
@@ -215,6 +220,16 @@ public class PlayerStats_Szolo : MonoBehaviour
     public void AddClearBurnCallback(ClearBurnDelegate callback)
     {
         onClearBurn += callback;
+    }
+
+    public void AddOnChocolateCallBack(OnChocolateDelegate callback)
+    {
+        onChocolate += callback;
+    }
+
+    public void AddOnChocoCallBack(OnChocoDelegate callback)
+    {
+        onChoco += callback;
     }
     public void hpDeath()
     {
