@@ -64,7 +64,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     private void Update()
     {
-        time = Time.time;
+        time += Time.deltaTime;
         if(timeText != null )
         {
             timeText.text = time.ToString();
