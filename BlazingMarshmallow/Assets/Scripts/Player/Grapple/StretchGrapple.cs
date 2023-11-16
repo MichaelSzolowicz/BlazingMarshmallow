@@ -59,7 +59,7 @@ public class StretchGrapple : MonoBehaviour
         print("SR loc scale " + baseScale);
 
         Vector3 scale = baseScale;
-        scale.y = length * 50;
+        scale.y *= length / 2;
         transform.localScale = scale;   
     }
 }
