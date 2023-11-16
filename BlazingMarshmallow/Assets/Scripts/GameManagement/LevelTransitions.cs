@@ -10,6 +10,8 @@ public class LevelTransitions : MonoBehaviour
 
     public bool isLoading = false;
 
+    private string loadLevel = "";
+
     private void Start()
     {
         SceneManager.sceneLoaded += Loaded;
@@ -25,19 +27,33 @@ public class LevelTransitions : MonoBehaviour
         }
     }
 
+    public void Load(string level)
+    {
+        spawnPoint = Vector3.zero;
+        loadLevel = level;
+
+        if (!isLoading)
+        {
+            StartLoad();
+            StartCoroutine(LoadAsyncScene());
+        }
+    }
+
     public void ReloadCurrent()
     {
+        loadLevel = SceneManager.GetActiveScene().name;
 
         if (!isLoading) {
             StartLoad();
             StartCoroutine(LoadAsyncScene());
         }
-
     }
     
     public void ReloadCurrent(bool resetCheckpoints)
     {
-        if(resetCheckpoints)
+        loadLevel = SceneManager.GetActiveScene().name;
+
+        if (resetCheckpoints)
         {
             spawnPoint = Vector3.zero;
         }
@@ -51,7 +67,7 @@ public class LevelTransitions : MonoBehaviour
 
     private IEnumerator LoadAsyncScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(loadLevel);
 
         if(asyncLoad != null)
         {
@@ -84,6 +100,7 @@ public class LevelTransitions : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         isLoading = false;
+        loadLevel = SceneManager.GetActiveScene().name;
         Invoke("Respawn", .0f);
     }
 }

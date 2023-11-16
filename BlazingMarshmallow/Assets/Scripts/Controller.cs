@@ -47,10 +47,7 @@ public class Controller : MonoBehaviour
 
         // Add jump callback.
         playerController.Controls.Jump.performed += Jump;
-    }
 
-    private void Start()
-    {
         GetComponent<Rigidbody>().velocity = transform.forward * maxDefaultSpeed;
         maxSpeed = maxDefaultSpeed;
         jumpForce = baseJumpForce;
@@ -58,12 +55,17 @@ public class Controller : MonoBehaviour
         spawnPoint = transform.position;
         GrappleHook grapple = GetComponent<GrappleHook>();
         PlayerStats_Szolo playerStats = GetComponent<PlayerStats_Szolo>();
-        if(playerStats != null ) 
+        if (playerStats != null)
         {
             playerStats.AddInflictBurnCallback(speedBoost);
             playerStats.AddClearBurnCallback(slowDown);
         }
         StartCoroutine(speedCalc());
+    }
+
+    private void Start()
+    {
+
     }
 
 

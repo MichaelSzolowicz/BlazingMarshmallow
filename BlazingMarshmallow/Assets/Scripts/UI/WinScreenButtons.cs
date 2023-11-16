@@ -5,6 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class WinScreenButtons : MonoBehaviour
 {
+    public void NextLevel(string level)
+    {
+        LevelTransitions levels = FindObjectOfType<LevelTransitions>();
+        if (levels != null)
+        {
+            levels.Load(level);
+        }
+        else
+        {
+            levels = new LevelTransitions();
+            levels.Load(level);
+        }
+    }
+
     public void Retry()
     {
         LevelTransitions levels = FindObjectOfType<LevelTransitions>(); 
