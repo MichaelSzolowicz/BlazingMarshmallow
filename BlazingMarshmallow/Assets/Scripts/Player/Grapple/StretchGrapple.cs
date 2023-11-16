@@ -4,23 +4,37 @@ using UnityEngine;
 
 public class StretchGrapple : MonoBehaviour
 {
+    public GrappleHook grapple;
+
     public Vector3 grapplePoint = Vector3.zero;
     public Vector3 testOffset = Vector3.zero;
 
     Vector3 baseScale = Vector3.one;
+    Quaternion baseRotation = Quaternion.identity;
 
     protected void Start()
     {
         baseScale = transform.localScale;
+        baseRotation = transform.rotation;
     }
 
     protected void Update()
     {
- 
+        if(grapple != null && grapple.IsGrappleActive())
+        {
+            testOffset = grapple.GetAttachPoint() - transform.position;
 
-        print("SR rotate head");
-        RotateHead();
-        Stretch();
+
+            print("SR rotate head");
+            RotateHead();
+            Stretch();
+        }
+        else
+        {
+            transform.localScale = baseScale;
+            transform.rotation = baseRotation;
+        }
+
     }
 
     protected void RotateHead()
@@ -45,7 +59,7 @@ public class StretchGrapple : MonoBehaviour
         print("SR loc scale " + baseScale);
 
         Vector3 scale = baseScale;
-        scale.y *= length;
+        scale.y = length * 50;
         transform.localScale = scale;   
     }
 }

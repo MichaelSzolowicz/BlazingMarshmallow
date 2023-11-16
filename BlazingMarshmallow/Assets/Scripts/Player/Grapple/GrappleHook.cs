@@ -291,6 +291,11 @@ public class GrappleHook : MonoBehaviour
         return attachedTo;
     }
 
+    public Vector3 GetAttachPoint()
+    {
+        return attachPoint;
+    }
+
     public bool IsGrappleActive()
     {
         
