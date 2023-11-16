@@ -1,6 +1,7 @@
 //using OpenCover.Framework.Model;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -24,6 +25,8 @@ public class PlayerStats_Szolo : MonoBehaviour
     public float currentHealth;
     public int Collectables = 0;
     public int chocoBites = 0;
+    public float time = 0;
+    public TMP_Text timeText = null;    
     public float pokeDamage;
     public AudioSource oofSound;
     public AudioSource burnStartSound;
@@ -41,6 +44,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     private void Start()
     {
+        time = 0;
         currentStatus = Status.Nuetral;
         currentHealth = health;
 	
@@ -55,6 +59,15 @@ public class PlayerStats_Szolo : MonoBehaviour
         if(levels != null && levels.spawnPoint == Vector3.zero)
         {
             levels.spawnPoint = transform.position;
+        }
+    }
+
+    private void Update()
+    {
+        time = Time.time;
+        if(timeText != null )
+        {
+            timeText.text = time.ToString();
         }
     }
 
