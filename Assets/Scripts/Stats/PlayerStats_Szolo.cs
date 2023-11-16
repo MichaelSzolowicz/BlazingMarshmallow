@@ -38,9 +38,9 @@ public class PlayerStats_Szolo : MonoBehaviour
     public delegate void ClearBurnDelegate();
     ClearBurnDelegate onClearBurn;
     public delegate void OnChocolateDelegate();
-    OnChocolateDelegate onChocolate;
+    OnChocolateDelegate OnChocolate;
     public delegate void OnChocoDelegate();
-    OnChocoDelegate onChoco;
+    OnChocoDelegate OnChoco;
 
     public GameObject Victory;
 
@@ -81,7 +81,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Fire")
         {
@@ -96,7 +96,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             ResetHealth();
             if (prevStatus == Status.Burned)
             {
-		fireOutSound.Play();
+		        fireOutSound.Play();
                 print("water cleared burn");
                 
             }
@@ -105,16 +105,24 @@ public class PlayerStats_Szolo : MonoBehaviour
         
         if (other.gameObject.tag == "Chocolate")
         {
-	    chocolateGetSound.Play();
+	        chocolateGetSound.Play();
             Collectables++;
+            if (OnChocolate.GetInvocationList().Length > 0) 
+            { 
+                OnChocolate.Invoke(); 
+            }
             //set the other game object to false
             other.gameObject.SetActive(false);           
         }
 
         if (other.gameObject.tag == "ChocoBite")
         {
-	    chocolateGetSound.Play();
+	        chocolateGetSound.Play();
             chocoBites++;
+            if (OnChoco.GetInvocationList().Length > 0) 
+            { 
+                OnChoco.Invoke(); 
+            }
             //set the other game object to false
             other.gameObject.SetActive(false);
         }
@@ -136,7 +144,6 @@ public class PlayerStats_Szolo : MonoBehaviour
                 levels.spawnPoint = other.transform.root.position;
             }
         }
-
     }
 
     
@@ -224,12 +231,12 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     public void AddOnChocolateCallBack(OnChocolateDelegate callback)
     {
-        onChocolate += callback;
+        OnChocolate += callback;
     }
 
     public void AddOnChocoCallBack(OnChocoDelegate callback)
     {
-        onChoco += callback;
+        OnChoco += callback;
     }
     public void hpDeath()
     {
