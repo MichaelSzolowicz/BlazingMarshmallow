@@ -12940,7 +12940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4318033459896766095}
   m_Layer: 0
-  m_Name: SwingingPoke
+  m_Name: oldSwing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
