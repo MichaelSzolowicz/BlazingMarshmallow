@@ -25,6 +25,7 @@ public class Controller : MonoBehaviour
     public float boostScale = .7f;
     public float slowScale = .1f;
     public float groundProbeDepth = 2f;
+    public float deathPlaneDepth = 10;
 
     [Header("Jump")]
     public float baseJumpForce = 5f;
@@ -253,7 +254,7 @@ public class Controller : MonoBehaviour
    
     public void yDeath()
     {
-        if (transform.position.y < -10)
+        if (transform.position.y < -deathPlaneDepth)
         {
             Death();
             print ("Y died!");

@@ -83,6 +83,7 @@ public class GrappleHook : MonoBehaviour
                     attachedTo = hit.collider.gameObject;
                     grappleSound.Play();
 
+                    StartCoroutine(UpdateAttachPointLocation());
                     UpdateLineRenderer();
 
                     initialVelocity = rb.velocity;
@@ -235,6 +236,21 @@ public class GrappleHook : MonoBehaviour
 
         internalLength = length;
         isInterpolating = false;
+    }
+
+    /// <summary>
+    /// Couples attach point's position to the position of the object we are attached to.
+    /// </summary>
+    protected IEnumerator UpdateAttachPointLocation()
+    {
+        Vector3 prevAttachObjectPos = attachedTo.transform.position;
+        while (IsGrappleActive())
+        {
+            Vector3 delta = attachedTo.transform.position - prevAttachObjectPos;
+            attachPoint += delta;
+            prevAttachObjectPos = attachedTo.transform.position;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     protected void UpdateLineRenderer()
