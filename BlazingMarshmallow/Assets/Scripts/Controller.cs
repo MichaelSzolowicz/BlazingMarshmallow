@@ -225,8 +225,13 @@ public class Controller : MonoBehaviour
         {
             //Debug.Log("Speed: " + currentSpeed);
             Vector3 prevPos = transform.position;
+            prevPos.x = 0;
+            prevPos.y = 0;
             yield return new WaitForFixedUpdate();
-            currentSpeed = Mathf.RoundToInt(Vector3.Distance(transform.position, prevPos) / Time.fixedDeltaTime);
+            Vector3 currPos = transform.position;
+            currPos.x = 0;
+            currPos.y = 0;
+            currentSpeed = Vector3.Distance(currPos, prevPos) / Time.fixedDeltaTime;
         }
         
     }
