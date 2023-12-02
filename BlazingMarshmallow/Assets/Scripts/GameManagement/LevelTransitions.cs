@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,18 +13,35 @@ public class LevelTransitions : MonoBehaviour
 
     private string loadLevel = "";
 
+    public float playTime = 0;
+
+    public static LevelTransitions instance { get; private set; }
+
+    public LevelTransitions getInstance()
+    {
+        return instance;
+    }
+
     private void Start()
     {
-        SceneManager.sceneLoaded += Loaded;
+        //SceneManager.sceneLoaded += Loaded;
 
         DontDestroyOnLoad(this.gameObject);
         DontDestroyOnLoad(this);
 
-        LevelTransitions other = FindObjectOfType<LevelTransitions>();  
-        if(other != this)
+
+    }
+
+    private void Awake()
+    {
+        if (instance != null && instance != this && playTime == 0)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             Destroy(this);
+        }
+        else
+        {
+            instance = this;
         }
     }
 
@@ -31,6 +49,7 @@ public class LevelTransitions : MonoBehaviour
     {
         spawnPoint = Vector3.zero;
         loadLevel = level;
+        playTime = 0;
 
         if (!isLoading)
         {
@@ -56,6 +75,7 @@ public class LevelTransitions : MonoBehaviour
         if (resetCheckpoints)
         {
             spawnPoint = Vector3.zero;
+            playTime = 0;
         }
 
         if (!isLoading) {
@@ -79,12 +99,13 @@ public class LevelTransitions : MonoBehaviour
             }
         }
 
+        Loaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     private void Respawn()
     {
         Controller player = FindObjectOfType<Controller>();
-        if (player != null)
+        if (player != null && spawnPoint != Vector3.zero)
         {
             print(this.gameObject.name + " reset " + player.gameObject.name + " to " + spawnPoint);
             player.gameObject.transform.position = spawnPoint;

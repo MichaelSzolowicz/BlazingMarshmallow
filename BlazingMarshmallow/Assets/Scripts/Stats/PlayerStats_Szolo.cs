@@ -44,7 +44,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     private void Start()
     {
-        time = 0;
+        //time = 0;
         currentStatus = Status.Nuetral;
         currentHealth = health;
 	
@@ -56,10 +56,19 @@ public class PlayerStats_Szolo : MonoBehaviour
         }
 
         LevelTransitions levels = FindObjectOfType<LevelTransitions>();
-        if(levels != null && levels.spawnPoint == Vector3.zero)
+        if (levels != null && levels.getInstance() != null)
         {
-            levels.spawnPoint = transform.position;
+            time = levels.getInstance().playTime;
+            if (levels.getInstance().spawnPoint == Vector3.zero)
+            {
+                levels.getInstance().spawnPoint = transform.position;
+            }
         }
+    }
+
+    private void Awake()
+    {
+
     }
 
     private void Update()
@@ -81,7 +90,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         if (collision.gameObject.tag == "pokeball")
         {
             //subtrack the poke damage f the player is hit by a pokeball
-	    oofSound.Play();
+	        oofSound.Play();
             TakeDamage(pokeDamage);
             print("player hit by pokeball");
 
@@ -104,7 +113,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             ResetHealth();
             if (prevStatus == Status.Burned)
             {
-		fireOutSound.Play();
+		        fireOutSound.Play();
                 print("water cleared burn");
                 
             }
@@ -113,7 +122,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         
         if (other.gameObject.tag == "Chocolate")
         {
-	    chocolateGetSound.Play();
+	        chocolateGetSound.Play();
             Collectables++;
             //set the other game object to false
             other.gameObject.SetActive(false);           
@@ -121,7 +130,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 
         if (other.gameObject.tag == "ChocoBite")
         {
-	    chocolateGetSound.Play();
+	        chocolateGetSound.Play();
             chocoBites++;
             //set the other game object to false
             other.gameObject.SetActive(false);
@@ -138,10 +147,20 @@ public class PlayerStats_Szolo : MonoBehaviour
 
         if (other.gameObject.tag == "Checkpoint")
         {
+            
+            Checkpoint checkpoint = other.GetComponent<Checkpoint>();
             LevelTransitions levels = FindObjectOfType<LevelTransitions>();
-            if (levels != null)
+            if (levels != null & levels.getInstance() != null)
             {
-                levels.spawnPoint = other.transform.root.position;
+                levels.getInstance().spawnPoint = other.transform.root.position;
+                if(!checkpoint.checkpointClear)
+                {
+                    levels.getInstance().playTime = time;
+                }
+            }
+
+            if(checkpoint != null) {
+                checkpoint.checkpointClear = true;
             }
         }
 

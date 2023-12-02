@@ -5,7 +5,8 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
 
-public AudioSource checkpointSound;
+    public AudioSource checkpointSound;
+    public bool checkpointClear = false;
 
     private void OnTriggerEnter(Collider other)
     {
