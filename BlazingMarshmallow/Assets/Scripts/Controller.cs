@@ -232,6 +232,7 @@ public class Controller : MonoBehaviour
             currPos.x = 0;
             currPos.y = 0;
 
+            // Ledge snapping feels better if it doesn't affect camera fov
             LedgeSnapping ledgeSnapping = GetComponent<LedgeSnapping>();
             if(ledgeSnapping != null)
             {

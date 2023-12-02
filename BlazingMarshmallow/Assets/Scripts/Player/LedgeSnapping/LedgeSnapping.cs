@@ -8,8 +8,6 @@ public class LedgeSnapping : MonoBehaviour
 {
     protected Rigidbody rb;
 
-    [SerializeField] protected float fallSpeedCutoff = 10;
-    [SerializeField] protected float threshold = .5f;
     [SerializeField] protected float maxSnapHeight = 3;
     [SerializeField] protected float forwardProbeDistance = 1.5f;
     [SerializeField] protected float interpSpeed = 10;
@@ -18,30 +16,17 @@ public class LedgeSnapping : MonoBehaviour
 
     protected Vector3 initialVelocity;
     protected bool isInterpolating = false;
-    protected Vector3 lastFrameVelocity;
-    protected Vector3 lastPosition;
-
-    Vector3 previousCollisionImpulse = Vector3.zero;
-    public float dotThresh = .7f;
-    public float magThresh = 5f;
+    public float slopeGradientThreshold = 80.0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
-    {
-        //print("LS velocity: " + rb.velocity);
-        lastFrameVelocity = rb.velocity;
-    }
-
     private void FixedUpdate()
     {
         Scan();
     }
-
-    public float slopeGradientThreshold = 80.0f;
 
     void Scan()
     {
