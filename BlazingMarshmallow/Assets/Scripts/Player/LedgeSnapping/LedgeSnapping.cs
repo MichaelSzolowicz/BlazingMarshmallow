@@ -98,6 +98,15 @@ public class LedgeSnapping : MonoBehaviour
 
             transform.position += delta;
 
+            if(delta.magnitude < .01f)
+            {
+                rb.useGravity = true;
+                capsule.enabled = true;
+                isInterpolating = false;
+                rb.velocity = initialVelocity;
+                StopCoroutine(InterpCoroutine(Vector3.zero));
+            }
+
             yield return new WaitForFixedUpdate();
         }
 
