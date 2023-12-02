@@ -231,7 +231,23 @@ public class Controller : MonoBehaviour
             Vector3 currPos = transform.position;
             currPos.x = 0;
             currPos.y = 0;
-            currentSpeed = Vector3.Distance(currPos, prevPos) / Time.fixedDeltaTime;
+
+            LedgeSnapping ledgeSnapping = GetComponent<LedgeSnapping>();
+            if(ledgeSnapping != null)
+            {
+                if(ledgeSnapping.GetIsInterpolating())
+                {
+                    ;
+                }
+                else
+                {
+                    currentSpeed = Vector3.Distance(currPos, prevPos) / Time.fixedDeltaTime;
+                }
+            }
+            else
+            {
+                currentSpeed = Vector3.Distance(currPos, prevPos) / Time.fixedDeltaTime;
+            }
         }
         
     }

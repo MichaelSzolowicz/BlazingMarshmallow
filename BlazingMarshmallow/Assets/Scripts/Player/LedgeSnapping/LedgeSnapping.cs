@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class LedgeSnapping : MonoBehaviour
 {
@@ -24,65 +25,49 @@ public class LedgeSnapping : MonoBehaviour
     public float dotThresh = .7f;
     public float magThresh = 5f;
 
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private void Update()
     {
         //print("LS velocity: " + rb.velocity);
         lastFrameVelocity = rb.velocity;
     }
 
-    void Start()
+    private void FixedUpdate()
     {
-        rb = GetComponent<Rigidbody>(); 
+        Scan();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public float slopeGradientThreshold = 80.0f;
+
+    void Scan()
     {
-        //print("LS collision");
-
-        List<ContactPoint> contacts = new List<ContactPoint>();
-        int num = collision.GetContacts(contacts);
-
-        Vector3 avgPoint = Vector3.zero;
-        Vector3 avgNormal = Vector3.zero;
-
-        foreach(ContactPoint contact in contacts)
-        {
-            //print("LS draw point: " + contact.point);
-
-            avgPoint += contact.point;
-            avgNormal += contact.normal;    
-        }
-
-        avgNormal /= num;
-        avgPoint /= num;
-
-        Debug.DrawLine(avgPoint, avgPoint + avgNormal * 500, Color.blue, 100.0f);
-
-
-        print("LS Impulse: " + collision.impulse + ", mag:  " + collision.impulse.magnitude + ", dot: " + Vector3.Dot(previousCollisionImpulse.normalized, collision.impulse.normalized) + ", obj: " + collision.gameObject.name);
-
-        print("LS impulse dist: " + Vector3.Distance(lastPosition, transform.position));
+        Vector3 point1 = transform.position;
+        point1.y += characterHeight / 2 + characterRadius;
+        Vector3 point2 = transform.position;
+        point2.y -= characterHeight / 2 + characterRadius;
+        Vector3 direction = rb.velocity * Time.fixedDeltaTime;
+        RaycastHit hit = new RaycastHit();
+        string[] mask = { "Ground" };
         
+        Debug.DrawLine(point1, point2, Color.magenta, Time.fixedDeltaTime);
+        Debug.DrawLine(transform.position,  transform.position + direction, Color.green, Time.fixedDeltaTime);
+        Debug.DrawLine(transform.position - transform.forward * characterRadius, transform.position + transform.forward * characterRadius, Color.magenta, Time.fixedDeltaTime);
 
-
-        //float dot = Vector3.Dot(avgNormal, Vector3.up);
-        //float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
-
-        //float velocityResistance = Mathf.Abs(Vector3.Dot(avgNormal, lastFrameVelocity.normalized));
-
-        if (avgPoint.y > (transform.position.y - characterHeight / 2))
+        if(Physics.CapsuleCast(point1, point2, characterRadius / 2, direction.normalized, out hit, direction.magnitude, LayerMask.GetMask(mask)))
         {
-            print("LS avgNormal: " + avgNormal + ", rbVelocity: " + lastFrameVelocity + ", Obj: " + collision.gameObject.name);
-            if (!isInterpolating)
-            {
-                initialVelocity = lastFrameVelocity;
-                //print("LS set init vel: " + initialVelocity);
-            }
-            SnapUp(); 
-        }
+            print("LS hit" + hit.collider.gameObject.name);
 
-        previousCollisionImpulse = collision.impulse;
-        lastPosition = rb.position;
+            float angle = Vector3.Angle(hit.normal, Vector3.up);
+            if(angle > slopeGradientThreshold)
+            {
+                initialVelocity = rb.velocity;
+                SnapUp();
+            }
+        }
     }
 
     private void SnapUp()
@@ -108,14 +93,11 @@ public class LedgeSnapping : MonoBehaviour
     { 
         isInterpolating = true;
         CapsuleCollider capsule = GetComponent<CapsuleCollider>();
-        capsule.enabled = false;
         rb.useGravity = false;
         targetPos += Vector3.up * .1f;
 
         while((targetPos.y) - transform.position.y >= .1f)
         {
-            //print("LS interping...");
-
             Vector3 point1 = transform.position - (transform.up * (capsule.height / 2 - capsule.radius));
             Vector3 point2 = point1 + (transform.up * (capsule.height - capsule.radius));
             Vector3 delta = Vector3.LerpUnclamped(transform.position, targetPos, Time.fixedDeltaTime * interpSpeed) - transform.position;
@@ -126,13 +108,9 @@ public class LedgeSnapping : MonoBehaviour
 
             if (Physics.CapsuleCast(point1, point2, capsule.radius, delta.normalized, out hit, delta.magnitude))
             {
-                //print("LS capsule hit");
-
                 delta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * delta.magnitude;
             }
 
-            delta.x = 0;
-            delta.z = 0;
             transform.position += delta;
 
             yield return new WaitForFixedUpdate();
@@ -143,7 +121,7 @@ public class LedgeSnapping : MonoBehaviour
 
         capsule.enabled = true;
         isInterpolating = false;
-        //rb.velocity = initialVelocity;
+        rb.velocity = initialVelocity;
         print("LS interp end. Velocity: " + initialVelocity);
     }
 
