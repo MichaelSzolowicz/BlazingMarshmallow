@@ -92,7 +92,7 @@ public class Controller : MonoBehaviour
             return;
         }
 
-        Vector2 moveVec = playerController.Controls.Move.ReadValue<Vector2>();
+        Vector2 moveVec = playerController.Controls.Strafe.ReadValue<Vector2>();
         Vector3 targetAccleration = GetComponent<Rigidbody>().velocity;
         targetAccleration.x = (moveVec.x + moveVec.y) * strafeSpeed;
         InstantaneousAcceleration(targetAccleration);
@@ -150,11 +150,13 @@ public class Controller : MonoBehaviour
         //print("Vel: " + GetComponent<Rigidbody>().velocity);
         
     }
+
+
     private Vector3 DirectionalMovement()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
         Vector3 force = Vector3.zero;
-        if (Input.GetKey(KeyCode.W))
+        if (playerController.Controls.Dash.IsPressed())
         {
             force += transform.forward * forwardThrust * runThrustScale;
             maxSpeed = maxRunSpeed;
@@ -163,17 +165,9 @@ public class Controller : MonoBehaviour
         {
             maxSpeed = maxDefaultSpeed;
         }
-        if (Input.GetKey(KeyCode.S))
+        if (playerController.Controls.Slow.IsPressed())
         {
             force += (-transform.forward * forwardThrust * runThrustScale);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            force += (-transform.right * horizontalThrust);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            force += (transform.right * horizontalThrust);
         }
 
         return force;
