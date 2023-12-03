@@ -102,7 +102,7 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         if(other.gameObject.tag == "Fire")
         {
-	    burnStartSound.Play();
+	        burnStartSound.Play();
             InflictBurn();
         }
         else if (other.gameObject.tag == "Water")
@@ -124,6 +124,9 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
 	        chocolateGetSound.Play();
             Collectables++;
+            currentHealth += 20;
+            if (currentHealth > 100) { currentHealth = 100; }
+            if (healthDisplay) healthDisplay.SetCurrentHealth(currentHealth);
             //set the other game object to false
             other.gameObject.SetActive(false);           
         }
@@ -132,6 +135,9 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
 	        chocolateGetSound.Play();
             chocoBites++;
+            currentHealth += 5;
+            if (currentHealth > 100) { currentHealth = 100; }
+            if (healthDisplay) healthDisplay.SetCurrentHealth(currentHealth);
             //set the other game object to false
             other.gameObject.SetActive(false);
         }
