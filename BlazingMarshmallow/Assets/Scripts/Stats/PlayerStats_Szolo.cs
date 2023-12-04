@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// [Michael Szolowicz]
@@ -29,6 +30,10 @@ public class PlayerStats_Szolo : MonoBehaviour
     public int chocoBites = 0;
     public TextMeshProUGUI chocobiteText;
 
+    [Header("Big Choco Sprites")]
+    public Image bigChoco1;
+    public Image bigChoco2;
+    public Image bigChoco3;
 
     public float time = 0;
     public TMP_Text timeText = null;    
@@ -128,6 +133,7 @@ public class PlayerStats_Szolo : MonoBehaviour
 	        chocolateGetSound.Play();
             Collectables++;
             currentHealth += 20;
+            SpriteFill();
             if (currentHealth > 100) { currentHealth = 100; }
             if (healthDisplay) healthDisplay.SetCurrentHealth(currentHealth);
             //set the other game object to false
@@ -176,6 +182,21 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     }
 
+    void SpriteFill()
+    {
+        if (Collectables == 1)
+        {
+            bigChoco1.fillAmount = 1;
+        }
+        if (Collectables == 2)
+        {
+            bigChoco2.fillAmount = 1;
+        }
+        if (Collectables == 3)
+        {
+            bigChoco3.fillAmount = 1;
+        }
+    }
     
     /// <summary>
     /// Update current status to burned, start burn coroutine.
