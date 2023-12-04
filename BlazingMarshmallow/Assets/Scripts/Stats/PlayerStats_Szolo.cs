@@ -22,12 +22,18 @@ public class PlayerStats_Szolo : MonoBehaviour
     [Tooltip("Max health.")]
     public float health = 100.0f;
     [Tooltip("Set to health on start. Public only for testing purposes.")]
+
+    [Header("Character Data")]
     public float currentHealth;
     public int Collectables = 0;
     public int chocoBites = 0;
+    public TextMeshProUGUI chocobiteText;
+
+
     public float time = 0;
     public TMP_Text timeText = null;    
     public float pokeDamage;
+    
     public AudioSource oofSound;
     public AudioSource burnStartSound;
     public AudioSource fireOutSound;
@@ -85,17 +91,14 @@ public class PlayerStats_Szolo : MonoBehaviour
         hpDeath();
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private async void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "pokeball")
-        {
-            //subtrack the poke damage f the player is hit by a pokeball
-	        oofSound.Play();
-            TakeDamage(pokeDamage);
-            print("player hit by pokeball");
-
+        {            
+             print("player hit by pokeball");
+             oofSound.Play();
+             TakeDamage(pokeDamage);           
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -135,6 +138,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
 	        chocolateGetSound.Play();
             chocoBites++;
+            chocobiteText.text = chocoBites.ToString();
             currentHealth += 5;
             if (currentHealth > 100) { currentHealth = 100; }
             if (healthDisplay) healthDisplay.SetCurrentHealth(currentHealth);
