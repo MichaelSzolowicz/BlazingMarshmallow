@@ -45,6 +45,11 @@ public class LevelTransitions : MonoBehaviour
         }
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
     public void Load(string level)
     {
         spawnPoint = Vector3.zero;
