@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Magnus_Level2.unity
     guid: 3a048d93ef4e41e42abe111191964cac
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 03ed4c6069b69714bb4bcfc72f5fa88c
   m_configObjects: {}

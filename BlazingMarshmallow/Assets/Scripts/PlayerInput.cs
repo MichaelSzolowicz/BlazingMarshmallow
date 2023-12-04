@@ -62,6 +62,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""085c09d1-f787-4c89-9e36-86f76e009827"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -130,6 +139,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Strafe"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09d84c0f-4746-4fb5-bb27-7f9745b4469b"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -142,6 +162,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Controls_Dash = m_Controls.FindAction("Dash", throwIfNotFound: true);
         m_Controls_Slow = m_Controls.FindAction("Slow", throwIfNotFound: true);
         m_Controls_Strafe = m_Controls.FindAction("Strafe", throwIfNotFound: true);
+        m_Controls_Pause = m_Controls.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +228,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Dash;
     private readonly InputAction m_Controls_Slow;
     private readonly InputAction m_Controls_Strafe;
+    private readonly InputAction m_Controls_Pause;
     public struct ControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -215,6 +237,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Controls_Dash;
         public InputAction @Slow => m_Wrapper.m_Controls_Slow;
         public InputAction @Strafe => m_Wrapper.m_Controls_Strafe;
+        public InputAction @Pause => m_Wrapper.m_Controls_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -236,6 +259,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Strafe.started += instance.OnStrafe;
             @Strafe.performed += instance.OnStrafe;
             @Strafe.canceled += instance.OnStrafe;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -252,6 +278,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Strafe.started -= instance.OnStrafe;
             @Strafe.performed -= instance.OnStrafe;
             @Strafe.canceled -= instance.OnStrafe;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -275,5 +304,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnSlow(InputAction.CallbackContext context);
         void OnStrafe(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

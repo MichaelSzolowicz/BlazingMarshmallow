@@ -391,6 +391,9 @@ MonoBehaviour:
   yPosCurrent: 0
   yPosMax: 5
   yPosMin: 0.3
+  fovSpeed: 10
+  sensitivity: 0.6
+  interpSpeed: 20
 --- !u!82 &7445383549571008304
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1174,6 +1177,7 @@ GameObject:
   - component: {fileID: 5286226055943703504}
   - component: {fileID: 7939455943095966155}
   - component: {fileID: 4405687364124979326}
+  - component: {fileID: 4117968263621224871}
   m_Layer: 0
   m_Name: Player_Master
   m_TagString: Player
@@ -1284,15 +1288,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efc0c7ef4a63338408a6a17fb47a0420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeedCutoff: 10
-  threshold: 0.5
   maxSnapHeight: 3
   forwardProbeDistance: 1.5
   interpSpeed: 10
   characterHeight: 2
   characterRadius: 0.5
-  dotThresh: 0.7
-  magThresh: 5
+  slopeGradientThreshold: 80
 --- !u!114 &5938638728862970810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,6 +1317,7 @@ MonoBehaviour:
   boostScale: 0.6
   slowScale: 0.1
   groundProbeDepth: 1.1
+  deathPlaneDepth: 10
   baseJumpForce: 10
   burnJumpForce: 10.5
   currentSpeed: 0
@@ -1339,6 +1341,12 @@ MonoBehaviour:
   currentHealth: 0
   Collectables: 0
   chocoBites: 0
+  chocobiteText: {fileID: 0}
+  bigChoco1: {fileID: 0}
+  bigChoco2: {fileID: 0}
+  bigChoco3: {fileID: 0}
+  time: 0
+  timeText: {fileID: 0}
   pokeDamage: 10
   oofSound: {fileID: 4405687364124979326}
   burnStartSound: {fileID: 4092385001520358505}
@@ -1724,6 +1732,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4117968263621224871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182333332980378592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1f9ccaaa1509347a578b00423e57e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseScreen: {fileID: 0}
 --- !u!1 &8156285377776870727
 GameObject:
   m_ObjectHideFlags: 0
