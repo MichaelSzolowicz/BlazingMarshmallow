@@ -21,7 +21,7 @@ public class Player
     public int chocolates;
 
     public Player() {
-        time = 100;
-        name = "empty";
+        time = float.PositiveInfinity;
+        name = "---";
     }
 }

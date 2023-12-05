@@ -37,7 +37,7 @@ public class LevelTransitions : MonoBehaviour
     }
 
 
-    private void LoadLeaderboards()
+    public void LoadLeaderboards()
     {
         leaderboards = new Dictionary<string, LeaderboardSave>();
 

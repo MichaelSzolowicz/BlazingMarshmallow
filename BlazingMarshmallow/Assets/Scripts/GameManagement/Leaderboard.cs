@@ -22,6 +22,7 @@ public class Leaderboard : MonoBehaviour
 
         if (save == null)
         {
+            print("Default leaderboard");
             Player[] playersList = new Player[5];
             for (int i = 0; i < playersList.Length; i++)
             {
@@ -57,11 +58,16 @@ public class Leaderboard : MonoBehaviour
         {
             if (save.players[i].time > time) {
                 pos = i;
+
+                if(i - 1 < save.players.Length && i - 1 >= 0) {
+                    save.players[i - 1] = save.players[i];
+                }
             }
         }
 
         if(pos > 0)
         {
+
             save.players[pos] = player;
         }
     }
@@ -70,13 +76,27 @@ public class Leaderboard : MonoBehaviour
     {
         for (int i = 0; i < save.players.Length; i++)
         {
-            if(i < slots.Length)
+            if (i < slots.Length)
             {
                 slots[i].name.text = save.players[i].name;
-                slots[i].time.text = save.players[i].time.ToString("#.00");
+
+                if (float.IsInfinity(save.players[i].time))
+                {
+                    slots[i].time.text = "-";
+                }
+                else
+                {
+                    slots[i].time.text = save.players[i].time.ToString("#.00");
+                }
             }
         }
 
         Serializer.SaveLeaderboard(save, SceneManager.GetActiveScene().name);
+
+        LevelTransitions levels = LevelTransitions.instance;
+        if (levels != null)
+        {
+            levels.LoadLeaderboards();
+        }
     }
 }

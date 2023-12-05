@@ -27,14 +27,14 @@ public class PauseControls : MonoBehaviour
 
     public void Pause()
     {
-        if (!isPaused)
+        if (Time.timeScale != 0)
         {
             print("PC pause");
             Time.timeScale = 0;
             pauseScreen.SetActive(true);
             isPaused = true;
         }
-        else
+        else if (isPaused)
         {
             print("PC unpause");
             Time.timeScale = 1;
