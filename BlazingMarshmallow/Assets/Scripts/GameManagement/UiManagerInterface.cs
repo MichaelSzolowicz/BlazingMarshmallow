@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,7 +7,7 @@ public class UiManagerInterface : MonoBehaviour
 {
     protected LevelTransitions levels;
 
-    void Awake()
+    void Start()
     {
         levels = LevelTransitions.instance;
     }

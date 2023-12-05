@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using UnityEditor;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +16,7 @@ public class LevelTransitions : MonoBehaviour
 
     public float playTime = 0;
 
-    public Dictionary<string, LeaderboardSave> leaderboards;
+    public static Dictionary<string, LeaderboardSave> leaderboards { get; private set; }
     private bool leaderboardsLoaded = false;
 
     public static LevelTransitions instance { get; private set; }
@@ -33,23 +33,25 @@ public class LevelTransitions : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         DontDestroyOnLoad(this);
 
-        LoadLeaderboards();
+
     }
 
 
     public void LoadLeaderboards()
     {
-        leaderboards = new Dictionary<string, LeaderboardSave>();
+        LevelTransitions.leaderboards = new Dictionary<string, LeaderboardSave>();
 
-        EditorBuildSettingsScene[] buildScenes = EditorBuildSettings.scenes;
-        foreach(EditorBuildSettingsScene scene in buildScenes)
+        //EditorBuildSettingsScene[] buildScenes = EditorBuildSettings.scenes;
+
+        int count = SceneManager.sceneCountInBuildSettings;
+        for(int i = 0; i < count; i++)
         {
-            string name = System.IO.Path.GetFileNameWithoutExtension(scene.path);
+            string name = Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i));
 
             LeaderboardSave save = Serializer.LoadLeaderboard(name);
             if(save != null)
             {
-                leaderboards[name] = save;
+                LevelTransitions.leaderboards[name] = save;
             }
         }
 
@@ -66,12 +68,10 @@ public class LevelTransitions : MonoBehaviour
         else
         {
             instance = this;
+            //LoadLeaderboards();
         }
 
-        if (!leaderboardsLoaded)
-        {
-            LoadLeaderboards();
-        }
+        LoadLeaderboards();
     }
 
     public void Quit()

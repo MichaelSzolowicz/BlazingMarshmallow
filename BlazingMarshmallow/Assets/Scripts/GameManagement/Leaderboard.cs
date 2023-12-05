@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using static UnityEditor.PlayerSettings;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.ProBuilder.MeshOperations;
 
 public class Leaderboard : MonoBehaviour
 {
@@ -20,30 +20,38 @@ public class Leaderboard : MonoBehaviour
         LevelTransitions levels = LevelTransitions.instance;
         if(levels != null )
         {
-            levels.leaderboards.TryGetValue(sceneName, out save);
-        }
+            if(!LevelTransitions.leaderboards.TryGetValue(sceneName, out save)) {
+                Player[] players = new Player[slots.Length];
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    players[i] = new Player();
+                }
+                save = new LeaderboardSave(players);
 
-        if (save == null)
-        {
-            print("Default leaderboard");
-            Player[] playersList = new Player[5];
-            for (int i = 0; i < playersList.Length; i++)
-            {
-                playersList[i] = new Player();
+                Serializer.SaveLeaderboard(save, SceneManager.GetActiveScene().name);
             }
-            save = new LeaderboardSave(playersList);
         }
-
+        else
+        {
+            return;
+        }
+     
         UpdateLeaderboard();
         CheckIfPlayerOnLeaderBoard();
     }
 
     public void CheckIfPlayerOnLeaderBoard()
     {
+        if(save == null)
+        {
+            return;
+        }
+
         LevelTransitions levels = LevelTransitions.instance;
         if (levels != null)
         {
-            if (save.players.First<Player>().time > levels.playTime)
+            Player p = save.players.FirstOrDefault<Player>();
+            if (p != null && p.time > levels.playTime)
             {
                 inputField.interactable = true;
                 inputField.text = "Enter name...";
@@ -57,6 +65,11 @@ public class Leaderboard : MonoBehaviour
 
     public void CreateAndAddPlayer(string name)
     {
+        if(save == null)
+        {
+            return;
+        }
+
         Player newPlayer = new Player();
         newPlayer.name = name;
 
@@ -76,6 +89,11 @@ public class Leaderboard : MonoBehaviour
 
     public void AddPlayerToLeaderBoard(Player player)
     {
+        if (save == null)
+        {
+            return;
+        }
+
         float time = player.time;
         int pos = 0;
         for(int i = 0; i < save.players.Length; i++)
@@ -83,21 +101,25 @@ public class Leaderboard : MonoBehaviour
             if (save.players[i].time > time) {
                 pos = i;
 
-                if(i - 1 < save.players.Length && i - 1 >= 0) {
+                if(i - 1 >= 0) {
                     save.players[i - 1] = save.players[i];
                 }
             }
         }
 
-        if(pos > 0)
+        if(pos >= 0)
         {
-
             save.players[pos] = player;
         }
     }
 
     public void UpdateLeaderboard()
     {
+        if(save == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < save.players.Length; i++)
         {
             if (i < slots.Length)
@@ -116,11 +138,5 @@ public class Leaderboard : MonoBehaviour
         }
 
         Serializer.SaveLeaderboard(save, SceneManager.GetActiveScene().name);
-
-        LevelTransitions levels = LevelTransitions.instance;
-        if (levels != null)
-        {
-            levels.LoadLeaderboards();
-        }
     }
 }
