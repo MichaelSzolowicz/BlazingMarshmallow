@@ -16,6 +16,10 @@ public class LevelTransitions : MonoBehaviour
 
     public float playTime = 0;
 
+    public int BigChoco = 0;
+
+    public int ChocoBites = 0;
+
     public static Dictionary<string, LeaderboardSave> leaderboards { get; private set; }
     private bool leaderboardsLoaded = false;
 
@@ -83,6 +87,8 @@ public class LevelTransitions : MonoBehaviour
         spawnPoint = Vector3.zero;
         loadLevel = level;
         playTime = 0;
+        ChocoBites = 0;
+        BigChoco = 0;
 
         if (!isLoading)
         {
@@ -109,6 +115,8 @@ public class LevelTransitions : MonoBehaviour
         {
             spawnPoint = Vector3.zero;
             playTime = 0;
+            ChocoBites = 0;
+            BigChoco = 0;
         }
 
         if (!isLoading) {

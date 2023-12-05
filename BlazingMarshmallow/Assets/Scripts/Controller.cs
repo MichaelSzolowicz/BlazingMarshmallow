@@ -278,11 +278,13 @@ public class Controller : MonoBehaviour
     }
     public void Death()
     {
-        LevelTransitions levels = FindObjectOfType<LevelTransitions>();
+
+        LevelTransitions levels = LevelTransitions.instance;
         if (levels != null)
         {
             // reload if we are using scene management   
             levels.ReloadCurrent();
+            
         }
         else
         {

@@ -46,6 +46,8 @@ public class PlayerStats_Szolo : MonoBehaviour
 
     private HealthDisplayManager healthDisplay;
 
+    
+
     // Stat change delegates
     public delegate void InflictBurnDelegate();
     InflictBurnDelegate onInflictBurn;
@@ -58,7 +60,12 @@ public class PlayerStats_Szolo : MonoBehaviour
         //time = 0;
         currentStatus = Status.Nuetral;
         currentHealth = health;
-	
+        Collectables = LevelTransitions.instance.BigChoco;
+        chocoBites = LevelTransitions.instance.ChocoBites;
+
+        SpriteFill();
+        chocobiteText.text = chocoBites.ToString();
+
         healthDisplay = (HealthDisplayManager)FindFirstObjectByType(typeof(HealthDisplayManager));
         if(healthDisplay)
         {
@@ -72,6 +79,7 @@ public class PlayerStats_Szolo : MonoBehaviour
             time = levels.getInstance().playTime;
             if (levels.getInstance().spawnPoint == Vector3.zero)
             {
+
                 levels.getInstance().spawnPoint = transform.position;
             }
         }
@@ -132,6 +140,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
 	        chocolateGetSound.Play();
             Collectables++;
+            
             currentHealth += 20;
             SpriteFill();
             if (currentHealth > 100) { currentHealth = 100; }
@@ -144,6 +153,7 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
 	        chocolateGetSound.Play();
             chocoBites++;
+            
             chocobiteText.text = chocoBites.ToString();
             currentHealth += 5;
             if (currentHealth > 100) { currentHealth = 100; }
@@ -165,13 +175,15 @@ public class PlayerStats_Szolo : MonoBehaviour
         {
             
             Checkpoint checkpoint = other.GetComponent<Checkpoint>();
-            LevelTransitions levels = FindObjectOfType<LevelTransitions>();
-            if (levels != null & levels.getInstance() != null)
+            LevelTransitions levels = LevelTransitions.instance;
+            if (levels != null)
             {
-                levels.getInstance().spawnPoint = other.transform.root.position;
+                levels.spawnPoint = other.transform.root.position;
                 if(!checkpoint.checkpointClear)
                 {
-                    levels.getInstance().playTime = time;
+                    levels.ChocoBites = chocoBites;
+                    levels.BigChoco = Collectables;
+                    levels.playTime = time;
                 }
             }
 
@@ -292,9 +304,11 @@ public class PlayerStats_Szolo : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
+            
             Controller controller = GetComponent<Controller>();
             print("damage Death");
             controller.Death();
+
         }
     }
 }
