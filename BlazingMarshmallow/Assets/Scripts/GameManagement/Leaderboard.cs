@@ -11,14 +11,26 @@ public class Leaderboard : MonoBehaviour
 
     public LeaderboardSlot[] slots;
 
-    public void Awake()
+    public void Start()
     {
-        Player[] playersList = new Player[5];
-        for(int i = 0; i < playersList.Length; i++)
+        string sceneName = SceneManager.GetActiveScene().name;
+        LevelTransitions levels = LevelTransitions.instance;
+        if(levels != null )
         {
-            playersList[i] = new Player();
+            levels.leaderboards.TryGetValue(sceneName, out save);
         }
-        save = new LeaderboardSave(playersList);
+
+        if (save == null)
+        {
+            Player[] playersList = new Player[5];
+            for (int i = 0; i < playersList.Length; i++)
+            {
+                playersList[i] = new Player();
+            }
+            save = new LeaderboardSave(playersList);
+        }
+
+        UpdateLeaderboard();
     }
 
     public void CreateAndAddPlayer(string name)

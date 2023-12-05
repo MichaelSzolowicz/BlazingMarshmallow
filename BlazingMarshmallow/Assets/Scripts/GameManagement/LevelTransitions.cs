@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,9 @@ public class LevelTransitions : MonoBehaviour
     private string loadLevel = "";
 
     public float playTime = 0;
+
+    public Dictionary<string, LeaderboardSave> leaderboards;
+    private bool leaderboardsLoaded = false;
 
     public static LevelTransitions instance { get; private set; }
 
@@ -29,7 +33,27 @@ public class LevelTransitions : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         DontDestroyOnLoad(this);
 
+        LoadLeaderboards();
+    }
 
+
+    private void LoadLeaderboards()
+    {
+        leaderboards = new Dictionary<string, LeaderboardSave>();
+
+        EditorBuildSettingsScene[] buildScenes = EditorBuildSettings.scenes;
+        foreach(EditorBuildSettingsScene scene in buildScenes)
+        {
+            string name = System.IO.Path.GetFileNameWithoutExtension(scene.path);
+
+            LeaderboardSave save = Serializer.LoadLeaderboard(name);
+            if(save != null)
+            {
+                leaderboards[name] = save;
+            }
+        }
+
+        leaderboardsLoaded = true;
     }
 
     private void Awake()
@@ -42,6 +66,11 @@ public class LevelTransitions : MonoBehaviour
         else
         {
             instance = this;
+        }
+
+        if (!leaderboardsLoaded)
+        {
+            LoadLeaderboards();
         }
     }
 
