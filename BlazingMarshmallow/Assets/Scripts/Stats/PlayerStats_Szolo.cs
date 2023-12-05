@@ -180,6 +180,15 @@ public class PlayerStats_Szolo : MonoBehaviour
             }
         }
 
+        if(other.gameObject.tag == "Victory")
+        {
+            LevelTransitions levels = LevelTransitions.instance;
+            if(levels != null)
+            {
+                levels.playTime = time;
+            }
+        }
+
     }
 
     void SpriteFill()
