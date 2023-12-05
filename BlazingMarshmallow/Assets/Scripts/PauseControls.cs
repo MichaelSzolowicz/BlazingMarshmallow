@@ -32,6 +32,7 @@ public class PauseControls : MonoBehaviour
             print("PC pause");
             Time.timeScale = 0;
             pauseScreen.SetActive(true);
+            Cursor.visible = true;
             isPaused = true;
         }
         else if (isPaused)
@@ -39,6 +40,7 @@ public class PauseControls : MonoBehaviour
             print("PC unpause");
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
+            Cursor.visible = false;
             isPaused = false;
         }
     }
