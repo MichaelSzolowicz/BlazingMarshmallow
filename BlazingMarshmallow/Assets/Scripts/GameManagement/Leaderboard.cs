@@ -38,11 +38,6 @@ public class Leaderboard : MonoBehaviour
         CheckIfPlayerOnLeaderBoard();
     }
 
-    public void Awake()
-    {
-
-    }
-
     public void CheckIfPlayerOnLeaderBoard()
     {
         LevelTransitions levels = LevelTransitions.instance;
@@ -72,6 +67,9 @@ public class Leaderboard : MonoBehaviour
 
         AddPlayerToLeaderBoard(newPlayer);
         UpdateLeaderboard();
+
+
+        inputField.interactable = false;
 
         print("Tried update leaderboard");
     }
