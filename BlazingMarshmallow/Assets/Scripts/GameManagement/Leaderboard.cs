@@ -4,12 +4,15 @@ using UnityEngine;
 using TMPro;
 using static UnityEditor.PlayerSettings;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class Leaderboard : MonoBehaviour
 {
     public LeaderboardSave save;
 
     public LeaderboardSlot[] slots;
+
+    public TMP_InputField inputField;
 
     public void Start()
     {
@@ -32,6 +35,29 @@ public class Leaderboard : MonoBehaviour
         }
 
         UpdateLeaderboard();
+        CheckIfPlayerOnLeaderBoard();
+    }
+
+    public void Awake()
+    {
+
+    }
+
+    public void CheckIfPlayerOnLeaderBoard()
+    {
+        LevelTransitions levels = LevelTransitions.instance;
+        if (levels != null)
+        {
+            if (save.players.First<Player>().time > levels.playTime)
+            {
+                inputField.interactable = true;
+                inputField.text = "Enter name...";
+                return;
+            }
+        }
+
+        inputField.interactable = false;
+        inputField.text = "Try for the fastest time!";
     }
 
     public void CreateAndAddPlayer(string name)
