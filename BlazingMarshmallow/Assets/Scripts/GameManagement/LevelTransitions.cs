@@ -33,7 +33,6 @@ public class LevelTransitions : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         DontDestroyOnLoad(this);
 
-
     }
 
 
