@@ -61,6 +61,27 @@ public class LevelTransitions : MonoBehaviour
         leaderboardsLoaded = true;
     }
 
+
+    public void DeleteLeaderboards()
+    {
+        int count = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < count; i++)
+        {
+            string name = Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i));
+            string path = Application.persistentDataPath + "/" + name + ".blazingmarshmallow";
+
+            if (File.Exists(path))
+            {
+                print("delete " + path);
+                File.Delete(path);
+            }
+            else
+            {
+                print("Failed delete " + path);
+            }
+        }
+    }
+
     private void Awake()
     {
         if (instance != null && instance != this && playTime == 0)

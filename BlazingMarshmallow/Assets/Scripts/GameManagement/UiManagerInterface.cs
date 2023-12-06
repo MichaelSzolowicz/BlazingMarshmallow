@@ -30,7 +30,11 @@ public class UiManagerInterface : MonoBehaviour
     public void ReloadCurrent(bool resetCheckpoints)
     {
         levels.ReloadCurrent(resetCheckpoints);
+    }
 
+    public void DeleteLeaderboards()
+    {
+        levels.DeleteLeaderboards();
     }
 
 }
